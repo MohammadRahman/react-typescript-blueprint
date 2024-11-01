@@ -7,8 +7,8 @@ import { RichText } from "@components/rich-text/RichText";
 import { Row } from "@components/row";
 import { SingleSelect } from "@components/select";
 import { useForm } from "react-hook-form";
-import { useCreateEmailTemplate } from "./useCreateEmailTemplate";
-import { useUpdateEmailTemplate } from "./useUpdateEmailTemplate";
+// import { useCreateEmailTemplate } from "./useCreateEmailTemplate";
+// import { useUpdateEmailTemplate } from "./useUpdateEmailTemplate";
 
 const selectOptions = [
   {
@@ -24,23 +24,25 @@ const selectOptions = [
     value: "3",
   },
 ];
+type NewTemplateFormProps = {
+  templateToEdit?: {};
+  onCloseModal?: () => void;
+};
 interface FormValues {
   name: string;
   dataSource: string;
   template: string;
   description: string;
+
+  // Add other form fields here if needed
 }
-type NewTemplateFormProps = {
-  templateToEdit?: {};
-  onCloseModal?: () => void;
-};
-export const NewTemplateForm = ({ templateToEdit = {}, onCloseModal }: NewTemplateFormProps) => {
-  const { isCreating, createEmailTemplate } = useCreateEmailTemplate();
-  const { isEditing, updateEmailTemplate } = useUpdateEmailTemplate();
+export const NewReportForm = ({ templateToEdit = {}, onCloseModal }: NewTemplateFormProps) => {
+  //   const { isCreating, createEmailTemplate } = useCreateEmailTemplate();
+  //   const { isEditing, updateEmailTemplate } = useUpdateEmailTemplate();
 
   const { id, ...updateValues } = templateToEdit;
   const isUpdateSession = Boolean(templateToEdit);
-  const isWorking = isCreating || isEditing;
+  //   const isWorking = isCreating || isEditing;
 
   const {
     register,
@@ -66,6 +68,7 @@ export const NewTemplateForm = ({ templateToEdit = {}, onCloseModal }: NewTempla
           <FormRowVertical label="Subject" error={errors.template?.message}>
             <Input placeholder="Subject" {...register("template")} />
           </FormRowVertical>
+
           <FormRowVertical label="Description" error={errors.description?.message}>
             <RichText name="description" control={control} />
           </FormRowVertical>

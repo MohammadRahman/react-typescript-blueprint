@@ -9,6 +9,8 @@ import { Table } from "@components/table";
 import styled from "styled-components";
 import { EcecutedJobRow } from "./EcecutedJobRow";
 import { useState } from "react";
+import { Modal } from "@components/modal";
+import { CreateJobFrom } from "./CreateJobFrom";
 
 export const Styledjobs = styled.div`
   display: flex;
@@ -36,10 +38,17 @@ export const Jobs = () => {
             <HiOutlineDocumentText />
             Generate Report
           </Button>
-          <Button variation="createNew" size="medium">
-            <HiOutlinePlus />
-            Create New Report
-          </Button>
+          <Modal>
+            <Modal.Open opens="create-new-job">
+              <Button variation="createNew" size="medium">
+                <HiOutlinePlus />
+                Create New Job
+              </Button>
+            </Modal.Open>
+            <Modal.Window name="create-new-job">
+              <CreateJobFrom />
+            </Modal.Window>
+          </Modal>
         </ButtonGroup>
       </Row>
       <Row type="horizontal">

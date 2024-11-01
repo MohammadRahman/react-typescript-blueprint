@@ -1,46 +1,39 @@
 import ButtonGroup from "@components/button-group/ButtonGroup";
-import Button from "@components/button/Button";
 import Form from "@components/form/Form";
 import FormRowVertical from "@components/form/FormRowVertical";
 import Input from "@components/form/Input";
 import { RichText } from "@components/rich-text/RichText";
+import { SingleSelect } from "@components/select/Select";
 import { Row } from "@components/row";
-import { SingleSelect } from "@components/select";
+// import { Row, Button } from "react-day-picker";
 import { useForm } from "react-hook-form";
-import { useCreateEmailTemplate } from "./useCreateEmailTemplate";
-import { useUpdateEmailTemplate } from "./useUpdateEmailTemplate";
+import Button from "@components/button/Button";
 
 const selectOptions = [
-  {
-    label: "data source 1",
-    value: "1",
-  },
-  {
-    label: "data source 1",
-    value: "2",
-  },
-  {
-    label: "data source 1",
-    value: "3",
-  },
+  { label: "Data source 1", value: "data source 1" },
+  { label: "Data source 2", value: "data source 2" },
+  { label: "Data source 3", value: "data source 3" },
 ];
 interface FormValues {
   name: string;
   dataSource: string;
-  template: string;
   description: string;
+  template: string;
 }
-type NewTemplateFormProps = {
+type UpdateForm = {
+  id: string | number;
+};
+interface NewTemplateFormProps extends UpdateForm {
   templateToEdit?: {};
   onCloseModal?: () => void;
-};
-export const NewTemplateForm = ({ templateToEdit = {}, onCloseModal }: NewTemplateFormProps) => {
-  const { isCreating, createEmailTemplate } = useCreateEmailTemplate();
-  const { isEditing, updateEmailTemplate } = useUpdateEmailTemplate();
+}
+export const NewJobForm = ({ templateToEdit = {}, onCloseModal }: NewTemplateFormProps) => {
+  // const { isCreating, createEmailTemplate } = useCreateEmailTemplate();
+  // const { isEditing, updateEmailTemplate } = useUpdateEmailTemplate();
 
   const { id, ...updateValues } = templateToEdit;
   const isUpdateSession = Boolean(templateToEdit);
-  const isWorking = isCreating || isEditing;
+  // const isWorking = isCreating || isEditing;
 
   const {
     register,
@@ -66,6 +59,7 @@ export const NewTemplateForm = ({ templateToEdit = {}, onCloseModal }: NewTempla
           <FormRowVertical label="Subject" error={errors.template?.message}>
             <Input placeholder="Subject" {...register("template")} />
           </FormRowVertical>
+
           <FormRowVertical label="Description" error={errors.description?.message}>
             <RichText name="description" control={control} />
           </FormRowVertical>
@@ -83,3 +77,5 @@ export const NewTemplateForm = ({ templateToEdit = {}, onCloseModal }: NewTempla
     </>
   );
 };
+
+export default NewJobForm;
