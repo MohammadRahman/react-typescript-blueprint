@@ -71,7 +71,7 @@ export const NewTemplateForm = ({ templateToEdit = {}, onCloseModal }: NewTempla
           </FormRowVertical>
           <div style={{ paddingTop: "1rem", paddingBottom: "2rem" }}>
             <Row type="horizontal">
-              <Button variation="outlinePrimary">Cancel</Button>
+              <Button variation="outlinePrimary" onClick={onCloseModal}>Cancel</Button>
               <ButtonGroup>
                 <Button variation="outlinePrimary">Preview</Button>
                 <Button variation="primary">Save Template</Button>

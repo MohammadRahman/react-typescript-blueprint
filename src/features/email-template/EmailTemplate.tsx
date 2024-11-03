@@ -25,7 +25,7 @@ export const EmailTemplate = () => {
     <Styledjobs>
       <Row type="horizontal">
         <div>
-          <Search />
+          <Search onChange={()=> console.log("")}/>
         </div>
         <ButtonGroup>
           <Button variation="outline" size="medium">

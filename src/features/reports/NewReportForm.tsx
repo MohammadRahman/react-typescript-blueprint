@@ -24,8 +24,15 @@ const selectOptions = [
     value: "3",
   },
 ];
+interface ReportFormProps {
+  id?: number
+  name?: string;
+  dataSource?: string;
+  template?: string;
+  description?: string;
+}
 type NewTemplateFormProps = {
-  templateToEdit?: {};
+  templateToEdit?: ReportFormProps;
   onCloseModal?: () => void;
 };
 interface FormValues {
@@ -33,8 +40,6 @@ interface FormValues {
   dataSource: string;
   template: string;
   description: string;
-
-  // Add other form fields here if needed
 }
 export const NewReportForm = ({ templateToEdit = {}, onCloseModal }: NewTemplateFormProps) => {
   //   const { isCreating, createEmailTemplate } = useCreateEmailTemplate();
@@ -74,7 +79,7 @@ export const NewReportForm = ({ templateToEdit = {}, onCloseModal }: NewTemplate
           </FormRowVertical>
           <div style={{ paddingTop: "1rem", paddingBottom: "2rem" }}>
             <Row type="horizontal">
-              <Button variation="outlinePrimary">Cancel</Button>
+              <Button variation="outlinePrimary" onClick={onCloseModal}>Cancel</Button>
               <ButtonGroup>
                 <Button variation="outlinePrimary">Preview</Button>
                 <Button variation="primary">Save Template</Button>

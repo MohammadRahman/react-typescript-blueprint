@@ -8,6 +8,7 @@ import styled from "styled-components";
 import { ProfileRow } from "./ProfileRow";
 import { permissionDataMocks } from "@mocks/data";
 import ButtonGroup from "@components/button-group/ButtonGroup";
+import { useForm } from "react-hook-form";
 
 const StyledProfile = styled.div`
   display: flex;
@@ -83,7 +84,7 @@ const options = [
 export const UserProfile = () => {
   const userData = permissionDataMocks();
   const imageUrl = "/images/profile/profile-avatar.png";
-
+  const {control} = useForm();
   return (
     <StyledProfile>
       <StyledContainer>
@@ -96,7 +97,7 @@ export const UserProfile = () => {
               <Input placeholder="Type here" />
             </FormRowVertical>
             <FormRowVertical label="Country">
-              <SingleSelect options={options} />
+              <SingleSelect name="" control={control} options={options} />
             </FormRowVertical>
           </StyledProfileData>
           <StyledProfileImage>

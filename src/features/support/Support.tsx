@@ -1,6 +1,7 @@
 import Heading from "@components/heading/Heading";
 import { Search } from "@components/search/Search";
 import { SingleSelect } from "@components/select";
+import { useForm } from "react-hook-form";
 import { RiRobot2Line } from "react-icons/ri";
 import styled from "styled-components";
 
@@ -67,12 +68,14 @@ const StyledBotIconContainer = styled.div`
   background-color: rgba(4, 170, 97, 1);
 `;
 export const Support = () => {
+  const {control} = useForm();
+  
   return (
     <StyledSupport>
       <StyledHelpContainer>
         <StyledText>Need some help?</StyledText>
         <div style={{ width: "40rem" }}>
-          <Search />
+          <Search onChange={()=> console.log("")}/>
         </div>
       </StyledHelpContainer>
       <StyledSupportContainer>
@@ -81,19 +84,19 @@ export const Support = () => {
         </Heading>
         <StyledFaqQuestioner>
           <div>
-            <SingleSelect options={[{ label: "select", value: "selcet" }]} />
+            <SingleSelect name="" control={control} options={[{ label: "select", value: "selcet" }]} />
           </div>
           <div>
-            <SingleSelect options={[{ label: "select", value: "selcet" }]} />
+            <SingleSelect name="" control={control} options={[{ label: "select", value: "selcet" }]} />
           </div>
           <div>
-            <SingleSelect options={[{ label: "select", value: "selcet" }]} />
+            <SingleSelect name="" control={control} options={[{ label: "select", value: "selcet" }]} />
           </div>
           <div>
-            <SingleSelect options={[{ label: "select", value: "selcet" }]} />
+            <SingleSelect name="" control={control} options={[{ label: "select", value: "selcet" }]} />
           </div>
           <div>
-            <SingleSelect options={[{ label: "select", value: "selcet" }]} />
+            <SingleSelect name="" control={control} options={[{ label: "select", value: "selcet" }]} />
           </div>
         </StyledFaqQuestioner>
       </StyledSupportContainer>

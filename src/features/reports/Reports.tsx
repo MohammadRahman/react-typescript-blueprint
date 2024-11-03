@@ -1,4 +1,3 @@
-import React from "react";
 import { HiPlus } from "react-icons/hi2";
 import { Modal } from "@components/modal";
 import styled from "styled-components";

@@ -7,6 +7,7 @@ import { Table } from "@components/table";
 import styled from "styled-components";
 import { MailServerRow } from "./MailServerRow";
 import { getServerDataMock } from "@mocks/data";
+import { useForm } from "react-hook-form";
 
 const StyledMailServer = styled.div`
   display: flex;
@@ -52,6 +53,8 @@ const options = [
   },
 ];
 export const MailServer = () => {
+  const {control} = useForm();
+  
   const mailServerData = getServerDataMock();
   return (
     <StyledMailServer>
@@ -65,10 +68,10 @@ export const MailServer = () => {
             <Input placeholder="type here" style={{ padding: "1rem 1.5rem" }} />
           </FormRowVertical>
           <FormRowVertical label="E-Mail/PEC*">
-            <SingleSelect options={options} />
+            <SingleSelect name="" control={control} options={options} />
           </FormRowVertical>
           <FormRowVertical label="Indirizzio e-mail*">
-            <SingleSelect options={options} />
+            <SingleSelect name="" control={control} options={options} />
           </FormRowVertical>
         </StyledBoxContainer>
         <hr style={{ border: "none", height: "1px", backgroundColor: "#E5E5E5" }} />
@@ -84,10 +87,10 @@ export const MailServer = () => {
             <Input placeholder="Type here" />
           </FormRowVertical>
           <FormRowVertical label="Porta SMTP">
-            <SingleSelect options={options} />
+            <SingleSelect name="" control={control} options={options} />
           </FormRowVertical>
           <FormRowVertical label="Tippo sicurezza">
-            <SingleSelect options={options} />
+            <SingleSelect name="" control={control} options={options} />
           </FormRowVertical>
         </StyledSMTPServer>
         <hr style={{ border: "none", height: "1px", backgroundColor: "#E5E5E5" }} />

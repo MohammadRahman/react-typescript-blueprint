@@ -2,7 +2,7 @@ import Spinner from "@components/spinner/Spinner";
 import { useCreateReport } from "./useCreateReport";
 
 type CreateReportFormProps = {
-  onCloseModal: () => void;
+  onCloseModal?: () => void;
 };
 export const CreateReportForm = ({ onCloseModal }: CreateReportFormProps) => {
   const { report, isPending } = useCreateReport();

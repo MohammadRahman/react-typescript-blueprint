@@ -3,15 +3,13 @@ import Button from "@components/button/Button";
 import { Row } from "@components/row";
 import { Search } from "@components/search/Search";
 import { Table } from "@components/table";
-import { EcecutedJobRow } from "@features/jobs/EcecutedJobRow";
-import { emailTemplateMock, jobsData } from "@mocks/data";
-import React from "react";
+import { emailTemplateMock } from "@mocks/data";
 import { HiOutlineDocumentText, HiOutlinePlus } from "react-icons/hi2";
 import styled from "styled-components";
 // import { EmailTemplateRow } from "./EmailTemplateRow";
 import { Modal } from "@components/modal";
 import { ReportRowUpdate } from "./ReportRowUpdate";
-import { CreateReportUpdateForm } from "./CreateReportUpdateForm";
+import { NewReportForm } from "./NewReportForm";
 // import { NewTemplateForm } from "./NewTemplateForm";
 
 const StyledReports = styled.div`
@@ -27,7 +25,7 @@ export const ReportUpdatedStyles = () => {
     <StyledReports>
       <Row type="horizontal">
         <div>
-          <Search />
+          <Search onChange={()=> console.log("")}/>
         </div>
         <ButtonGroup>
           <Button variation="outline" size="medium">
@@ -42,7 +40,8 @@ export const ReportUpdatedStyles = () => {
               </Button>
             </Modal.Open>
             <Modal.Window name="createNewReport">
-              <CreateReportUpdateForm />
+              {/* <CreateReportUpdateForm /> */}
+              <NewReportForm />
             </Modal.Window>
           </Modal>
         </ButtonGroup>
