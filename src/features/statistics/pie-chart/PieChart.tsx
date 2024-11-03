@@ -1,4 +1,3 @@
-import React from "react";
 import {
   Cell,
   Legend,
@@ -50,16 +49,18 @@ function CustomizedLengend(props: any) {
       style={{
         display: "flex",
         flexDirection: "column",
-        top: "-89px",
         gap: "4px",
+        // position: "absolute",
+        right: "10px",
+        top: "50%",
+        transform: "translateY(-50%)", // Center the legend vertically
       }}
     >
-      {payload.map((entry: string | any, index: number) => (
+      {payload.map((entry: any, index: number) => (
         <li
           style={{
             borderLeft: `1px solid ${entry.color}`,
             padding: "0.5rem",
-            // marginTop: "-20px",
           }}
           key={`item-${index}`}
         >
@@ -69,4 +70,31 @@ function CustomizedLengend(props: any) {
       ))}
     </ul>
   );
+  // return (
+  //   <ul
+  //     style={{
+  //       display: "flex",
+  //       padding: 0,
+  //       margin: 0,
+  //       overflow: "hidden",
+  //       flexDirection: "column",
+  //       top: "-89px",
+  //       gap: "4px",
+  //     }}
+  //   >
+  //     {payload.map((entry: string | any, index: number) => (
+  //       <li
+  //         style={{
+  //           borderLeft: `1px solid ${entry.color}`,
+  //           padding: "0.5rem",
+  //           // marginTop: "-20px",
+  //         }}
+  //         key={`item-${index}`}
+  //       >
+  //         <span>{entry.name}</span>
+  //         <div>{entry.value}%</div>
+  //       </li>
+  //     ))}
+  //   </ul>
+  // );
 }
