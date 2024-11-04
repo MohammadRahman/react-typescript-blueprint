@@ -1,8 +1,15 @@
 import { Table } from "@components/table";
 import Tag from "@components/tag/Tag";
-import React from "react";
 
-export const SourceRow = ({ rowData }) => {
+interface SourceRowProps {
+  rowData: {
+    name: string;
+    dataSource: string;
+    status: 1 | 2;
+  }
+}
+
+export const SourceRow = ({ rowData }: SourceRowProps) => {
   const statusToTagName = {
     1: "green-Success",
     2: "red-Failed",

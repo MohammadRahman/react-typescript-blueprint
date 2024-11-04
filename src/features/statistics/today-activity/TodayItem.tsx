@@ -16,8 +16,14 @@ const StyledTodayItem = styled.li`
     border-top: 1px solid var(--color-grey-100);
   }
 `;
-
-export const TodayItem = ({ data }) => {
+interface TodayItemProps{
+  data: {
+    jobType: "sent" | "failed" | "draft" | "spam";
+    name: string;
+    total: number;
+  }
+}
+export const TodayItem = ({ data }: TodayItemProps) => {
   const statusToTagName = {
     sent: "green",
     failed: "red",

@@ -3,7 +3,6 @@ import { faker } from "@faker-js/faker";
 const titles = ["Send Emails", "Delivery Rate", "Bounce Rate", "Open Rate", "Click Through Rate"];
 const cards = [] as any;
 const engegementCards = [] as any;
-const daysStats = [] as any;
 const colors = ["blue", "pink", "orange", "green", "black"];
 const color = ["grey", "grey"];
 // const icons = ["<HiOutlinePaperAirplane/>", ""];
@@ -119,21 +118,6 @@ const createreports = (howMany: number) => {
     });
   }
   return cardssData;
-};
-const createdays = (howMany: number) => {
-  const dayData = [];
-  for (let i = 0; i < howMany; i++) {
-    const randomNumber = faker.number.int({ min: 70, max: 100 });
-    dayData.push({
-      id: i + 1,
-      day: days[i],
-      rate: randomNumber,
-      status: faker.number.float({ min: 1, max: 10 }).toPrecision(2),
-      color: colors[i],
-      gradients: gradients[i],
-    });
-  }
-  return dayData;
 };
 export const mockcards = () => {
   if (cards.length == 0) {

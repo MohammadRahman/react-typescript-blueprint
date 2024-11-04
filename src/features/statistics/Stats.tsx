@@ -1,18 +1,17 @@
-import React from "react";
 
 export const Stats = () => {
   // 1.
-  const numDelivered = "";
+  // const numDelivered = "";
 
-  // 2.
-  const openRate = "";
+  // // 2.
+  // const openRate = "";
 
-  // 3.
-  const clickRate = "";
+  // // 3.
+  // const clickRate = "";
 
-  // 4.
-  const bounceRate = "";
-  const spamComplaints = "";
+  // // 4.
+  // const bounceRate = "";
+  // const spamComplaints = "";
 
   return <div>Stats</div>;
 };

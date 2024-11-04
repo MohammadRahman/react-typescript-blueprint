@@ -2,8 +2,8 @@ import { faker } from "@faker-js/faker";
 import { format } from "date-fns";
 
 const jobsExecutionStats = [] as any;
-const jobsExecutionDetails = [] as any;
-const executedJobData = [] as any;
+// const jobsExecutionDetails = [] as any;
+// const executedJobData = [] as any;
 const colors = ["black", "blue", "pink"];
 const gradients = ["blackgradient", "bluegradient", "pinkgradient"];
 
@@ -94,8 +94,24 @@ export function jobsData() {
   }
   return jobsExecutionDetails;
 }
-export function executedJobDetailsData() {
-  const formatedExcecutedJobData = {};
+
+type JobExecutionDetail = {
+  id: number;
+  fullName: string;
+  email: string;
+  dataIndex: number;
+  status: number;
+};
+
+type JobExecutionDetailWithoutId = Omit<JobExecutionDetail, 'id'>;
+
+const jobsExecutionDetails: JobExecutionDetail[] = [];
+
+type FormatedExecutedJobData = {
+  [key: number]: JobExecutionDetailWithoutId[]; // Adjust 'any' to the specific type you're pushing into this array
+};
+export function executedJobDetailsData():FormatedExecutedJobData {
+  const formatedExcecutedJobData: FormatedExecutedJobData = {};
 
   if (jobsExecutionDetails.length > 0) {
     const calculatedData = createJobDetails(10);

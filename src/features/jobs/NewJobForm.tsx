@@ -5,7 +5,6 @@ import Input from "@components/form/Input";
 import { RichText } from "@components/rich-text/RichText";
 import { SingleSelect } from "@components/select/Select";
 import { Row } from "@components/row";
-// import { Row, Button } from "react-day-picker";
 import { useForm } from "react-hook-form";
 import Button from "@components/button/Button";
 
@@ -23,8 +22,15 @@ interface FormValues {
 type UpdateForm = {
   id: string | number;
 };
+interface FormTemplateProps {
+  id?:number; 
+  name?: string;
+  dataSource?: string;
+  description?: string;
+  template?: string;
+}
 interface NewTemplateFormProps extends UpdateForm {
-  templateToEdit?: {};
+  templateToEdit?: FormTemplateProps;
   onCloseModal?: () => void;
 }
 export const NewJobForm = ({ templateToEdit = {}, onCloseModal }: NewTemplateFormProps) => {
@@ -65,7 +71,7 @@ export const NewJobForm = ({ templateToEdit = {}, onCloseModal }: NewTemplateFor
           </FormRowVertical>
           <div style={{ paddingTop: "1rem", paddingBottom: "2rem" }}>
             <Row type="horizontal">
-              <Button variation="outlinePrimary">Cancel</Button>
+              <Button variation="outlinePrimary" onClick={onCloseModal}>Cancel</Button>
               <ButtonGroup>
                 <Button variation="outlinePrimary">Preview</Button>
                 <Button variation="primary">Save Template</Button>

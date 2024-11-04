@@ -1,4 +1,4 @@
-const users = [
+const users: User[] = [
   {
     userId: "249jqwei12340we",
     name: "user1",
@@ -9,7 +9,7 @@ const users = [
         jobs: [{ jobView: 1, jobEdit: -1, jobDelete: -1 }],
         emailTemplate: [{ emilTemplateView: 1, emilTemplateEdit: -1, emilTemplateDelete: -1 }],
         reports: [{ reportsView: 1, reportsEdit: -1, reportsDelete: -1 }],
-        queries: [{ requeryView: 1, queryEdit: -1, queryDelete: -1 }],
+        queries: [{ queryView: 1, queryEdit: -1, queryDelete: -1 }],
         source: [{ sourceView: -1, sourceEdit: -1, sourceDelete: -1 }],
       },
     ],
@@ -24,7 +24,7 @@ const users = [
         jobs: [{ jobView: 1, jobEdit: -1, jobDelete: -1 }],
         emailTemplate: [{ emilTemplateView: -1, emilTemplateEdit: -1, emilTemplateDelete: -1 }],
         reports: [{ reportsView: 1, reportsEdit: -1, reportsDelete: -1 }],
-        queries: [{ requeryView: 1, queryEdit: -1, queryDelete: -1 }],
+        queries: [{ queryView: 1, queryEdit: -1, queryDelete: -1 }],
         source: [{ sourceView: 1, sourceEdit: -1, sourceDelete: -1 }],
       },
     ],
@@ -39,21 +39,41 @@ const users = [
         jobs: [{ jobView: 1, jobEdit: 1, jobDelete: 1 }],
         emailTemplate: [{ emilTemplateView: 1, emilTemplateEdit: 1, emilTemplateDelete: -1 }],
         reports: [{ reportsView: 1, reportsEdit: 1, reportsDelete: 1 }],
-        queries: [{ requeryView: 1, queryEdit: 1, queryDelete: 1 }],
+        queries: [{ queryView: 1, queryEdit: 1, queryDelete: 1 }],
         source: [{ sourceView: 1, sourceEdit: 1, sourceDelete: 1 }],
       },
     ],
   },
 ];
 
-export function userByIdMocks(userId: string) {
-  const filteredUser = {};
+interface Permissions {
+  jobs: {jobView: number, jobEdit: number, jobDelete: number}[],
+  emailTemplate: {emilTemplateView: number, emilTemplateEdit: number, emilTemplateDelete: number}[]
+  reports: {reportsView: number, reportsEdit: number, reportsDelete: number}[],
+  queries: {queryView: number, queryEdit: number, queryDelete: number}[],
+  source: {sourceView: number, sourceEdit: number, sourceDelete: number}[]
 
-  users.forEach(({ userId, ...rest }) => {
-    if (!(userId in filteredUser)) {
-      filteredUser[userId] = [];
-      filteredUser[userId].push(rest);
+}
+
+type User = {
+  userId: string;
+  name: string;
+  email: string;
+  roles: Array<number>;
+  permissions: Permissions[]
+
+}
+type FormatedData = {
+  [key: string]: User;
+};
+export function userByIdMocks(userId: string): FormatedData {
+  const filteredUser: FormatedData = {};
+
+  users.forEach((user) => {
+    if (!filteredUser[user.userId]) {
+      filteredUser[user.userId] = user;
     }
   });
-  return filteredUser[userId];
+
+  return { [userId]: filteredUser[userId] };
 }

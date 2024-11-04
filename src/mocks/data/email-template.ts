@@ -1,5 +1,3 @@
-import { faker } from "@faker-js/faker";
-
 const emailTemplate = [] as any;
 const names = ["Need to pay", "Not paid", "Payment Successful", "Remainder"];
 const templates = [

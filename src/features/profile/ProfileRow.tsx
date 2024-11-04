@@ -1,11 +1,18 @@
 import Checkbox from "@components/form/CheckBox";
 import { Table } from "@components/table";
-import React, { useState } from "react";
+import { useState } from "react";
 
-export const ProfileRow = ({ rowData }) => {
-  const isAllowedToView = Boolean(rowData.jobsPermission[0] === 1);
-  const isAllowedToEdit = Boolean(rowData.jobsPermission[1] === 1);
-  const isAllowedToDelete = Boolean(rowData.jobsPermission[2] === 1);
+interface ProfileRowProps{
+  rowData: {
+    jobsPermission: number;
+    permissionType: number;
+  }
+}
+
+export const ProfileRow = ({ rowData }: ProfileRowProps) => {
+  const isAllowedToView = Boolean(rowData.jobsPermission & 1);
+  const isAllowedToEdit = Boolean(rowData.jobsPermission & 1);
+  const isAllowedToDelete = Boolean(rowData.jobsPermission & 1);
 
   const [jobView, setJobView] = useState(isAllowedToView);
   const [jobEdit, setJobEdit] = useState(isAllowedToEdit);

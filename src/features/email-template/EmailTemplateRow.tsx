@@ -4,7 +4,16 @@ import { HiOutlinePencil, HiOutlineTrash } from "react-icons/hi2";
 import { RiAttachmentLine } from "react-icons/ri";
 import { NewTemplateForm } from "./NewTemplateForm";
 
-export const EmailTemplateRow = ({ data }) => {
+interface EmailTemplateRowProps{
+  data: {
+    name: string;
+    template: string;
+    description: string;
+    source: string;
+  }
+}
+
+export const EmailTemplateRow = ({ data }: EmailTemplateRowProps) => {
   return (
     <Table.Row>
       <div>{data.name}</div>

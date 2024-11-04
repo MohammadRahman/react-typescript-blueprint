@@ -1,5 +1,5 @@
 import { Table } from "@components/table";
-import React, { useRef, useState } from "react";
+import { useState } from "react";
 import {
   HiOutlinePencil,
   HiOutlineRocketLaunch,
@@ -15,7 +15,6 @@ import styled from "styled-components";
 import { ExcutedJobDetails } from "./ExcutedJobDetails";
 import { executedJobDetailsData } from "@mocks/data";
 import { HorizontalProgressbar } from "@components/progress-bar/HorizontalProgressbar";
-import { useOutsideClick } from "@hooks/useOutSideClick";
 
 const StyleButtonGroup = styled(ButtonGroup)`
   gap: 0.5rem;
@@ -30,10 +29,30 @@ const StyledButtonIcon = styled(ButtonIcon)`
   align-items: center;
   border: 1px solid var(--color-grey-100);
 `;
-export const EcecutedJobRow = ({ data }) => {
+
+interface EcecutedJobRowProps{
+  data: {
+    id: number;
+    mailType: number;
+    date: string;
+    jobName: string;
+    recipent: number;
+    success: number;
+    fail: number;
+    status: 1 | 2 | 3;
+  }
+}
+type JobExecutionDetail = {
+  id: number;
+  fullName: string;
+  email: string;
+  dataIndex: number;
+  status: number;
+};
+export const EcecutedJobRow = ({ data }: EcecutedJobRowProps) => {
   const [showSecondaryTable, setShowSecondaryTable] = useState(false);
-  const [executionId, setExecutionId] = useState(0);
-  const [dataByExecutionId, setDataByExecutionId] = useState([]);
+  const [_, setExecutionId] = useState(0);
+  const [dataByExecutionId, setDataByExecutionId] = useState<Omit<JobExecutionDetail, 'id'> []>([]);
   const rowData = executedJobDetailsData();
 
   const successRate = (data?.success / data.recipent) * 100;

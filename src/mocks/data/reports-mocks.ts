@@ -34,28 +34,34 @@ export const mockreports = () => {
     }
     return reports;
 };
+enum JobType {
+    SENT = 'sent',
+    FAILED = 'failed',
+    DRAFT = 'draft',
+    SPAM = 'spam'
+}
 export const todaysData = [
     {
         id: 1,
-        jobType: 'sent',
+        jobType: JobType.SENT,
         total: faker.number.int({ min: 100, max: 200 }),
         name: faker.person.fullName(),
     },
     {
         id: 2,
-        jobType: 'failed',
+        jobType: JobType.FAILED,
         total: faker.number.int({ min: 1, max: 100 }),
         name: faker.person.fullName(),
     },
     {
         id: 3,
-        jobType: 'draft',
+        jobType: JobType.DRAFT,
         total: faker.number.int({ min: 20, max: 100 }),
         name: faker.person.fullName(),
     },
     {
         id: 4,
-        jobType: 'spam',
+        jobType: JobType.SPAM,
         total: faker.number.int({ min: 10, max: 30 }),
         name: faker.person.fullName(),
     },

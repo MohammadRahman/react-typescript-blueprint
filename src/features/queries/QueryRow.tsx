@@ -1,8 +1,15 @@
 import Button from "@components/button/Button";
 import { Table } from "@components/table";
-import React from "react";
 
-export const QueryRow = ({ rowData }) => {
+interface QueryRowProps {
+  rowData: {
+    dataSource: string;
+    isSqlQuery: string;
+    isDatabaseConnection: string;
+  }
+}
+
+export const QueryRow = ({ rowData }: QueryRowProps) => {
   return (
     <Table.Row>
       <div>{rowData.dataSource}</div>

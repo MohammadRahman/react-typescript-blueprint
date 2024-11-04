@@ -1,9 +1,18 @@
 import Button from "@components/button/Button";
 import { Table } from "@components/table";
 import Tag from "@components/tag/Tag";
-import React from "react";
 
-export const ExcutedJobDetails = ({ data, index }) => {
+interface ExcutedJobDetailsProps {
+  data:{
+    email: string;
+    dataIndex: number;
+    fullName: string;
+    status: 1 | 2;
+  },
+  index: number;
+}
+
+export const ExcutedJobDetails = ({ data, index }: ExcutedJobDetailsProps) => {
   console.log("ExcutedJobDetails", data);
 
   const statusToTagName = {

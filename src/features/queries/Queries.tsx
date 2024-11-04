@@ -1,6 +1,5 @@
-import { Row } from "@components/row";
 import { Table } from "@components/table";
-import React, { useState } from "react";
+import { useState } from "react";
 import styled from "styled-components";
 import { QueryRow } from "./QueryRow";
 import { getQueryMock } from "@mocks/data";

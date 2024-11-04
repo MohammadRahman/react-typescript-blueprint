@@ -1,4 +1,4 @@
-export function useQukiee(name: string) {
+export function useQukiee() {
     const setCookie = () => { }
     const getCookie = () => { }
     const removeCookie = () => { }

@@ -1,30 +1,10 @@
 import { ReactNode, cloneElement, createContext, useContext, useState } from "react";
-import { createPortal } from "react-dom";
 import styled from "styled-components";
 
 const TooltipContainer = styled.div`
   position: relative;
 `;
-const StyledTooltipContent = styled.div`
-  visibility: hidden;
-  background-color: #555;
-  color: #fff;
-  text-align: center;
-  border-radius: 6px;
-  padding: 5px;
-  position: absolute;
-  z-index: 1;
-  bottom: 125%;
-  left: 50%;
-  margin-left: -60px; /* Adjust as needed */
-  opacity: 0;
-  transition: opacity 0.3s;
 
-  ${TooltipContainer}:hover & {
-    visibility: visible;
-    opacity: 1;
-  }
-`;
 interface TooltipContextProps {
   type?: "Top" | "Bottom" | "Left" | "Right";
   openName: string;

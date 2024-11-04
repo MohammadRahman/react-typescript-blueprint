@@ -1,5 +1,5 @@
 import { ReactNode, createContext, useContext } from "react";
-import styled, { css } from "styled-components";
+import styled from "styled-components";
 
 const StyledTable = styled.div`
   border: 1px solid var(--color-grey-200);
@@ -98,11 +98,11 @@ function Row({ children }: RowProps) {
     </StyledRow>
   );
 }
-type BodyProps = {
-  data: [];
-  render: any;
+type BodyProps<T> = {
+  data: T[];
+  render: (item: T, idx: number) => React.ReactNode;
 };
-function Body({ data, render }: BodyProps) {
+function Body<T>({ data, render }: BodyProps<T>) {
   if (data?.length == 0) return <Empty>No data to show at the moment</Empty>;
 
   return <StyledBody>{data?.map(render)}</StyledBody>;

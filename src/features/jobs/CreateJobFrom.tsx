@@ -31,8 +31,16 @@ interface FormValues {
   mailServer: string;
   eMailType: string;
 }
+interface TemplateProps{
+  id?: number;
+  jobName?: string;
+  reportAttachment?: string;
+  emailTemplate?: string;
+  mailServer?: string;
+  eMailType?: string;
+}
 type NewJobFormProps = {
-  templateToEdit?: {};
+  templateToEdit?: TemplateProps;
   onCloseModal?: () => void;
 };
 type StyledCehckboxRowProps = {
@@ -123,7 +131,7 @@ export const CreateJobFrom = ({ templateToEdit = {}, onCloseModal }: NewJobFormP
           </FormRowVertical>
           <div style={{ paddingTop: "8rem", paddingBottom: "2rem" }}>
             <Row type="horizontal">
-              <Button variation="outlinePrimary" style={{ width: "200px" }}>
+              <Button variation="outlinePrimary" onClick={onCloseModal} style={{ width: "200px" }}>
                 Cancel
               </Button>
               <ButtonGroup>

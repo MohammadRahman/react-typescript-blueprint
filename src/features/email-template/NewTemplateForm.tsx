@@ -7,8 +7,6 @@ import { RichText } from "@components/rich-text/RichText";
 import { Row } from "@components/row";
 import { SingleSelect } from "@components/select";
 import { useForm } from "react-hook-form";
-import { useCreateEmailTemplate } from "./useCreateEmailTemplate";
-import { useUpdateEmailTemplate } from "./useUpdateEmailTemplate";
 
 const selectOptions = [
   {
@@ -30,17 +28,24 @@ interface FormValues {
   template: string;
   description: string;
 }
+interface TemplateProps {
+  id?: number;
+  name?: string;
+  dataSource?: string;
+  template?: string;
+  description?: string;
+}
 type NewTemplateFormProps = {
-  templateToEdit?: {};
+  templateToEdit?: TemplateProps;
   onCloseModal?: () => void;
 };
 export const NewTemplateForm = ({ templateToEdit = {}, onCloseModal }: NewTemplateFormProps) => {
-  const { isCreating, createEmailTemplate } = useCreateEmailTemplate();
-  const { isEditing, updateEmailTemplate } = useUpdateEmailTemplate();
+  // const { isCreating } = useCreateEmailTemplate();
+  // const { isEditing } = useUpdateEmailTemplate();
 
   const { id, ...updateValues } = templateToEdit;
   const isUpdateSession = Boolean(templateToEdit);
-  const isWorking = isCreating || isEditing;
+  // const isWorking = isCreating || isEditing;
 
   const {
     register,

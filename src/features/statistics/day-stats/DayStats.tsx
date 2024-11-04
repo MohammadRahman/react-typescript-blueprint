@@ -1,4 +1,3 @@
-import React from "react";
 import styled from "styled-components";
 
 type StyledDayStatsProps = {
@@ -12,7 +11,14 @@ const StyledDayStats = styled.div<StyledDayStatsProps>`
   padding: 8px 16px 8px 16px;
   border-radius: 0px 12px 12px 0px;
 `;
-export const DayStats = ({ stats }) => {
+interface DayStatsProps {
+  stats: {
+    color?: string;
+    jobType: string;
+    quantity: number;
+  }
+}
+export const DayStats = ({ stats }: DayStatsProps) => {
   return (
     <StyledDayStats color={stats.color}>
       <p>Email {stats.jobType}</p>

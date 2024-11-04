@@ -1,7 +1,17 @@
 import { Table } from "@components/table";
-import React from "react";
 
-export const MailServerRow = ({ rowData }) => {
+interface MailServerRowProps{
+  rowData: {
+    someData: string;
+    someData1: string;
+    someData2: string;
+    someData3: string;
+    someData4: string;
+    someData5: string;
+  }
+}
+
+export const MailServerRow = ({ rowData }: MailServerRowProps) => {
   return (
     <Table.Row>
       <div>{rowData.someData}</div>

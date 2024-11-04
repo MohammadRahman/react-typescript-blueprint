@@ -147,7 +147,7 @@ export const UserProfile = () => {
             render={(el: any) => <ProfileRow key={el.id} rowData={el} />}
           />
           <ButtonGroup style={{ justifyContent: "flex-end" }}>
-            <Button variation="outlineCancel">Cancel</Button>
+            <Button variation="outlinePrimary">Cancel</Button>
             <Button variation="primary">Save Changes</Button>
           </ButtonGroup>
         </Table>

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Header } from "@components/header";
 import { Sidebar } from "@components/sidebar";
 import styled from "styled-components";

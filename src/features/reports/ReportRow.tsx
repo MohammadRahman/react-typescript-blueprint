@@ -1,7 +1,6 @@
 import { Table } from "@components/table";
 import { Modal } from "@components/modal";
-import React from "react";
-import { HiOutlineEye, HiOutlinePencil, HiOutlineTrash } from "react-icons/hi2";
+import { HiOutlineEye, HiOutlineTrash } from "react-icons/hi2";
 import styled from "styled-components";
 import { ReportDetails } from "./ReportDetails";
 import { DeleteReport } from "./DeleteReport";
