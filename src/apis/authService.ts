@@ -1,5 +1,4 @@
-import { createBaseUrl, httpCommon } from '@apis/http-common';
-import { USERS } from './api-routes';
+import { httpCommon } from '@apis/http-common';
 const url = 'http://localhost:3003';
 
 export const authService = httpCommon(url);

@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 
-export const createBaseUrl = (url: string, version: string, useInterceptor: any) => {
+export const createBaseUrl = (url: string, useInterceptor: any) => {
     let tokenInterceptor;
     let authInterceptor;
     let errorInterceptor;

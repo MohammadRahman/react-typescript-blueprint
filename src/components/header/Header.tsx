@@ -1,13 +1,12 @@
 import styled from "styled-components";
 import { Avatar } from "../avatar";
-import { Notifications } from "../notification";
 import DarkModeToggle from "../toggler/DarkModeToggle";
 import { useState } from "react";
 import Menu from "@components/menu/Menu";
 import { useUser } from "@features/authentication/useUser";
 import ButtonIcon from "@components/button-icons/ButtonIcon";
 import { HiMagnifyingGlass, HiOutlineBell } from "react-icons/hi2";
-import { matchPath, matchRoutes, useLocation, useMatch, useParams } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
 const StyledHeader = styled.header`
   background-color: #f9f9fb; //var(--color-grey-0);
@@ -24,17 +23,7 @@ const StyledHeader = styled.header`
   align-items: center;
   padding: 2rem; */
 `;
-const routes = [
-  "Home",
-  "Jobs",
-  "Email Template",
-  "Reports",
-  "Mail Servers",
-  "Queries",
-  "Sources",
-  "Profile",
-  "Support",
-];
+
 export function Header() {
   const [showMenu, setShowMenu] = useState<boolean>(false);
   const { isAuthenticated } = useUser(localStorage.getItem("token"));

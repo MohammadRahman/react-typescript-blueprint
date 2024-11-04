@@ -6,7 +6,6 @@ import { ReportsPage } from "@pages/reports";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { DarkModeProvider } from "./context";
-import ProtectedRoute from "@layouts/ProtectedRoute";
 import Login from "@pages/login/Login";
 import { Toaster } from "react-hot-toast";
 import { JobsPage } from "@pages/jobs/Jobs";

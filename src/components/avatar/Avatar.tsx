@@ -1,7 +1,5 @@
-import React from "react";
 import { HiOutlineUser } from "react-icons/hi2";
 import styled from "styled-components";
-import { Notifications } from "../notification";
 
 const StyledAvatar = styled.div`
   width: 3rem;

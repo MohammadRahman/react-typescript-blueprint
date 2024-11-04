@@ -1,6 +1,5 @@
 import { REPORTS } from "@apis/api-routes"
 import { httpCommon } from "@apis/http-common"
-import { reportApi } from "@apis/reportService"
 import { mockreports } from "@mocks/data"
 
 

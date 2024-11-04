@@ -1,6 +1,6 @@
-import styled, { css } from "styled-components";
+import styled, { css, RuleSet } from "styled-components";
 
-const sizes = {
+const sizes: { small: RuleSet<object>; medium: RuleSet<object>; large: RuleSet<object> } = {
   small: css`
     font-size: 1.2rem;
     padding: 0.4rem 0.8rem;
@@ -146,9 +146,12 @@ const variations = {
     }
   `,
 };
+type Size = keyof typeof sizes;
+type Variation = keyof typeof variations;
+
 type ButtonProps = {
-  size?: any;
-  variation?: any;
+  size?: Size;
+  variation?: Variation;
   type?: string;
   onClick?: () => void;
 };
@@ -157,8 +160,8 @@ const Button = styled.button<ButtonProps>`
   border-radius: var(--border-radius-sm);
   box-shadow: var(--shadow-sm);
 
-  ${props => sizes[props.size]}
-  ${props => variations[props.variation]}
+  ${(props) => sizes[props.size || "medium"]}
+  ${(props) => variations[props.variation || "primary"]}
 `;
 
 Button.defaultProps = {

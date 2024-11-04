@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Controller } from "react-hook-form";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
@@ -13,19 +13,7 @@ const customModules = {
     ["clean"],
   ],
 };
-const customFormats = [
-  "header",
-  "bold",
-  "italic",
-  "underline",
-  "strike",
-  "blockquote",
-  "list",
-  "bullet",
-  "indent",
-  "link",
-  "image",
-];
+
 const StyledQuilEditor = styled(ReactQuill)`
   /* .ql-container {
     display: flex;
@@ -45,7 +33,7 @@ type RichTextProps = {
   control?: any;
 };
 export const RichText = ({ control, name }: RichTextProps) => {
-  const [value, setValue] = useState("");
+
   return (
     <>
       <Controller

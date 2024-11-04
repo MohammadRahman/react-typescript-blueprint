@@ -1,4 +1,3 @@
-import React, { useState } from "react";
 import Input from "@components/form/Input";
 import { HiOutlineMagnifyingGlass } from "react-icons/hi2";
 import styled from "styled-components";
