@@ -93,14 +93,14 @@ const statsByDays = [
     color: "#1A5FF8",
   },
 ];
-const days = [
-  "31 Mar 2024",
-  "26 Mar 2024",
-  "22 Mar 2024",
-  "20 Mar 2024",
-  "19 Mar 2024",
-  "18 Mar 2024",
-];
+// const days = [
+//   "31 Mar 2024",
+//   "26 Mar 2024",
+//   "22 Mar 2024",
+//   "20 Mar 2024",
+//   "19 Mar 2024",
+//   "18 Mar 2024",
+// ];
 const createreports = (howMany: number) => {
   console.log(howMany);
   const getColors = howMany === 2 ? color : colors;
