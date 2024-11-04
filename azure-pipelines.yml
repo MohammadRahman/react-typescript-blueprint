@@ -18,12 +18,13 @@ steps:
 - script: |
     npm install
     npm run build
-    ls -la
   displayName: 'npm install and build'
+- script: ls -la dist
+  displayName: 'Check dist directory before archiving'
 
 - task: ArchiveFiles@2
   inputs:
-    rootFolderOrFile: '/dist'
+    rootFolderOrFile: '$(System.DefaultWorkingDirectory)/dist'
     includeRootFolder: false
     archiveType: 'zip'
     archiveFile: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
