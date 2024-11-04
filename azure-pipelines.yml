@@ -18,6 +18,8 @@ steps:
 - script: |
     npm install
     npm run build
+    ls -la
+  workingDirectory: BasilinqSendFE
   displayName: 'npm install and build'
 
 - task: ArchiveFiles@2
