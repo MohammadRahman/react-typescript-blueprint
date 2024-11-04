@@ -5,9 +5,7 @@
 
 trigger:
 - master
-variables:
-  uiSource: 'BasilinqSendFE'
-  uiBuild: $(uiSource)/dist
+
 pool:
   vmImage: ubuntu-latest
 
@@ -24,7 +22,7 @@ steps:
 
 - task: ArchiveFiles@2
   inputs:
-    rootFolderOrFile: '$(uiBuild)'
+    rootFolderOrFile: 'dist'
     includeRootFolder: false
     archiveType: 'zip'
     archiveFile: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
