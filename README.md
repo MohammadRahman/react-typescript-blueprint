@@ -228,7 +228,7 @@ Components are organized by functionality, with reusable UI elements stored in t
   ## Visual Representation
   Each metric is displayed in an individual card with distinct background colors for easy differentiation. This visual organization allows users to instantly identify key performance indicators and monitor trends or patterns in email engagement and delivery. see the example below.
 
-  [View on Eraser![](#visual-representation)](https://app.eraser.io/workspace/xO9btO46QmM9gV0e4Un3?elements=1nb0K9mEuMDKF69ObHaXFw)
+  [View on Eraser![](https://app.eraser.io/workspace/xO9btO46QmM9gV0e4Un3/preview?elements=1nb0K9mEuMDKF69ObHaXFw&type=embed)](https://app.eraser.io/workspace/xO9btO46QmM9gV0e4Un3?elements=1nb0K9mEuMDKF69ObHaXFw)
 
 
 
