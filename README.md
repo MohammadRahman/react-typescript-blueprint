@@ -38,13 +38,13 @@ export default {
    - [Cloning the Repository](#cloing-the-repository)<br/>
    - [Checking Out the Development Branch](#checking-out-the-development-branch)<br/>
 💡 [Feature Branch Workflow](#feature-branch-workflow)<br/>
-  - 💾 1. [Creating a Feature Branch](#creating-a-feature-branch)<br/>
-  - ⚙️  2. [Making and Committing Changes](#making-and-committing-changes)<br/>
-  - ❔ 3. [Pushing the Feature Branch](#pushing-the-feature-branch)<br/>
+  - [Creating a Feature Branch](#creating-a-feature-branch)<br/>
+  - [Making and Committing Changes](#making-and-committing-changes)<br/>
+  - [Pushing the Feature Branch](#pushing-the-feature-branch)<br/>
 🛠️ [Pull Request Process](#pull-request-process)<br/>
-  - 🚀 [Creating a Pull Request (PR)](#creating-a-pull-request-(PR))<br/>
-  - 🚀 [Code Review and Feedback](#code-review-and-feedback)<br/>
-  - 🚀 [Merging the Pull Request](#merging-the-pull-request)<br/>
+  - [Creating a Pull Request (PR)](#creating-a-pull-request-(PR))<br/>
+  - [Code Review and Feedback](#code-review-and-feedback)<br/>
+  - [Merging the Pull Request](#merging-the-pull-request)<br/>
 🛠️ [Deployment Process](#deployment-process)<br/>
 🚀 [Additional Best Practices](#additional-best-practices)<br>
 
@@ -61,7 +61,7 @@ export default {
   $ cd BasilinqSendFE
   ```
 # Checking Out the Development Branch
-  Make sure you’re working with the latest version of dev before creating a new feature branch:
+  Make sure you’re working with the latest version of `dev` before creating a new feature branch:
 ```bash
 $ git checkout dev
 $ git pull origin dev
@@ -69,11 +69,11 @@ $ git pull origin dev
 
 # Feature Branch Workflow
   ## Creating a Feature Branch
-    Each new feature or bug fix should be developed on a separate branch created from dev. Use a descriptive branch name reflecting the feature or issue:
+    Each new feature or bug fix should be developed on a separate branch created from `dev`. Use a descriptive branch name reflecting the feature or issue:
   ```bash
   git checkout -b feature/short-feature-name
   ```
-  Note: Use prefixes like feature/, fix/, or hotfix/ to indicate the type of branch.
+  Note: Use prefixes like `feature/`, `fix/`, or `hotfix/ `to indicate the type of branch.
 
 # Making and Committing Changes
   Commit frequently with clear, concise messages:
@@ -90,7 +90,7 @@ $ git pull origin dev
 
 # Pull Request Process
   ## Creating a Pull Request (PR)
-  Once the branch is pushed, create a pull request from your feature branch to dev. In the PR:
+  Once the branch is pushed, create a pull request from your feature branch to `dev`. In the PR:
   -  Add a descriptive title and summary.
   -  Tag relevant team members for review.
 
@@ -99,18 +99,18 @@ $ git pull origin dev
    - Respond to feedback and make any necessary changes.
    - Push updates if changes are requested.
 # Merging the Pull Request
-  After approval, merge the PR into the dev branch. After merging:
+  After approval, merge the PR into the `dev`branch. After merging:
     - Delete the feature branch from the remote repository.
 # Deployment Process
-  - Deploy the dev branch to the testing environment to verify functionality.
-  - Once testing is complete, create a PR from dev to master for final review.
-  - Merge dev to master after approval to initiate production deployment.
+  - Deploy the `dev` branch to the testing environment to verify functionality.
+  - Once testing is complete, create a PR from `dev` to `master` for final review.
+  - Merge `dev` to `master` after approval to initiate production deployment.
 
 # Additional Best Practices
-  1. Branch Naming Convention: Use prefixes (feature/, fix/, hotfix/) for clarity.
+  1. Branch Naming Convention: Use prefixes (`feature/, fix/, hotfix/`) for clarity.
   2. Commit Messages: Include meaningful messages explaining each change.
   3. Squash Commits: For a cleaner history, consider squashing commits when merging PRs.
-  4. Rebasing: To keep feature branches updated, consider rebasing against dev instead of merging.
+  4. Rebasing: To keep feature branches updated, consider rebasing against `dev` instead of merging.
  By adhering to this workflow, you’ll ensure a clean, organized Git history and reduce potential merge conflicts, leading to a reliable deployment process.
 
 🤝 [Mohammad](#creator)
