@@ -35,16 +35,16 @@ export default {
 ## Table of contents
 🚀 [Branch Structure](#branch-structure)<br/>
 🚀 [Getting Started](#getting-started)<br/>
-   - [Cloning the Repository](#cloing-the-repository)<br/>
-   - [Checking Out the Development Branch](#checking-out-the-development-branch)<br/>
+🚀 [Cloning the Repository](#cloing-the-repository)<br/>
+🚀 [Checking Out the Development Branch](#checking-out-the-development-branch)<br/>
 💡 [Feature Branch Workflow](#feature-branch-workflow)<br/>
-  - [Creating a Feature Branch](#creating-a-feature-branch)<br/>
-  - [Making and Committing Changes](#making-and-committing-changes)<br/>
-  - [Pushing the Feature Branch](#pushing-the-feature-branch)<br/>
+🚀 [Creating a Feature Branch](#creating-a-feature-branch)<br/>
+🚀 [Making and Committing Changes](#making-and-committing-changes)<br/>
+🚀 [Pushing the Feature Branch](#pushing-the-feature-branch)<br/>
 🛠️ [Pull Request Process](#pull-request-process)<br/>
-  - [Creating a Pull Request (PR)](#creating-a-pull-request-(PR))<br/>
-  - [Code Review and Feedback](#code-review-and-feedback)<br/>
-  - [Merging the Pull Request](#merging-the-pull-request)<br/>
+🚀 [Creating a Pull Request (PR)](#creating-a-pull-request-(PR))<br/>
+🚀 [Code Review and Feedback](#code-review-and-feedback)<br/>
+🚀 [Merging the Pull Request](#merging-the-pull-request)<br/>
 🛠️ [Deployment Process](#deployment-process)<br/>
 🚀 [Additional Best Practices](#additional-best-practices)<br>
 
