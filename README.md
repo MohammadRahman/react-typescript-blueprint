@@ -213,8 +213,8 @@ Components are organized by functionality, with reusable UI elements stored in t
   - Version Control Best Practices: Follow standard Git practices. Create separate feature branches, use clear commit messages, and open pull requests for code reviews.
   - Add Prop Types and Default Props: Even when using TypeScript, defining `defaultProps` for your components is a good practice for maintaining defaults in case no values are passed in.
 
-🚀 [Feature Overview:](#feature-overview)<br/>
-🚀 [Email Delivery Rate](#email-delivery-rate)<br/>
+# Feature Overview:
+  - [Email Delivery Rate](#email-delivery-rate)<br/>
  
  ## Email Delivery Rate
   The Email Delivery Rate feature provides insightful metrics on email performance by grouping data based on specific time frames—monthly, weekly, or daily. This feature enables users to quickly understand how emails are performing over time through visually organized and color-coded cards.
