@@ -213,22 +213,22 @@ Components are organized by functionality, with reusable UI elements stored in t
   - Version Control Best Practices: Follow standard Git practices. Create separate feature branches, use clear commit messages, and open pull requests for code reviews.
   - Add Prop Types and Default Props: Even when using TypeScript, defining `defaultProps` for your components is a good practice for maintaining defaults in case no values are passed in.
 
-🚀 [Feature Overview:](#feature-overview)
-🚀 [Email Delivery Rate](#email-delivery-rate)
+🚀 [Feature Overview:](#feature-overview)<br/>
+🚀 [Email Delivery Rate](#email-delivery-rate)<br/>
  
  ## Email Delivery Rate
   The Email Delivery Rate feature provides insightful metrics on email performance by grouping data based on specific time frames—monthly, weekly, or daily. This feature enables users to quickly understand how emails are performing over time through visually organized and color-coded cards.
 
  ## Key Metrics Displayed
-    - Sent Emails: The total number of emails sent within the selected time frame.
-    - Delivery Rate: The percentage of successfully delivered emails out of those sent, indicating email deliverability.
-    - Bounce Rate: The percentage of emails that failed to reach recipients' inboxes, which helps track any deliverability issues.
-    - Open Rate: The percentage of delivered emails that were opened by recipients, showing engagement levels.
-    - Click Rate: The percentage of opened emails that generated user clicks, a strong indicator of interaction and content effectiveness.
+  - Sent Emails: The total number of emails sent within the selected time frame.
+  - Delivery Rate: The percentage of successfully delivered emails out of those sent, indicating email deliverability.
+  - Bounce Rate: The percentage of emails that failed to reach recipients' inboxes, which helps track any deliverability issues.
+  - Open Rate: The percentage of delivered emails that were opened by recipients, showing engagement levels.
+  - Click Rate: The percentage of opened emails that generated user clicks, a strong indicator of interaction and content effectiveness.
   ## Visual Representation
     Each metric is displayed in an individual card with distinct background colors for easy differentiation. This visual organization allows users to instantly identify key performance indicators and monitor trends or patterns in email engagement and delivery. see the example below.
 
-  [View on Eraser![](https://app.eraser.io/workspace/xO9btO46QmM9gV0e4Un3/preview?elements=1nb0K9mEuMDKF69ObHaXFw&type=embed)](https://app.eraser.io/workspace/xO9btO46QmM9gV0e4Un3?elements=1nb0K9mEuMDKF69ObHaXFw)
+  [View on Eraser![](#visual-representation)](https://app.eraser.io/workspace/xO9btO46QmM9gV0e4Un3?elements=1nb0K9mEuMDKF69ObHaXFw)
 
 
 
