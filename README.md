@@ -46,7 +46,7 @@ export default {
   🚀 2. [Code Review and Feedback](#code-review-and-feedback)<br/>
   🚀 3. [Merging the Pull Request](#merging-the-pull-request)<br/>
 🛠️ [Deployment Process](#deployment-process)<br/>
-🚀 [Additional Best Practices]<br>
+🚀 [Additional Best Practices](#additional-best-practices)<br>
 
 ## Branch Structure
   Our Git project follows a straightforward branching structure:
