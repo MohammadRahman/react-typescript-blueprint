@@ -34,9 +34,9 @@ steps:
     PathtoPublish: '$(Build.ArtifactStagingDirectory)'
     ArtifactName: 'drop'
     publishLocation: 'Container'
-- task: AzureWebApp@1
-  inputs:
-    azureSubscription: 'Azure Resource Manager'
-    appName: 'basilinqFE-sandbox'                 
-    package: '$(Build.ArtifactStagingDirectory)/**/*.zip' 
+# - task: AzureWebApp@1
+#   inputs:
+#     azureSubscription: 'Azure Resource Manager'
+#     appName: 'basilinqFE-sandbox'                 
+#     package: '$(Build.ArtifactStagingDirectory)/**/*.zip' 
 
