@@ -32,25 +32,42 @@ type StyledModalWindowProps = {
   type?: string;
 };
 const StyledModalWindow = styled.div<StyledModalWindowProps>`
+
   display: flex;
   justify-content: center;
   position: relative;
+  position: absolute;
+  background-color: var(--color-white);
+  border: 1px solid var(--color-grey-100);
+  ${props=> 
+    props.type == 'aside' && css`
   width: 40%;
   min-height: 100vh;
   right: 0;
   top: 0;
-  position: absolute;
-  background-color: var(--color-white);
-  border: 1px solid var(--color-grey-100);
+
+    `
+  }
   ${props =>
     props.type === "delete" &&
     css`
       width: 40vw;
+      padding: 2rem;
       /* background-color: red; */
-      background-color: var(--color-grey-400);
+      background-color: var(--color-grey-50);
     `}
+  ${props=> 
+    props.type == "regular" && css`
+      width: 70vw;
+      height: 80vh;
+      /* overflow-y: auto; */
+      /* transform:translate(-50%, -50%) ; */
+    `
+  }
 `;
-
+StyledModalWindow.defaultProps = {
+  type: "aside"
+}
 type ModalContextProps = {
   openName: string;
   open: (name: string) => void;
@@ -66,6 +83,7 @@ type OpenProps = {
 type ModalWindowProps = {
   children: ReactNode;
   name: string;
+  type?: "delete" | "regular";
 };
 const ModalContext = createContext<ModalContextProps | undefined>(undefined);
 
@@ -87,13 +105,13 @@ function Open({ children, opens }: OpenProps) {
   return cloneElement(children as any, { onClick: () => open(opens) });
 }
 
-function Window({ children, name }: ModalWindowProps) {
+function Window({ children, name, type }: ModalWindowProps) {
   const { openName, close } = useContext(ModalContext) as ModalContextProps;
   if (name.toLowerCase() != openName.toLowerCase()) return null;
 
   return createPortal(
     <Overlay>
-      <StyledModalWindow>
+      <StyledModalWindow type={type}>
         <StyledButton onClick={close}>
           <HiXMark />
         </StyledButton>
