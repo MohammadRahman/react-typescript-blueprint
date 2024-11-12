@@ -4,6 +4,7 @@ import FormRowVertical from "@components/form/FormRowVertical";
 import Input from "@components/form/Input";
 import { SingleSelect } from "@components/select";
 import { useEmailAccount } from "@features/mail-server/useEmailAccount";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useSearchParams } from "react-router-dom";
 import styled from "styled-components";
@@ -39,11 +40,11 @@ type FilterOptions = {
   };
   
   const FILTER_OPTIONS = [
-    { label: "option1", sign: 0, value: "1" },
-    { label: "option2", sign: 0, value: "2" },
-    { label: "option3", sign: 0, value: "3" },
-    { label: "option4", sign: 0, value: "4" },
-    { label: "option5", sign: 0, value: "5" },
+    { label: "email", sign: 0, value: "email" },
+    { label: "type", sign: 0, value: "type" },
+    { label: "displayName", sign: 0, value: "displayName" },
+    { label: "imapEmail", sign: 0, value: "imapEmail" },
+    { label: "smtpAddress", sign: 0, value: "smtpAddress" },
   ];
   
   type OrderOptions = {
@@ -54,8 +55,23 @@ type FilterOptions = {
   
   const ORDER_OPTIONS = [
     {
-      label: "PropertyName",
-      value: "3",
+      label: "Email",
+      value: "email",
+      isDescending: true,
+    },
+    {
+      label: "Type",
+      value: "type",
+      isDescending: true,
+    },
+    {
+      label: "Name",
+      value: "name",
+      isDescending: true,
+    },
+    {
+      label: "IMAP email",
+      value: "imapEmail",
       isDescending: true,
     },
   ];
@@ -63,11 +79,13 @@ type FilterOptions = {
   export type SearchParamsProps = {
     currentPage?: number;
     filters?: FilterOptions[] | string;
+    filterValue?: string;
     orders?: OrderOptions[] | string;
     pageSize?: number;
     logicalOperator?: number;
   };
 const FiltersAndSorts = () => {
+  const [isFilterEmpty, setIsFilterEmpty] = useState(true);
     
     const {emailLists, isLoading} = useEmailAccount()
     
@@ -75,7 +93,7 @@ const FiltersAndSorts = () => {
     const [searchParams, setSearchParams] = useSearchParams();
 
     const currentPage = !searchParams.get("page")
-                        ? 1
+                        ? 0
                         : Number(searchParams.get("page"));
 
     const { register, handleSubmit, control, formState: { errors } } = useForm<SearchParamsProps>({
@@ -90,6 +108,7 @@ const FiltersAndSorts = () => {
               value: "",
             },
           ],
+          filterValue: "",
           orders: [
             {
               label: "",
@@ -102,7 +121,13 @@ const FiltersAndSorts = () => {
 
     function filterAndSortFormHandler(values: SearchParamsProps){
 
-      const pageSizeValue = values.pageSize || 10;
+      if (values.filters != "") {
+        setIsFilterEmpty(false);
+    } else {
+        setIsFilterEmpty(true);
+    }
+
+      const pageSizeValue = values.pageSize || 0;
       searchParams.set("pageSize", String(pageSizeValue));
       searchParams.set("page", String(currentPage));
       setSearchParams(searchParams);
@@ -111,14 +136,14 @@ const FiltersAndSorts = () => {
         const ordersPropertyName = ORDER_OPTIONS.find(opt => opt.value === (values.orders as string));
         
         const formatedValues = {
-            currentPage: currentPage,
+            currentPage: 0,
             pageSize: values.pageSize,
             logicalOperator: 1,
             filters: [
                 {
                     propertyName: filterPropertyName?.label || "",
-                    sign: filterPropertyName?.sign || 1,
-                    value: filterPropertyName?.value || ""
+                    sign: 0,
+                    value:values.filterValue || ""
                 }
             ],
             orders: [
@@ -129,7 +154,7 @@ const FiltersAndSorts = () => {
             ],
         
         }
-        console.log(formatedValues);
+        console.log("formatedFormProps",formatedValues);
         emailLists(formatedValues)
     }
 
@@ -139,9 +164,12 @@ const FiltersAndSorts = () => {
     <StyledFiltersAndSorts>  
     <Form style={{all: 'unset'}} onSubmit={handleSubmit(filterAndSortFormHandler)}>
         <StyledRow>
-            <FormRowVertical label="Filters" error={errors.filters?.message}>
+            <FormRowVertical label="Filter By" error={errors.filters?.message}>
                 <SingleSelect name="filters" control={control} options={FILTER_OPTIONS}/>
             </FormRowVertical>
+            <FormRowVertical label="Filter Value" error={errors.filterValue?.message}>
+                <Input placeholder="type here" {...register("filterValue")}/>
+                </FormRowVertical>
             <FormRowVertical label="Orders" error={errors.orders?.message}>
                 <SingleSelect name="orders" control={control} options={ORDER_OPTIONS}/>
             </FormRowVertical>

@@ -56,12 +56,12 @@ const StyledContainer = styled.div`
 `;
 const options = [
   {
-    label: "EmailType1",
+    label: "1",
     value: String(EmailType.ONE),
   },
   {
-    label: "EmailType2",
-    value: String(EmailType.ZERO),
+    label: "2",
+    value: String(EmailType.TWO),
   },
 ];
 const SECURITY_PROTOCOL = [
@@ -71,7 +71,7 @@ const SECURITY_PROTOCOL = [
   },
   {
     label: "1",
-    value: String(SecurityProtocol.ZERO),
+    value: String(SecurityProtocol.ONE),
   },
 ];
 const SMTP_PORT = [
@@ -171,45 +171,45 @@ const CreateMailServerForm = ({formData = {}}: CreateMailServerFormProps) => {
           {/* <FormRowVertical label="ID*" error={errors.id?.message}>
             <Input placeholder="type here" {...register('id')} style={{ padding: "1rem 1.5rem" }} />
           </FormRowVertical> */}
-          <FormRowVertical label="E-Mail/PEC*" error={errors.type?.message}>
+          <FormRowVertical label="Type" error={errors.type?.message}>
             <SingleSelect name="type" control={control} options={options} />
           </FormRowVertical>
-          <FormRowVertical label="Indirizzio e-mail*" error={errors.email?.message}>
+          <FormRowVertical label="Email" error={errors.email?.message}>
             <Input placeholder="type Email" {...register('email')} style={{ padding: "1rem 1.5rem" }} />
           </FormRowVertical>
           <FormRowVertical label="Display Name" error={errors.displayName?.message}>
             <Input placeholder="type Name" {...register('displayName')} style={{ padding: "1rem 1.5rem" }} />
           </FormRowVertical>
-          <FormRowVertical label="Password SMTP" error={errors.password?.message}>
+          <FormRowVertical label="Password" error={errors.password?.message}>
             <Input placeholder="Type here"type="password" {...register("password")}/>
           </FormRowVertical>
         </StyledBoxContainer>
         <hr style={{ border: "none", height: "1px", backgroundColor: "#E5E5E5" }} />
         <h4>Server SMTP</h4>
         <StyledSMTPServer>
-          <FormRowVertical label="Email SMTP" error={errors.smtpAddress?.message}>
+          <FormRowVertical label="SMTP Address" error={errors.smtpAddress?.message}>
             <Input placeholder="Type here" {...register("smtpAddress")}/>
           </FormRowVertical>
-          <FormRowVertical label="Porta SMTP" error={errors.smtpPort?.message}>
+          <FormRowVertical label="SMTP Port" error={errors.smtpPort?.message}>
           <SingleSelect name="smtpPort" control={control} options={SMTP_PORT} />
           </FormRowVertical>
-          <FormRowVertical label="Tippo sicurezza" error={errors.securityProtocol}>
+          <FormRowVertical label="Security Protocol" error={errors.securityProtocol}>
             <SingleSelect name="securityProtocol" control={control} options={SECURITY_PROTOCOL} />
           </FormRowVertical>
         </StyledSMTPServer>
         <hr style={{ border: "none", height: "1px", backgroundColor: "#E5E5E5" }} />
         <h4>Server IMAP</h4>
         <StyledIMAPServer>
-          <FormRowVertical label="Ntente IMAP" error={errors.imapAddress?.message}>
+          <FormRowVertical label="IMAP Address" error={errors.imapAddress?.message}>
             <Input placeholder="Type here" {...register("imapAddress")} />
           </FormRowVertical>
-          <FormRowVertical label="Password IMAP" error={errors.email?.message}>
-            <Input placeholder="Type here" type="password" {...register("imapPassword")} />
+          <FormRowVertical label="IMAP email" error={errors.imapEmail?.message}>
+            <Input placeholder="Type here" {...register("imapEmail")} />
           </FormRowVertical>
-          <FormRowVertical label="Indirizzo IMAP" error={errors.imapPassword?.message}>
-            <Input placeholder="Type here"  {...register("imapPassword")} />
+          <FormRowVertical label="IMAP Password" error={errors.imapPassword?.message}>
+            <Input placeholder="Type here"  type="password" {...register("imapPassword")} />
           </FormRowVertical>
-          <FormRowVertical label="Porta SMTP" error={errors.imapPort?.message}>
+          <FormRowVertical label="IMAP PORt" error={errors.imapPort?.message}>
             <SingleSelect name="imapPort" control={control} options={IMAP_PORT} />
           </FormRowVertical>
         </StyledIMAPServer>

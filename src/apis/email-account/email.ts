@@ -1,9 +1,11 @@
+import { EMAIL_ACCOUNT } from "@apis/api-routes";
 import { emailService } from "@apis/emailService"
 import { SearchParamsProps } from "@components/filters-and-sorts/FiltersAndSorts";
 
+
 export enum EmailType {
     ONE= 1,
-    ZERO=2
+   TWO =2
 }
 export enum SmtpPort {
     ZERO= 0,
@@ -50,16 +52,16 @@ export type EmailAccountPaginationPayload = {
 }
 
 function createEmailAccount(emailBody: CreateEmailAccountPayload){
-    return emailService.post( "/", emailBody);
+    return emailService.post("/EmailAccount", emailBody);
 }
 function getEmailLists(paginationProperties: SearchParamsProps){
-    return emailService.post("/", paginationProperties)
+    return emailService.post("/EmailAccount/list", paginationProperties)
 }
 function upDateEmailAccount(id: string, paginationProperties: CreateEmailAccountPayload){
-    return emailService.put(`/${id}`, paginationProperties)
+    return emailService.put(`/EmailAccount/${id}`, paginationProperties)
 }
 function deleteEmailAccount(id: string){
-    return emailService.delete(`/${id}`)
+    return emailService.delete(`/EmailAccount/${id}`)
 }
 export const emailAccountApi = {
     createEmailAccount,
