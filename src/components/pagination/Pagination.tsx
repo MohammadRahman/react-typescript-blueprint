@@ -61,11 +61,12 @@ const PaginationButton = styled.button<PaginationButtonProps>`
   }
 `;
 type PaginationProps = {
+  currentPage: number;
   count: number;
 };
-export function Pagination({ count }: PaginationProps) {
+export function Pagination({ currentPage,count }: PaginationProps) {
   const [searchParams, setSearchParams] = useSearchParams();
-  const currentPage = !searchParams.get("page") ? 1 : Number(searchParams.get("page"));
+  // const currentPage = !searchParams.get("page") ? 1 : Number(searchParams.get("page"));
 
   const pageCount = Math.ceil(count / PAGE_SIZE);
 

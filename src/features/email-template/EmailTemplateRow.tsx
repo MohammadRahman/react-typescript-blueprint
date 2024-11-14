@@ -35,7 +35,9 @@ export const EmailTemplateRow = ({ data }: EmailTemplateRowProps) => {
                 display: "flex",
               }}
             >
-              <HiOutlinePencil size={15} />
+              <Modal.Open opens="delteWindow">
+                <HiOutlinePencil size={15} />
+              </Modal.Open>
             </div>
           </Modal.Open>
           <Modal.Window name="email-template">
