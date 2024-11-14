@@ -5,7 +5,9 @@ import { getServerDataMock } from "@mocks/data";
 import CreateMailServerForm from "./CreateMailServerForm";
 import FiltersAndSorts from "@components/filters-and-sorts/FiltersAndSorts";
 import { Pagination } from "@components/pagination";
-import { useEmailAccount } from "./useEmailAccount";
+import { EmailListData, useEmailAccount } from "./useEmailAccount";
+import { useEffect, useState } from "react";
+import { useEmailData } from "@context/EmailAccountContext";
 
 
 const StyledMailServer = styled.div`
@@ -26,9 +28,9 @@ const StyledContainer = styled.div`
 
 export const MailServer = () => {
   
-  const mailServerData = getServerDataMock()
-  const {emailLists} = useEmailAccount()
-
+  const { emailData } = useEmailData();
+  console.log("email list in component from context",emailData?.list);
+if(emailData?.isLoading) return <h1>Loading...</h1>
   return (
     <StyledMailServer>
       <StyledContainer>
@@ -52,11 +54,11 @@ export const MailServer = () => {
             <div>Actions</div>
           </Table.Header>
           <Table.Body
-            data={mailServerData}
+            data={emailData?.list || []}
             render={(el: any) => <MailServerRow key={el.id} rowData={el} />}
           />
           <Table.Footer>
-              <Pagination count={emailLists?.length}/>
+              <Pagination currentPage={emailData?.currentPage || 0} count={emailData?.totalCount || 0}/>
           </Table.Footer>
         </Table>
       </StyledContainer>

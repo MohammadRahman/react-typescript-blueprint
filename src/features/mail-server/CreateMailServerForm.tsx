@@ -11,6 +11,7 @@ import Input from "@components/form/Input";
 import { SingleSelect } from "@components/select";
 import Button from "@components/button/Button";
 import { useUpdateEmailAccount } from "./useUpdateEmailAccount";
+import Spinner from "@components/spinner/Spinner";
 
 
 const StyledBoxContainer = styled.div`
@@ -57,41 +58,41 @@ const StyledContainer = styled.div`
 const options = [
   {
     label: "1",
-    value: String(EmailType.ONE),
+    value: 1,
   },
   {
     label: "2",
-    value: String(EmailType.TWO),
+    value: 2,
   },
 ];
 const SECURITY_PROTOCOL = [
   {
     label: "0",
-    value: String(SecurityProtocol.ZERO),
+    value: 0,
   },
   {
     label: "1",
-    value: String(SecurityProtocol.ONE),
+    value: 1,
   },
 ];
 const SMTP_PORT = [
   {
     label: "0",
-    value: String(SmtpPort.ZERO),
+    value: 0,
   },
   {
     label: "1",
-    value: String(SmtpPort.ONE),
+    value: 1,
   },
 ];
 const IMAP_PORT = [
   {
     label: "0",
-    value: String(ImapPort.ZERO),
+    value: 0,
   },
   {
     label: "1",
-    value: String(ImapPort.ONE),
+    value: 1,
   },
 ];
 
@@ -110,35 +111,41 @@ type CreateMailServerFormProps = {
         imapPassword?: string;
         imapPort?: ImapPort.ZERO
     };
+    onCloseModal?:()=> void;
 }
-const CreateMailServerForm = ({formData = {}}: CreateMailServerFormProps) => {
+const CreateMailServerForm = ({formData = {}, onCloseModal}: CreateMailServerFormProps) => {
     
-  const {updateEmailAccount} = useUpdateEmailAccount()
+  const {updateEmailAccount, isUpdating} = useUpdateEmailAccount();
+
     const {id, ...otherProps} = formData;
     
     const accountId = uuidv4();
 
-    console.log(otherProps);
 
     const isUpdateSession = Boolean(id)
 
-    const {createEmailAccount, isLoading} = useCreateEmailAccount();
+    const {createEmailAccount, isCreating} = useCreateEmailAccount();
 
     const {control, formState: {errors}, reset, register, handleSubmit} = useForm<CreateEmailAccountPayload>({
-        defaultValues: isUpdateSession ? formData : {}
+        defaultValues: formData || {}
     });
     
-//   const mailServerData = getServerDataMock()
+  const isLoading = isCreating || isUpdating;
   
   function createEmailFormHandler(formValues: CreateEmailAccountPayload){
     if(isUpdateSession && id){
-        updateEmailAccount({id, data: formValues})
+        updateEmailAccount({id, data: formValues}, {
+          onSuccess: ()=> {
+            onCloseModal?.()
+          }
+        })
     }else{
         createEmailAccount({...formValues,id: accountId, type: Number(formValues.type), 
             smtpPort: Number(formValues.smtpPort), 
             securityProtocol: Number(formValues.securityProtocol),
             imapPort: Number(formValues.imapPort)
-          }, {
+          }, 
+          {
             onSuccess: ()=> {
             reset(),
             localStorage.removeItem('EmailAccountValues');
@@ -146,7 +153,8 @@ const CreateMailServerForm = ({formData = {}}: CreateMailServerFormProps) => {
           onError: () => {
             localStorage.setItem('EmailAccountValues', JSON.stringify(formValues)); // Save form values on error
           },
-        })
+        }
+      )
     }
   }
   
@@ -158,7 +166,7 @@ const CreateMailServerForm = ({formData = {}}: CreateMailServerFormProps) => {
     return ()=> localStorage.removeItem("EmailAccountValues")
   }, [reset]);
 
-  if(isLoading) return <h1>Loading...</h1>
+  if(isLoading) return <Spinner />
 
   return (
     <StyledContainer>
@@ -168,9 +176,6 @@ const CreateMailServerForm = ({formData = {}}: CreateMailServerFormProps) => {
           <span>Basilinq Logo</span>
         </Row>
         <StyledBoxContainer>
-          {/* <FormRowVertical label="ID*" error={errors.id?.message}>
-            <Input placeholder="type here" {...register('id')} style={{ padding: "1rem 1.5rem" }} />
-          </FormRowVertical> */}
           <FormRowVertical label="Type" error={errors.type?.message}>
             <SingleSelect name="type" control={control} options={options} />
           </FormRowVertical>
@@ -214,15 +219,15 @@ const CreateMailServerForm = ({formData = {}}: CreateMailServerFormProps) => {
           </FormRowVertical>
         </StyledIMAPServer>
         <GroupButton>
-          <Button variation="outlineDanger">Delete</Button>
+          {/* <Button variation="outlineDanger">Delete</Button>
           <Button variation="outlinePrimaryDetails" size="medium">
             Details
-          </Button>
-          <Button variation="outlinePrimaryEdit" size="medium">
-            Edit
+          </Button> */}
+          <Button variation="outlinePrimaryEdit" size="medium" onClick={onCloseModal}>
+            Cancel
           </Button>
           <Button variation="primary" size="medium">
-            Save
+            {isUpdateSession ? "Update": "Save"} 
           </Button>
         </GroupButton>
         </Form>

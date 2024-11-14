@@ -36,7 +36,7 @@ export const EmailTemplateRow = ({ data }: EmailTemplateRowProps) => {
               }}
             >
               <Modal.Open opens="delteWindow">
-              <HiOutlinePencil size={15} />
+                <HiOutlinePencil size={15} />
               </Modal.Open>
             </div>
           </Modal.Open>

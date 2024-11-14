@@ -4,7 +4,6 @@ import FormRowVertical from "@components/form/FormRowVertical";
 import Input from "@components/form/Input";
 import { SingleSelect } from "@components/select";
 import { useEmailAccount } from "@features/mail-server/useEmailAccount";
-import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useSearchParams } from "react-router-dom";
 import styled from "styled-components";
@@ -85,9 +84,8 @@ type FilterOptions = {
     logicalOperator?: number;
   };
 const FiltersAndSorts = () => {
-  const [isFilterEmpty, setIsFilterEmpty] = useState(true);
     
-    const {emailLists, isLoading} = useEmailAccount()
+    const {emailLists, isLoading} = useEmailAccount();
     
 
     const [searchParams, setSearchParams] = useSearchParams();
@@ -120,16 +118,8 @@ const FiltersAndSorts = () => {
       });
 
     function filterAndSortFormHandler(values: SearchParamsProps){
-
-      if (values.filters != "") {
-        setIsFilterEmpty(false);
-    } else {
-        setIsFilterEmpty(true);
-    }
-
-      const pageSizeValue = values.pageSize || 0;
-      searchParams.set("pageSize", String(pageSizeValue));
-      searchParams.set("page", String(currentPage));
+      searchParams.set("pageSize", String(values.pageSize || 10));
+      searchParams.set("currentPage", String(currentPage));
       setSearchParams(searchParams);
       
         const filterPropertyName = FILTER_OPTIONS.find(val => val.value === (values.filters as string));
@@ -169,7 +159,7 @@ const FiltersAndSorts = () => {
             </FormRowVertical>
             <FormRowVertical label="Filter Value" error={errors.filterValue?.message}>
                 <Input placeholder="type here" {...register("filterValue")}/>
-                </FormRowVertical>
+            </FormRowVertical>
             <FormRowVertical label="Orders" error={errors.orders?.message}>
                 <SingleSelect name="orders" control={control} options={ORDER_OPTIONS}/>
             </FormRowVertical>

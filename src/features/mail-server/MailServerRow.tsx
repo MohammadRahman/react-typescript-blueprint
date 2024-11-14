@@ -6,15 +6,19 @@ import CreateMailServerForm from "./CreateMailServerForm";
 import ConfirmDelete from "@components/delete-confirmation/ConfirmDelete";
 import ButtonIcon from "@components/button-icons/ButtonIcon";
 import { useDelete } from "./useDelete";
+import Spinner from "@components/spinner/Spinner";
 
 interface MailServerRowProps{
   rowData: {
-    someData: string;
-    someData1: string;
-    someData2: string;
-    someData3: string;
-    someData4: string;
-    someData5: string;
+    id: string;
+    type: number;
+    email: string;
+    displayName: string;
+    smtpPort: number;
+    securityProtocol: number;
+    imapAddress: string;
+    imapEmail: string;
+    imapPort: number;
   }
 }
 const StyledGroupButton = styled.div`
@@ -48,20 +52,21 @@ export const MailServerRow = ({ rowData }: MailServerRowProps) => {
  function deleteEmailAccount(id: string){
   deleteAccount(id)
  }
+ const shortendId = rowData?.id.split("-")[0];
  
- if(isLoading) return <h1>Loading...</h1>
+ if(isLoading) return <Spinner/>
 
   return (
     <Table.Row>
-      <div>{rowData.someData}</div>
-      <div>{rowData.someData1}</div>
-      <div>{rowData.someData2}</div>
-      <div>{rowData.someData3}</div>
-      <div>{rowData.someData4}</div>
-      <div>{rowData.someData5}</div>
-      <div>{rowData.someData5}</div>
-      <div>{rowData.someData5}</div>
-      <div>{rowData.someData5}</div>
+      <div>{shortendId}</div>
+      <div>{rowData.type}</div>
+      <div>{rowData.email}</div>
+      <div>{rowData.displayName}</div>
+      <div>{rowData.smtpPort}</div>
+      <div>{rowData.securityProtocol}</div>
+      <div>{rowData.imapAddress}</div>
+      <div>{rowData.imapEmail}</div>
+      <div>{rowData.imapPort}</div>
       <StyledGroupButton>
         <Modal>
             <ButtonBox>
@@ -69,7 +74,7 @@ export const MailServerRow = ({ rowData }: MailServerRowProps) => {
                 <HiOutlinePencil size={15} />
               </Modal.Open>
               <Modal.Window name="emailServer" type="regular">
-              <CreateMailServerForm />
+              <CreateMailServerForm formData={rowData}/>
               </Modal.Window>
             </ButtonBox>
             <ButtonBox>
@@ -77,7 +82,7 @@ export const MailServerRow = ({ rowData }: MailServerRowProps) => {
                 <HiOutlineTrash size={15} />
               </Modal.Open>
               <Modal.Window name="deleteWindow" type="delete">
-                  <ConfirmDelete onConfirm={()=> deleteEmailAccount(rowData.someData)} resourceName={rowData.someData}/>
+                  <ConfirmDelete onConfirm={()=> deleteEmailAccount(rowData.id)} resourceName={rowData.email}/>
               </Modal.Window>
             </ButtonBox>
           </Modal>

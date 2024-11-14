@@ -1,4 +1,3 @@
-import { EMAIL_ACCOUNT } from "@apis/api-routes";
 import { emailService } from "@apis/emailService"
 import { SearchParamsProps } from "@components/filters-and-sorts/FiltersAndSorts";
 
@@ -57,11 +56,12 @@ function createEmailAccount(emailBody: CreateEmailAccountPayload){
 function getEmailLists(paginationProperties: SearchParamsProps){
     return emailService.post("/EmailAccount/list", paginationProperties)
 }
-function upDateEmailAccount(id: string, paginationProperties: CreateEmailAccountPayload){
-    return emailService.put(`/EmailAccount/${id}`, paginationProperties)
+function upDateEmailAccount(id: string, paginationProperties: Omit<CreateEmailAccountPayload, "id">){
+    return emailService.put("/EmailAccount", {...paginationProperties, id})
 }
 function deleteEmailAccount(id: string){
-    return emailService.delete(`/EmailAccount/${id}`)
+    console.log("id in api", id);
+    return emailService.delete(`/EmailAccount/:id?id=${id}`);
 }
 export const emailAccountApi = {
     createEmailAccount,
