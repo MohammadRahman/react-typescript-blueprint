@@ -1,3 +1,4 @@
+import { EMAIL_ACCOUNT, EMAIL_ACCOUNT_LIST, EMAIL_ACCOUNT_UPDATE } from "@apis/api-routes";
 import { emailService } from "@apis/emailService"
 import { SearchParamsProps } from "@components/filters-and-sorts/FiltersAndSorts";
 
@@ -51,17 +52,17 @@ export type EmailAccountPaginationPayload = {
 }
 
 function createEmailAccount(emailBody: CreateEmailAccountPayload){
-    return emailService.post("/EmailAccount", emailBody);
+    return emailService.post(EMAIL_ACCOUNT, emailBody);
 }
 function getEmailLists(paginationProperties: SearchParamsProps){
-    return emailService.post("/EmailAccount/list", paginationProperties)
+    return emailService.post(EMAIL_ACCOUNT_LIST, paginationProperties)
 }
 function upDateEmailAccount(id: string, paginationProperties: Omit<CreateEmailAccountPayload, "id">){
-    return emailService.put("/EmailAccount", {...paginationProperties, id})
+    return emailService.put(EMAIL_ACCOUNT, {...paginationProperties, id})
 }
 function deleteEmailAccount(id: string){
     console.log("id in api", id);
-    return emailService.delete(`/EmailAccount/:id?id=${id}`);
+    return emailService.delete(`${EMAIL_ACCOUNT_UPDATE}=${id}`);
 }
 export const emailAccountApi = {
     createEmailAccount,
