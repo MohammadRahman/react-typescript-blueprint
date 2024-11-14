@@ -82,7 +82,7 @@ export const MailServerRow = ({ rowData }: MailServerRowProps) => {
                 <HiOutlineTrash size={15} />
               </Modal.Open>
               <Modal.Window name="deleteWindow" type="delete">
-                  <ConfirmDelete onConfirm={()=> deleteEmailAccount(rowData.id)} resourceName={rowData.email}/>
+                  <ConfirmDelete isLoading={isLoading} onConfirm={()=> deleteEmailAccount(rowData.id)} resourceName={rowData.email}/>
               </Modal.Window>
             </ButtonBox>
           </Modal>

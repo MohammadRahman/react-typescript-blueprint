@@ -1,5 +1,6 @@
 import Button from "@components/button/Button";
 import Heading from "@components/heading/Heading";
+import Spinner from "@components/spinner/Spinner";
 import styled from "styled-components";
 
 
@@ -25,9 +26,12 @@ type ConfirmDeleteProps = {
     onConfirm?: ()=> void;
     disabled?: boolean;
     onCloseModal?:() => void;
+    isLoading: boolean;
 }
 
-function ConfirmDelete({ resourceName, onConfirm, disabled, onCloseModal }: ConfirmDeleteProps) {
+function ConfirmDelete({ resourceName, onConfirm, disabled, onCloseModal, isLoading }: ConfirmDeleteProps) {
+
+  if(isLoading) return <Spinner />
   return (
     <StyledConfirmDelete>
       <Heading as="h3">Delete {resourceName}</Heading>
