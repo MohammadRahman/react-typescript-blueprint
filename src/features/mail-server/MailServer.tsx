@@ -1,14 +1,13 @@
 import { Table } from "@components/table";
 import styled from "styled-components";
 import { MailServerRow } from "./MailServerRow";
-import { getServerDataMock } from "@mocks/data";
 import CreateMailServerForm from "./CreateMailServerForm";
 import FiltersAndSorts from "@components/filters-and-sorts/FiltersAndSorts";
 import { Pagination } from "@components/pagination";
-import { EmailListData, useEmailAccount } from "./useEmailAccount";
-import { useEffect, useState } from "react";
 import { useEmailData } from "@context/EmailAccountContext";
+import { useSearchParams } from "react-router-dom";
 
+const PAGE_SIZE = 5;
 
 const StyledMailServer = styled.div`
   display: flex;
@@ -29,7 +28,16 @@ const StyledContainer = styled.div`
 export const MailServer = () => {
   
   const { emailData } = useEmailData();
-  console.log("email list in component from context",emailData?.list);
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  const currentPage = !searchParams.get("page")
+    ? 1
+    : Number(searchParams.get("page"));
+
+  const startIdx = (currentPage - 1) * PAGE_SIZE;
+  const endIdx = startIdx + PAGE_SIZE;
+  const paginatedData = emailData?.list.slice(startIdx, endIdx);
+
 if(emailData?.isLoading) return <h1>Loading...</h1>
   return (
     <StyledMailServer>
@@ -54,11 +62,11 @@ if(emailData?.isLoading) return <h1>Loading...</h1>
             <div>Actions</div>
           </Table.Header>
           <Table.Body
-            data={emailData?.list || []}
+            data={paginatedData || []}
             render={(el: any) => <MailServerRow key={el.id} rowData={el} />}
           />
           <Table.Footer>
-              <Pagination currentPage={emailData?.currentPage || 0} count={emailData?.totalCount || 0}/>
+              <Pagination count={emailData?.list?.length || 0}/>
           </Table.Footer>
         </Table>
       </StyledContainer>

@@ -88,15 +88,15 @@ const FiltersAndSorts = () => {
     const {emailLists, isLoading} = useEmailAccount();
     
 
-    const [searchParams, setSearchParams] = useSearchParams();
+    // const [searchParams, setSearchParams] = useSearchParams();
 
-    const currentPage = !searchParams.get("page")
-                        ? 0
-                        : Number(searchParams.get("page"));
+    // const currentPage = !searchParams.get("page")
+    //                     ? 0
+    //                     : Number(searchParams.get("page"));
 
     const { register, handleSubmit, control, formState: { errors } } = useForm<SearchParamsProps>({
         defaultValues: {
-          currentPage,
+          currentPage: 0,
           pageSize: 0,
           logicalOperator: 1,
           filters: [
@@ -118,9 +118,9 @@ const FiltersAndSorts = () => {
       });
 
     function filterAndSortFormHandler(values: SearchParamsProps){
-      searchParams.set("pageSize", String(values.pageSize || 10));
-      searchParams.set("currentPage", String(currentPage));
-      setSearchParams(searchParams);
+      // searchParams.set("pageSize", String(values.pageSize || 10));
+      // searchParams.set("currentPage", String(currentPage));
+      // setSearchParams(searchParams);
       
         const filterPropertyName = FILTER_OPTIONS.find(val => val.value === (values.filters as string));
         const ordersPropertyName = ORDER_OPTIONS.find(opt => opt.value === (values.orders as string));
