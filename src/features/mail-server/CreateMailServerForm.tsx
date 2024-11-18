@@ -1,6 +1,6 @@
 import { CreateEmailAccountPayload, EmailType, ImapPort, SecurityProtocol, SmtpPort } from "@apis/email-account";
 import { v4 as uuidv4 } from 'uuid';
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useCreateEmailAccount } from "./useCreateEmailAccount";
 import Form from "@components/form/Form";
 import { Row } from "@components/row";
@@ -12,6 +12,7 @@ import { SingleSelect } from "@components/select";
 import Button from "@components/button/Button";
 import { useUpdateEmailAccount } from "./useUpdateEmailAccount";
 import Spinner from "@components/spinner/Spinner";
+import { HiMiniChevronDown, HiMiniChevronUp } from "react-icons/hi2";
 
 
 const StyledBoxContainer = styled.div`
@@ -57,13 +58,13 @@ const StyledContainer = styled.div`
 `;
 const options = [
   {
-    label: "1",
+    label: "Standard",
     value: 1,
   },
   {
-    label: "2",
+    label: "PEC",
     value: 2,
-  },
+  }
 ];
 const SECURITY_PROTOCOL = [
   {
@@ -95,7 +96,14 @@ const IMAP_PORT = [
     value: 1,
   },
 ];
-
+const StyledShowAdvance = styled.div`
+  width: fit-content;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 1rem 0rem;
+  cursor: pointer;
+`
 type CreateMailServerFormProps = {
     formData?: {
         id?: string;
@@ -115,6 +123,8 @@ type CreateMailServerFormProps = {
 }
 const CreateMailServerForm = ({formData = {}, onCloseModal}: CreateMailServerFormProps) => {
     
+  const [showAdvanceOptions, setShowAdvanceOptions] = useState(false);
+
   const {updateEmailAccount, isUpdating} = useUpdateEmailAccount();
 
     const {id, ...otherProps} = formData;
@@ -175,7 +185,7 @@ const CreateMailServerForm = ({formData = {}, onCloseModal}: CreateMailServerFor
           <span>&larr; Create New Mail Server</span>
           <span>Basilinq Logo</span>
         </Row>
-        <StyledBoxContainer>
+        <StyledBoxContainer style={{padding: '1rem 0rem'}}>
           <FormRowVertical label="Type" error={errors.type?.message}>
             <SingleSelect name="type" control={control} options={options} />
           </FormRowVertical>
@@ -190,6 +200,7 @@ const CreateMailServerForm = ({formData = {}, onCloseModal}: CreateMailServerFor
           </FormRowVertical>
         </StyledBoxContainer>
         <hr style={{ border: "none", height: "1px", backgroundColor: "#E5E5E5" }} />
+        <div style={{padding: '1rem 0rem'}}>
         <h4>Server SMTP</h4>
         <StyledSMTPServer>
           <FormRowVertical label="SMTP Address" error={errors.smtpAddress?.message}>
@@ -202,7 +213,15 @@ const CreateMailServerForm = ({formData = {}, onCloseModal}: CreateMailServerFor
             <SingleSelect name="securityProtocol" control={control} options={SECURITY_PROTOCOL} />
           </FormRowVertical>
         </StyledSMTPServer>
+        </div>
         <hr style={{ border: "none", height: "1px", backgroundColor: "#E5E5E5" }} />
+        
+        <StyledShowAdvance onClick={()=> setShowAdvanceOptions((prev)=> !prev)}>
+        <p>Show Advance Options</p>
+        {showAdvanceOptions ? <HiMiniChevronUp size={20}/> : <HiMiniChevronDown size={20}/>}
+        </StyledShowAdvance>
+      {showAdvanceOptions && (
+        <div style={{padding: '1rem 0rem'}}>
         <h4>Server IMAP</h4>
         <StyledIMAPServer>
           <FormRowVertical label="IMAP Address" error={errors.imapAddress?.message}>
@@ -214,15 +233,13 @@ const CreateMailServerForm = ({formData = {}, onCloseModal}: CreateMailServerFor
           <FormRowVertical label="IMAP Password" error={errors.imapPassword?.message}>
             <Input placeholder="Type here"  type="password" {...register("imapPassword")} />
           </FormRowVertical>
-          <FormRowVertical label="IMAP PORt" error={errors.imapPort?.message}>
+          <FormRowVertical label="IMAP PORT" error={errors.imapPort?.message}>
             <SingleSelect name="imapPort" control={control} options={IMAP_PORT} />
           </FormRowVertical>
         </StyledIMAPServer>
+        </div>
+      )}
         <GroupButton>
-          {/* <Button variation="outlineDanger">Delete</Button>
-          <Button variation="outlinePrimaryDetails" size="medium">
-            Details
-          </Button> */}
           <Button variation="outlinePrimaryEdit" size="medium" onClick={onCloseModal}>
             Cancel
           </Button>

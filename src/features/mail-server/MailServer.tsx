@@ -6,6 +6,9 @@ import FiltersAndSorts from "@components/filters-and-sorts/FiltersAndSorts";
 import { Pagination } from "@components/pagination";
 import { useEmailData } from "@context/EmailAccountContext";
 import { useSearchParams } from "react-router-dom";
+import Input from "@components/form/Input";
+import { HiArrowDown } from "react-icons/hi2";
+import { MdOutlineFilterList } from "react-icons/md";
 
 const PAGE_SIZE = 5;
 
@@ -51,14 +54,26 @@ if(emailData?.isLoading) return <h1>Loading...</h1>
         <Table columns="1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr">
           <Table.Header>
             <div>ID</div>
-            <div>Type</div>
-            <div>Email</div>
-            <div>Name</div>
+            <div>Type <HiArrowDown/></div>
+            <div>Email <HiArrowDown/> </div>
+            <div>Name <HiArrowDown/> </div>
             <div>SMTP port</div>
             <div>S. Protocol</div>
             <div>IMAP address</div>
-            <div>IMAP Email</div>
+            <div>IMAP Email <HiArrowDown/> </div>
             <div>IMAP Port</div>
+            <div>Actions</div>
+          </Table.Header>
+          <Table.Header>
+            <div></div>
+            <div style={{display: 'flex', gap: '5px',alignItems: 'center'}}><Input style={{width: '80px', overflow: 'hidden', overflowY: 'scroll', padding: '7px'}} placeholder="Type"/> <MdOutlineFilterList size={20}/></div>
+            <div style={{display: 'flex', alignItems: 'center'}}><Input style={{width: '80px', overflow: 'hidden', overflowY: 'scroll', padding: '7px'}} placeholder="Email"/> <MdOutlineFilterList size={20}/></div>
+            <div style={{display: 'flex', alignItems: 'center'}}><Input style={{width: '80px', overflow: 'hidden', overflowY: 'scroll', padding: '7px'}} placeholder="Name"/> <MdOutlineFilterList size={20}/></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <Input style={{width: '100px', overflow: 'hidden', overflowY: 'scroll', padding: '7px'}} placeholder="email"/>
+            <div></div>
             <div>Actions</div>
           </Table.Header>
           <Table.Body
