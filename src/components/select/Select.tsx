@@ -6,6 +6,7 @@ type Option = {
   value: string | number;
 };
 type SelectProps = {
+  rules?: any;
   name: any;
   options: Option[];
   value?: Option | null;
@@ -31,18 +32,15 @@ const customStyles = {
   }),
 };
 
-export const SingleSelect = ({ name, control, options }: SelectProps) => {
-  // const [selectedOption, setSelectedOption] = useState(null);
-  // const handleChange = (selectedOption: any) => {
-  //   setSelectedOption(selectedOption);
-  // };
-
+export const SingleSelect = ({ name, control, options, rules }: SelectProps) => {
   return (
     <>
       <Controller
         name={name}
         control={control}
-        render={({ field: { onChange, value } }) => (
+        rules={rules}
+        render={({ field: { onChange, value }, fieldState: {error} }) => (
+          <>
           <Select
             theme={theme => ({
               ...theme,
@@ -69,6 +67,8 @@ export const SingleSelect = ({ name, control, options }: SelectProps) => {
               IndicatorSeparator: () => null,
             }}
           />
+          {/* {error && <p style={{ color: "red", marginTop: "0.25rem" }}>{error.message}</p>}  */}
+          </>
         )}
       />
     </>

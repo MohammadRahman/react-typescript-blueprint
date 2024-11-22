@@ -4,15 +4,17 @@ import { MainNavigation } from "@components/main-navigation";
 import { Logo } from "@components/logo";
 
 const StyledSidebar = styled.aside`
-  grid-row: 1/-1;
+  
   background-color: var(--color-blue-600);
   border-right: 1px solid var(--color-grey-100);
   position: relative;
+  grid-row: 1/-1;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  /* justify-content: space-between; */
   /* gap: 2rem; */
   padding: 0.5rem;
+  gap: 3.2rem;
 `;
 const CollapsedIcon = styled.aside`
   width: 30px;

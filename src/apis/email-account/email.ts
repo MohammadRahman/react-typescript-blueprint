@@ -54,8 +54,8 @@ export type EmailAccountPaginationPayload = {
 function createEmailAccount(emailBody: CreateEmailAccountPayload){
     return emailService.post(EMAIL_ACCOUNT, emailBody);
 }
-function getEmailLists(paginationProperties: SearchParamsProps){
-    return emailService.post(EMAIL_ACCOUNT_LIST, paginationProperties)
+function getEmailLists(paginationProperties: SearchParamsProps, signal?: AbortSignal){
+    return emailService.post(EMAIL_ACCOUNT_LIST, paginationProperties, {signal});
 }
 function upDateEmailAccount(id: string, paginationProperties: Omit<CreateEmailAccountPayload, "id">){
     return emailService.put(EMAIL_ACCOUNT, {...paginationProperties, id})

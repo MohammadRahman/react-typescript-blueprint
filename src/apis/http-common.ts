@@ -18,6 +18,7 @@ export const createBaseUrl = (url: string, useInterceptor: any) => {
 
     return instance;
 };
+
 export const httpCommon = (url: string) => axios.create({
     baseURL: url,
     headers: {
