@@ -104,7 +104,7 @@ const StyledShowAdvance = styled.div`
   padding: 1rem 0rem;
   cursor: pointer;
 `
-type CreateMailServerFormProps = {
+export type CreateMailServerFormProps = {
     formData?: {
         id?: string;
         type?: EmailType.ONE;
@@ -131,13 +131,12 @@ const CreateMailServerForm = ({formData = {}, onCloseModal}: CreateMailServerFor
     
     const accountId = uuidv4();
 
-
     const isUpdateSession = Boolean(id)
 
     const {createEmailAccount, isCreating} = useCreateEmailAccount();
 
     const {control, formState: {errors}, reset, register, handleSubmit} = useForm<CreateEmailAccountPayload>({
-        defaultValues: formData || {}
+        defaultValues: isUpdateSession ? formData : {}
     });
     
   const isLoading = isCreating || isUpdating;
@@ -187,16 +186,23 @@ const CreateMailServerForm = ({formData = {}, onCloseModal}: CreateMailServerFor
         </Row>
         <StyledBoxContainer style={{padding: '1rem 0rem'}}>
           <FormRowVertical label="Type" error={errors.type?.message}>
-            <SingleSelect name="type" control={control} options={options} />
+            <SingleSelect rules={{required:"Type is required"}} name="type" control={control} options={options} />
           </FormRowVertical>
           <FormRowVertical label="Email" error={errors.email?.message}>
-            <Input placeholder="type Email" {...register('email')} style={{ padding: "1rem 1.5rem" }} />
+            <Input placeholder="type Email" {...register('email',{
+              required: "Email is required",
+              pattern: {
+                value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
+                message: "Invalid email format",
+              },
+            }
+            )} style={{ padding: "1rem 1.5rem" }} />
           </FormRowVertical>
           <FormRowVertical label="Display Name" error={errors.displayName?.message}>
-            <Input placeholder="type Name" {...register('displayName')} style={{ padding: "1rem 1.5rem" }} />
+            <Input placeholder="type Name" {...register('displayName', { required: "Display Name is required" })} style={{ padding: "1rem 1.5rem" }} />
           </FormRowVertical>
           <FormRowVertical label="Password" error={errors.password?.message}>
-            <Input placeholder="Type here"type="password" {...register("password")}/>
+            <Input placeholder="Type here"type="password" {...register("password",{ required: "Password is required" })}/>
           </FormRowVertical>
         </StyledBoxContainer>
         <hr style={{ border: "none", height: "1px", backgroundColor: "#E5E5E5" }} />
@@ -204,13 +210,13 @@ const CreateMailServerForm = ({formData = {}, onCloseModal}: CreateMailServerFor
         <h4>Server SMTP</h4>
         <StyledSMTPServer>
           <FormRowVertical label="SMTP Address" error={errors.smtpAddress?.message}>
-            <Input placeholder="Type here" {...register("smtpAddress")}/>
+            <Input placeholder="Type here" {...register("smtpAddress", { required: "SMTP Address is required" })}/>
           </FormRowVertical>
           <FormRowVertical label="SMTP Port" error={errors.smtpPort?.message}>
-          <SingleSelect name="smtpPort" control={control} options={SMTP_PORT} />
+          <SingleSelect rules={{required:"SMTP port is required"}} name="smtpPort" control={control} options={SMTP_PORT} />
           </FormRowVertical>
-          <FormRowVertical label="Security Protocol" error={errors.securityProtocol}>
-            <SingleSelect name="securityProtocol" control={control} options={SECURITY_PROTOCOL} />
+          <FormRowVertical label="Security Protocol" error={errors.securityProtocol?.message}>
+            <SingleSelect rules={{required:"Security protocol is required"}} name="securityProtocol" control={control} options={SECURITY_PROTOCOL} />
           </FormRowVertical>
         </StyledSMTPServer>
         </div>

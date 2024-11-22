@@ -1,3 +1,4 @@
+import Spinner from "@components/spinner/Spinner";
 import { ReactNode, createContext, useContext } from "react";
 import styled from "styled-components";
 
@@ -101,10 +102,11 @@ function Row({ children }: RowProps) {
 type BodyProps<T> = {
   data: T[];
   render: (item: T, idx: number) => React.ReactNode;
+  isLoading?: boolean
 };
-function Body<T>({ data, render }: BodyProps<T>) {
+function Body<T>({ data, render, isLoading }: BodyProps<T>) {
   if (data?.length == 0) return <Empty>No data to show at the moment</Empty>;
-
+  if(isLoading) return <Spinner/>
   return <StyledBody>{data?.map(render)}</StyledBody>;
 }
 

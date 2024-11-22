@@ -1,36 +1,32 @@
 import { emailAccountApi} from "@apis/email-account";
 import { useEmailData } from "@context/EmailAccountContext";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { AxiosError } from "axios";
+import { AxiosError, isCancel } from "axios";
+import React from "react";
 import toast from "react-hot-toast";
 
-export type EmailListData = {
-    list: any[];
-    totalCount: number;
-  };
-
-type UseEmailAccountProps = {
-    onSuccessCallback?: (data: EmailListData)=> void;
-}
 export function useEmailAccount(){
     const { setEmailData } = useEmailData();
     const queryClient = useQueryClient();
 
+    const abortControllerRef = React.useRef<AbortController | null>(null);
+
     const {mutate: emailLists, isPending: isLoading} = useMutation({
         mutationKey: ['EmailAccount'],
-        mutationFn: async(data: any)=>{
+        mutationFn: async(data: any, options?: { signal?: AbortSignal })=>{
             try {
-                const response = await emailAccountApi.getEmailLists(data);
-                console.log("response in hook",response)
+                const response = await emailAccountApi.getEmailLists(data, options?.signal);
                 return response.data;
             } catch (error: AxiosError | any) {
-               console.log(error) 
-               toast.error(error.message)
-            }
-           
+            if (isCancel(error)) {
+                console.log('Request canceled:', error.message);
+              } else {
+                console.error('Error:', error.message);
+                toast.error(error.message);
+              }
+            }           
         },
         onMutate: () => {
-            // Set loading to true before mutation starts
             setEmailData((prevState) => ({
               ...prevState!,
               isLoading: true,
@@ -40,15 +36,28 @@ export function useEmailAccount(){
             setEmailData({
                 list: data.list,
                 totalCount: data.totalCount,
-                isLoading: false, // Once data is fetched, stop loading
-                currentPage: data.currentPage || 1, // Assuming currentPage is in the response
+                isLoading: false,
+                currentPage: data.currentPage || 1,
               });
             queryClient.invalidateQueries({ queryKey: ['EmailAccount'] });
             toast.success('email lists successfully fetched.');
         },
         onError: (error)=> {
             toast.error(error.message)
-        }
+        },
     });
-    return {emailLists, isLoading}
+    const fetchWithSignal = (data: any)=>{
+    if (abortControllerRef.current) {
+        abortControllerRef.current.abort();
+      }
+      abortControllerRef.current = new AbortController();
+  
+      const signal = abortControllerRef.current.signal;
+      try {
+        return emailLists({ ...data, signal });
+      } catch (error) {
+        throw error; // Ensure errors bubble up
+      }
+    }
+    return {emailLists:fetchWithSignal, isLoading}
 }
