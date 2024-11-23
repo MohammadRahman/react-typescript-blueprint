@@ -11,8 +11,6 @@ import toast from "react-hot-toast"
 import { CreateMailServerFormProps } from "./CreateMailServerForm"
 import { useSearchParams } from "react-router-dom"
 import styled from "styled-components"
-import useScrollPosition from "@hooks/useScrollPosition"
-import useScrollController from "@hooks/useScrollPosition"
 
 
 type FilterValues = {

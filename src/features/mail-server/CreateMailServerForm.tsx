@@ -64,38 +64,33 @@ const options = [
   {
     label: "PEC",
     value: 2,
-  }
+  },
+  {
+    label: "REM",
+    value: 3,
+  },
 ];
 const SECURITY_PROTOCOL = [
   {
-    label: "0",
-    value: 0,
-  },
-  {
-    label: "1",
+    label: "SSL",
     value: 1,
   },
-];
-const SMTP_PORT = [
   {
-    label: "0",
-    value: 0,
-  },
-  {
-    label: "1",
-    value: 1,
+    label: "TLS",
+    value: 2,
   },
 ];
-const IMAP_PORT = [
+const PORTS = [
   {
-    label: "0",
-    value: 0,
+    label: "SMTP",
+    value: 465,
   },
   {
-    label: "1",
-    value: 1,
+    label: "IMAP",
+    value: 993,
   },
 ];
+
 const StyledShowAdvance = styled.div`
   width: fit-content;
   display: flex;
@@ -213,7 +208,7 @@ const CreateMailServerForm = ({formData = {}, onCloseModal}: CreateMailServerFor
             <Input placeholder="Type here" {...register("smtpAddress", { required: "SMTP Address is required" })}/>
           </FormRowVertical>
           <FormRowVertical label="SMTP Port" error={errors.smtpPort?.message}>
-          <SingleSelect rules={{required:"SMTP port is required"}} name="smtpPort" control={control} options={SMTP_PORT} />
+          <SingleSelect rules={{required:"SMTP port is required"}} name="smtpPort" control={control} options={PORTS} />
           </FormRowVertical>
           <FormRowVertical label="Security Protocol" error={errors.securityProtocol?.message}>
             <SingleSelect rules={{required:"Security protocol is required"}} name="securityProtocol" control={control} options={SECURITY_PROTOCOL} />
@@ -233,14 +228,14 @@ const CreateMailServerForm = ({formData = {}, onCloseModal}: CreateMailServerFor
           <FormRowVertical label="IMAP Address" error={errors.imapAddress?.message}>
             <Input placeholder="Type here" {...register("imapAddress")} />
           </FormRowVertical>
-          <FormRowVertical label="IMAP email" error={errors.imapEmail?.message}>
+          <FormRowVertical label="IMAP Email" error={errors.imapEmail?.message}>
             <Input placeholder="Type here" {...register("imapEmail")} />
           </FormRowVertical>
           <FormRowVertical label="IMAP Password" error={errors.imapPassword?.message}>
             <Input placeholder="Type here"  type="password" {...register("imapPassword")} />
           </FormRowVertical>
-          <FormRowVertical label="IMAP PORT" error={errors.imapPort?.message}>
-            <SingleSelect name="imapPort" control={control} options={IMAP_PORT} />
+          <FormRowVertical label="IMAP Port" error={errors.imapPort?.message}>
+            <SingleSelect name="imapPort" control={control} options={PORTS} />
           </FormRowVertical>
         </StyledIMAPServer>
         </div>
