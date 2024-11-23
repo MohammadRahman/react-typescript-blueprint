@@ -87,7 +87,6 @@ export const MailServerRow = ({ rowData, onEdit }: MailServerRowProps) => {
             <ConfirmDelete resourceName={rowData.email} isLoading={isLoading} onConfirm={()=>deleteEmailAccount(rowData.id)}/>
         </Modal.Window>
       </Modal>
-      
       </StyledGroupButton>
     </Table.Row>
   );
