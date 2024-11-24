@@ -11,8 +11,7 @@ const StyledSidebar = styled.aside`
   grid-row: 1/-1;
   display: flex;
   flex-direction: column;
-  /* justify-content: space-between; */
-  /* gap: 2rem; */
+  justify-content: space-between;
   padding: 0.5rem;
   gap: 3.2rem;
 `;
