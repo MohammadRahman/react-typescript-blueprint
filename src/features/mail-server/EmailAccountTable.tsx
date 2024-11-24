@@ -60,11 +60,10 @@ const EmailAccountTable = ({onEdit}: EmailAccountTableProps) => {
 
     useEffect(() => {
       if (isSingleSearch) {
-        // If a filter is applied, reset the page to 1
-        setSearchParams({ page: '1' }); // Adjust this if you're using another method to update the query params
+        setSearchParams({ page: '1' }); 
       }
       if (!searchParams.get("page")) {
-        setSearchParams({ page: '1' }); // Reset to page 1 if no page param exists
+        setSearchParams({ page: '1' });
       }
     }, [filterValue, searchParams]);
     const paginatedData = emailData?.list.slice(startIdx, endIdx);
@@ -99,7 +98,7 @@ function handleTypeSortsAndFilter() {
       filters: [
         {
           propertyName: filterKey,
-          sign: 0, // Assuming `sign` means "equals"
+          sign: 0,
           value: filterValueToUse,
         },
       ],

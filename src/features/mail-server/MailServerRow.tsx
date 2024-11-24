@@ -51,6 +51,7 @@ const ButtonBox = styled(ButtonIcon)`
 const StyledShortTableRow = styled.div`
     margin: 0 auto;
     overflow-y: scroll;
+    overflow: hidden;
 `
 export const MailServerRow = ({ rowData, onEdit }: MailServerRowProps) => {
   
