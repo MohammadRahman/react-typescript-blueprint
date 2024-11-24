@@ -54,7 +54,7 @@ export const SingleSelect = ({ name, control, options, rules }: SelectProps) => 
               menu: (provided: any) => ({
                 ...provided,
                 background: "transparent",
-                width: "4em",
+                width: "4em"
               }),
             })}
             styles={customStyles}
