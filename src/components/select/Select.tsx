@@ -60,8 +60,8 @@ export const SingleSelect = ({ name, control, options, rules }: SelectProps) => 
             styles={customStyles}
             // value={selectedOption}
             // onChange={handleChange}
-            value={options.find(option => option.value === value)}
-            onChange={selectedOption => onChange(selectedOption?.value)}
+            value={options.find(option => option.value === value) || null}
+            onChange={selectedOption => onChange(selectedOption ?selectedOption.value : null)}
             options={options}
             components={{
               IndicatorSeparator: () => null,

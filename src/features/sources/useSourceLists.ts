@@ -18,15 +18,13 @@ export function useSourceLists() {
         return response.data;
       } catch (error: AxiosError | any) {
         if (isCancel(error)) {
-          console.log("Request canceled:", error.message);
+          toast.error(error.message || "")
         } else {
-          console.error("Error:", error.message);
           toast.error(error.message);
         }
       }
     },
     onMutate: () => {
-      console.log("Mutating...");
       setSourceData(prevState => ({
         ...prevState!,
         isLoading: true,
@@ -54,8 +52,6 @@ export function useSourceLists() {
     abortControllerRef.current = new AbortController();
 
     const signal = abortControllerRef.current.signal;
-    console.log("Calling sourceLists with data:", data);
-
     return sourceLists({ ...data, signal });
   };
 
