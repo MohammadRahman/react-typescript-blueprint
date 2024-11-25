@@ -54,14 +54,14 @@ export const SingleSelect = ({ name, control, options, rules }: SelectProps) => 
               menu: (provided: any) => ({
                 ...provided,
                 background: "transparent",
-                width: "4em",
+                width: "4em"
               }),
             })}
             styles={customStyles}
             // value={selectedOption}
             // onChange={handleChange}
-            value={options.find(option => option.value === value)}
-            onChange={selectedOption => onChange(selectedOption?.value)}
+            value={options.find(option => option.value === value) || null}
+            onChange={selectedOption => onChange(selectedOption ?selectedOption.value : null)}
             options={options}
             components={{
               IndicatorSeparator: () => null,
