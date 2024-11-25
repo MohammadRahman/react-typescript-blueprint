@@ -1,6 +1,6 @@
 import Button from "@components/button/Button";
 import Heading from "@components/heading/Heading";
-import { CreateGlobalStyle } from "src/styles/CreateGlobalStyles";
+import { CreateGlobalStyle } from "../../styles/CreateGlobalStyles";
 import styled from "styled-components";
 
 
@@ -33,19 +33,19 @@ const Box = styled.div`
     color: var(--color-grey-500);
   }
 `;
-type ErrorFallBackProps = {
-    error: {message: string};
-    resetErrorBoundary: boolean
-}
+import { FallbackProps } from 'react-error-boundary';
+
+type ErrorFallBackProps = FallbackProps;
+
 function ErrorFallback({ error, resetErrorBoundary }: ErrorFallBackProps) {
   return (
     <>
-      <CreateGlobalStyle />
+    <CreateGlobalStyle />
       <StyledErrorFallback>
         <Box>
           <Heading as="h1">Something went wrong 🧐</Heading>
-          <p>{error?.message}</p>
-          <Button size="large" onClick={()=>resetErrorBoundary}>
+          <p>{error.message}</p>
+          <Button size="large" onClick={resetErrorBoundary}>
             Try again
           </Button>
         </Box>
@@ -55,3 +55,26 @@ function ErrorFallback({ error, resetErrorBoundary }: ErrorFallBackProps) {
 }
 
 export default ErrorFallback;
+
+// type ErrorFallBackProps = {
+//     error: {message: string};
+//     resetErrorBoundary: boolean
+// }
+// function ErrorFallback({ error, resetErrorBoundary }: ErrorFallBackProps) {
+//   return (
+//     <>
+//       <CreateGlobalStyle />
+//       <StyledErrorFallback>
+//         <Box>
+//           <Heading as="h1">Something went wrong 🧐</Heading>
+//           <p>{error?.message}</p>
+//           <Button size="large" onClick={()=>resetErrorBoundary}>
+//             Try again
+//           </Button>
+//         </Box>
+//       </StyledErrorFallback>
+//     </>
+//   );
+// }
+
+// export default ErrorFallback;
