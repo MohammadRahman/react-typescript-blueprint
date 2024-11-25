@@ -2,12 +2,10 @@ import { Modal } from "@components/modal";
 import { Table } from "@components/table";
 import { HiOutlinePencil, HiOutlineTrash } from "react-icons/hi2";
 import styled from "styled-components";
-import CreateMailServerForm from "./CreateMailServerForm";
 import ConfirmDelete from "@components/delete-confirmation/ConfirmDelete";
 import ButtonIcon from "@components/button-icons/ButtonIcon";
 import { useDelete } from "./useDelete";
 import Spinner from "@components/spinner/Spinner";
-import { useEffect, useRef } from "react";
 
 interface MailServerRowProps{
   rowData: {
@@ -61,6 +59,7 @@ export const MailServerRow = ({ rowData, onEdit }: MailServerRowProps) => {
   deleteAccount(id)
  }
  const shortendId = rowData?.id.split("-")[0];
+
  if(isLoading) return <Spinner/>
 
   return (
