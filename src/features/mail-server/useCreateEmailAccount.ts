@@ -12,6 +12,7 @@ export function useCreateEmailAccount(){
         mutationFn: async(data: CreateEmailAccountPayload)=>{
             try {
                 const response = await emailAccountApi.createEmailAccount(data);
+                console.log("filter data",response.data);
                 return response.data;
             } catch (error: AxiosError | any) {
                 if (error.response && error.response.data && error.response.data.errors) {

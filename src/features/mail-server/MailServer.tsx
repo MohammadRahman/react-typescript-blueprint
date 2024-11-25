@@ -3,6 +3,7 @@ import CreateMailServerForm, { CreateMailServerFormProps } from "./CreateMailSer
 import { useEmailData } from "@context/EmailAccountContext";
 import { useEffect, useRef, useState } from "react";
 import EmailAccountTable from "./EmailAccountTable";
+import { useEmailAccount } from "./useEmailAccount";
 
 const StyledMailServer = styled.div`
   display: flex;
@@ -20,9 +21,31 @@ const StyledContainer = styled.div`
   border-radius: 8px;
 `;
 
+const formattedValues = {
+  currentPage: 0,
+  pageSize: 20,
+  logicalOperator: 1,
+  filters: [
+    {
+      propertyName: "type",
+      sign: 0, // Assuming `sign` means "equals"
+      value: "1",
+    },
+  ],
+  orders: [
+    {
+      propertyName: "email",
+      isDescending: true,
+    },
+  ],
+};
+
 export const MailServer = () => {
 
   const { emailData } = useEmailData();
+
+  const {emailLists} = useEmailAccount();
+
   const [editingEmailAccount, setEditingEmailAccount] = useState<CreateMailServerFormProps['formData'] | null>(null);
   const tableSectionRef = useRef<HTMLDivElement>(null);
   const formSectionRef = useRef<HTMLDivElement>(null);
@@ -44,6 +67,10 @@ export const MailServer = () => {
     }
   }, [emailData, editingEmailAccount]);
   
+  useEffect(()=> {
+    emailLists(formattedValues)
+  },[])
+
 if(emailData?.isLoading) return <h1>Loading...</h1>
 
 return (
