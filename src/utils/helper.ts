@@ -23,7 +23,7 @@ export function formatConnectionStr({database}: ConnectionStrProps){
         case 3:
             return `mysql://${username}:${password}@${host}:${port}/${databaseName}`;
         default:
-            return "Unsupported database type";
+            return "";
 
     }
 }
