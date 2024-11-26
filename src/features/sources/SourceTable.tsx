@@ -5,10 +5,11 @@ import { CreateSourceFormProps } from "./CreateSourceForm";
 
 
 type SourceTableProps = {
-  onEdit:(data: CreateSourceFormProps['formData'])=> void
+  onEdit:(data: CreateSourceFormProps['formData'])=> void;
+  isLoading: boolean;
 }
 
-const SourceTable = ({ onEdit }:SourceTableProps) => {
+const SourceTable = ({ onEdit, isLoading }:SourceTableProps) => {
     // const sourceData = getSourceMock();
     const {sourceData} = useSourceData();
     
@@ -22,7 +23,7 @@ const SourceTable = ({ onEdit }:SourceTableProps) => {
           </Table.Header>
           <Table.Body
             data={sourceData?.list || []}
-            render={(data: any) => <SourceRow key={data.id} rowData={data} onEdit={onEdit} />}
+            render={(data: any) => <SourceRow isLoading={isLoading} key={data.id} rowData={data} onEdit={onEdit} />}
           />
     </Table>
   )

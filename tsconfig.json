@@ -22,6 +22,7 @@
     "baseUrl": "./",
     "paths": {
       "@apis/*": ["src/apis/*"],
+      "@utils/*": ["src/utils/*"],
       "@constants/*": ["src/constants/*"],
       "@components/*": ["src/components/*"],
       "@features/*": ["src/features/*"],

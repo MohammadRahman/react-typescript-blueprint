@@ -6,6 +6,7 @@ import { DATA_SOURCE_TYPES } from "@constants/source";
 import { HiOutlinePencil, HiOutlineTrash } from "react-icons/hi2";
 import styled from "styled-components";
 import { useDelete } from "./useDelteSource";
+import Spinner from "@components/spinner/Spinner";
 
 const StyledActionButtonsContainer = styled.div`
     display: flex;
@@ -18,12 +19,13 @@ interface SourceRowProps {
     type: string | number;
     status: 1 | 2;
   },
-  onEdit: (values: any)=> void
+  onEdit: (values: any)=> void;
+  isLoading: boolean;
 }
 
-export const SourceRow = ({ rowData, onEdit }: SourceRowProps) => {
+export const SourceRow = ({ rowData, onEdit, isLoading }: SourceRowProps) => {
 
-  const {deleteAccount, isLoading} = useDelete();
+  const {deleteAccount, isLoading: isDeleting} = useDelete();
 
   const statusToTagName = {
     1: "green-Success",
@@ -32,6 +34,7 @@ export const SourceRow = ({ rowData, onEdit }: SourceRowProps) => {
   function findSourceLabel(type: number|string){
    return DATA_SOURCE_TYPES.find(el=> el.value == type)?.label
   }
+if(isLoading) return <Spinner/>
 
   return (
     <Table.Row>

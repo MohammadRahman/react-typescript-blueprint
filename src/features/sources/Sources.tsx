@@ -5,6 +5,7 @@ import TestConnection from "./TestConnection";
 import {  DEFAULT_SOURCE_FILTER } from "@constants/source";
 import { StyledContainer, StyledSource } from "./source.styles";
 import CreateSourceForm, { CreateSourceFormProps } from "./CreateSourceForm";
+import { useConnectionStr, useSourceType } from "@context/ConnectionStringContext";
 
 type SourceFieldProps = {
   name: string | "";
@@ -20,11 +21,16 @@ type SourceFieldProps = {
 export const Sources = () => {
   
   const [editingSourceAccount, seteditingSourceAccount] = useState<CreateSourceFormProps["formData"] | null>(null);
-  
+  // const {database, type} = useSourceType();
+
+  const {connectionStr} = useConnectionStr()
+
+  console.log("connection str", connectionStr);
+
   const tableSectionRef = useRef<HTMLDivElement>(null);
   const formSectionRef = useRef<HTMLDivElement>(null);
   
-  const { sourceLists } = useSourceLists(); 
+  const { sourceLists, isLoading } = useSourceLists(); 
 
   const handleEditClick = (accountData: CreateSourceFormProps["formData"]) => {
     seteditingSourceAccount(accountData); // Set the data to edit
@@ -56,11 +62,11 @@ export const Sources = () => {
         />)}
         {!editingSourceAccount && (
           <CreateSourceForm />)}
-      <TestConnection />
+      <TestConnection connectionString={connectionStr}/>
       </StyledContainer>
         
       <StyledContainer ref={tableSectionRef}>
-          <SourceTable onEdit={handleEditClick}/>
+          <SourceTable isLoading={isLoading} onEdit={handleEditClick}/>
       </StyledContainer>
     </StyledSource>
   );
