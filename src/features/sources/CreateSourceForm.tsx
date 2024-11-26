@@ -11,6 +11,9 @@ import { useEffect, useState } from "react"
 import { DATA_SOURCE_TYPES } from "@constants/source"
 import FileInput from "@components/form/FileInput"
 import { useUpdateSourceAccount } from "./useUpdateSource"
+import { useConnectionStr, useSourceType } from "@context/ConnectionStringContext"
+import { useDebounce } from "./useHandleConnectionStr"
+import { formatConnectionStr } from "@utils/helper"
 
 type SourceFieldProps = {
     name: string;
@@ -54,6 +57,8 @@ const CreateSourceForm = ({formData= {database: {}},onCloseModal }: CreateSource
     const { createSource, isCreating } = useCreateSource();
     const {updateSourceAccount, isUpdating} = useUpdateSourceAccount()
     
+    const {setConnectionString} = useConnectionStr();
+
     const {id, ...otherProps} = formData;
 
     const mapToOneObject = {
@@ -68,7 +73,8 @@ const CreateSourceForm = ({formData= {database: {}},onCloseModal }: CreateSource
         defaultValues: isUpdateSession ? mapToOneObject : {}
     })
 
-const [type, name] = watch(["type","name"])
+const watchValue = watch();
+
 function clearFields() {
   reset();
   setShowOtherParameters(false);
@@ -125,6 +131,20 @@ function clearFields() {
         }
       }
 
+const dbProps = {
+  type: watchValue.type,
+  databaseName: watchValue.databaseName || "",
+  username: watchValue.username || "",
+  password: watchValue.password || "",
+  host: watchValue.host || "",
+  port: Number(watchValue.port)
+
+}
+      useEffect(()=>{
+        const str = formatConnectionStr({database: dbProps})
+        setConnectionString(str)
+      },[setConnectionString, dbProps])
+
       useEffect(() => {
         const storedValues = localStorage.getItem("SourceAccountValues");
         if (storedValues) {
@@ -134,13 +154,13 @@ function clearFields() {
       }, [reset]);
 
       useEffect(() => {
-        if (name && type) {
+        if (watchValue.name && watchValue.type) {
           setShowOtherParameters(true);
         } else {
           setShowOtherParameters(false);
         }
         if (isUpdateSession) return;
-        switch (type) {
+        switch (watchValue.type) {
           case 1:
             setValue("host", "localhost");
             setValue("port", 5432);
@@ -174,7 +194,7 @@ function clearFields() {
             setValue("port", undefined);
             break;
         }
-      }, [name, type, isUpdateSession]);
+      }, [watchValue.name, watchValue.type, isUpdateSession]);
       
   return (
     <Form onSubmit={handleSubmit(handletypeForm)} style={{ all: "unset" }}>
@@ -188,7 +208,7 @@ function clearFields() {
               </FormRowVertical>
             </ContainerTwoElements>
 
-            {showOtherParameters && type !== 7 ? (
+            {showOtherParameters && watchValue.type !== 7 ? (
               <TypeParametersContainer>
                 <FormRowVertical error={errors.username?.message}>
                   <Input placeholder="User Name" {...register("username")} />
@@ -206,7 +226,7 @@ function clearFields() {
                   <Input placeholder="Database Name" {...register("databaseName")} />
                 </FormRowVertical>
               </TypeParametersContainer>
-            ) : showOtherParameters && type === 7 ? (
+            ) : showOtherParameters && watchValue.type === 7 ? (
               <div style={{ minWidth: "60px", maxWidth: "fit-content" }}>
                 <FormRowVertical label="" error={errors.file?.message}>
                   <FileInput {...register("file")} />

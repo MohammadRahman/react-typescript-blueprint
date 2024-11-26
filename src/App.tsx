@@ -15,11 +15,13 @@ import { SourcePage } from "@pages/sources/SourcePage";
 import { MailServerPage } from "@pages/mail-server/MailServerPage";
 import UserProfilePage from "@pages/profile/UserProfilePage";
 import { SupportPage } from "@pages/support/SupportPage";
+import PageNotFound from "@pages/not-found/PageNotFound";
 
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
       staleTime: 0,
+      retry: 3
     },
   },
 });
@@ -50,6 +52,7 @@ function App() {
             <Route path="/support" element={<SupportPage />} />
           </Route>
           <Route path="/login" element={<Login />} />
+            <Route path="*" element={<PageNotFound />} />
         </Routes>
         <Toaster
           position="top-right"
