@@ -31,13 +31,14 @@ type FilterValues = {
 
 
 type EmailAccountTableProps = {
-  onEdit:(data: CreateMailServerFormProps['formData'])=> void
+  onEdit:(data: CreateMailServerFormProps['formData'])=> void;
+  status: boolean | undefined;
 }
 
 const StyledTableHeader = styled.div`
   margin: 0 auto;
 `
-const EmailAccountTable = ({onEdit}: EmailAccountTableProps) => {
+const EmailAccountTable = ({onEdit, status}: EmailAccountTableProps) => {
 
     const {emailLists, isLoading} = useEmailAccount();
 
@@ -221,7 +222,7 @@ function onIMAPEmailChange(e: ChangeEvent<HTMLInputElement>){
     <Table.Body
       data={paginatedData || []}
       isLoading={isLoading}
-      render={(el: any) => <MailServerRow key={el.id} rowData={el} onEdit={onEdit} />}
+      render={(el: any) => <MailServerRow key={el.id} isLoading={status} rowData={el} onEdit={onEdit} />}
     />
     <Table.Footer>
         <Pagination count={emailData?.list?.length || 0}/>

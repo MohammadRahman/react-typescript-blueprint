@@ -19,7 +19,8 @@ interface MailServerRowProps{
     imapEmail: string;
     imapPort: number;
   },
-  onEdit: (data: MailServerRowProps['rowData'])=> void
+  onEdit: (data: MailServerRowProps['rowData'])=> void;
+  isLoading: boolean | undefined;
 }
 const StyledGroupButton = styled.div`
   margin-left: 2rem;
@@ -51,9 +52,9 @@ const StyledShortTableRow = styled.div`
     overflow-y: scroll;
     overflow: hidden;
 `
-export const MailServerRow = ({ rowData, onEdit }: MailServerRowProps) => {
+export const MailServerRow = ({ rowData, onEdit, isLoading }: MailServerRowProps) => {
   
- const {deleteAccount, isLoading } = useDelete()
+ const {deleteAccount, isLoading: isDeleting } = useDelete()
 
  function deleteEmailAccount(id: string){
   deleteAccount(id)
@@ -84,7 +85,7 @@ export const MailServerRow = ({ rowData, onEdit }: MailServerRowProps) => {
         <HiOutlineTrash style={{cursor: 'pointer'}} size={15}/>
         </Modal.Open>
         <Modal.Window name="deletePop-ups" type="delete">
-            <ConfirmDelete resourceName={rowData.email} isLoading={isLoading} onConfirm={()=>deleteEmailAccount(rowData.id)}/>
+            <ConfirmDelete resourceName={rowData.email} isLoading={isDeleting} onConfirm={()=>deleteEmailAccount(rowData.id)}/>
         </Modal.Window>
       </Modal>
       </StyledGroupButton>
