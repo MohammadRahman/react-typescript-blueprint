@@ -7,7 +7,8 @@ const StyledTestConnetion = styled.div`
   display: flex;
   justify-content: space-between;
   margin-top: 1rem;
-  width: 50%;
+  min-width: 50%;
+  max-width: 100%;
 `;
 type TestConnectionProps = {
   connectionString: string
@@ -24,7 +25,7 @@ const TestConnection = ({connectionString}: TestConnectionProps) => {
        value={connectionString}
         {...register("connStr")}
        />
-      <Button variation="createNew" type="medium" style={{ width: "18%" }}>
+      <Button variation="createNew" type="button" style={{ width: "18%" }}>
         Test
       </Button>
     </StyledTestConnetion>

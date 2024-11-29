@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 type ButtonIconProps = {
   variation?: "round" | "square";
-  type?: "edit" | "delete"
+  type?: "edit" | "delete";
 }
 
 const ButtonIcon = styled.button<ButtonIconProps>`
@@ -15,7 +15,7 @@ const ButtonIcon = styled.button<ButtonIconProps>`
   transition: all 0.2s;
   &:hover {
     background-color: ${(props)=> props.variation === "square" 
-    && props.type === "edit" ? "var(--color-brand)" :props.type === "delete"? "var(--color-red-200)": "var(--color-grey-50)"};
+    && props.type === "edit" ? "var(--color-brand)" : props.type === "delete"? "var(--color-red-200)": "var(--color-grey-50)"};
     color: ${(props)=> props.type === "edit" ? "var(--color-white)" : props.type === "delete" ? "var(--color-white)": "var(--color-black)"};
     cursor: pointer;
   }
