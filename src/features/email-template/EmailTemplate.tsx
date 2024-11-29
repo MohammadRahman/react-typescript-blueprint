@@ -10,7 +10,7 @@ import { EmailTemplateRow } from "./EmailTemplateRow";
 import { Modal } from "@components/modal";
 import { NewTemplateForm } from "./NewTemplateForm";
 
-const Styledjobs = styled.div`
+const StyledEmailTemplate = styled.div`
   display: flex;
   flex-direction: column;
   gap: 2rem;
@@ -20,7 +20,7 @@ const Styledjobs = styled.div`
 export const EmailTemplate = () => {
   const emailTemplates = emailTemplateMock();
   return (
-    <Styledjobs>
+    <StyledEmailTemplate>
       <Row type="horizontal">
         <div>
           <Search onChange={()=> console.log("")}/>
@@ -37,7 +37,7 @@ export const EmailTemplate = () => {
                 Create New Report
               </Button>
             </Modal.Open>
-            <Modal.Window name="createNewTemplate">
+            <Modal.Window name="createNewTemplate" type="aside">
               <NewTemplateForm />
             </Modal.Window>
           </Modal>
@@ -53,6 +53,6 @@ export const EmailTemplate = () => {
         </Table.Header>
         <Table.Body data={emailTemplates} render={(job: any) => <EmailTemplateRow data={job} />} />
       </Table>
-    </Styledjobs>
+    </StyledEmailTemplate>
   );
 };

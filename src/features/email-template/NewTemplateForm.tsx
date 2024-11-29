@@ -58,8 +58,8 @@ export const NewTemplateForm = ({ templateToEdit = {}, onCloseModal }: NewTempla
     console.log("create email template values", values);
   }
   return (
-    <>
-      <Form onSubmit={handleSubmit(handleCreateTemplateSubmit)}>
+    <div style={{paddingTop: "1rem"}}>
+      <Form onSubmit={handleSubmit(handleCreateTemplateSubmit)} type="modal">
         <span style={{ paddingBottom: "1rem" }}>&larr; Create New Email Template</span>
         <div style={{ width: "90%" }}>
           <FormRowVertical label="Name" error={errors.name?.message}>
@@ -85,6 +85,6 @@ export const NewTemplateForm = ({ templateToEdit = {}, onCloseModal }: NewTempla
           </div>
         </div>
       </Form>
-    </>
+    </div>
   );
 };
