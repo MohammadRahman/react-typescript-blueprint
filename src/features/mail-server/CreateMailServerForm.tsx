@@ -1,7 +1,6 @@
 import { CreateEmailAccountPayload, EmailType, ImapPort, SecurityProtocol, SmtpPort } from "@apis/email-account";
 import { v4 as uuidv4 } from 'uuid';
 import { useEffect, useState } from "react";
-import { useCreateEmailAccount } from "./useCreateEmailAccount";
 import Form from "@components/form/Form";
 import { Row } from "@components/row";
 import styled from "styled-components";
@@ -12,7 +11,8 @@ import { SingleSelect } from "@components/select";
 import Button from "@components/button/Button";
 import { useUpdateEmailAccount } from "./useUpdateEmailAccount";
 import Spinner from "@components/spinner/Spinner";
-import { HiMiniChevronDown, HiMiniChevronUp, HiOutlineEye, HiOutlineEyeSlash } from "react-icons/hi2";
+import { HiMiniChevronDown, HiMiniChevronUp } from "react-icons/hi2";
+import { useCreateEmailAccount } from "./useCreateEmailAccount";
 
 
 const StyledBoxContainer = styled.div`
