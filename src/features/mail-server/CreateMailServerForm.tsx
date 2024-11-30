@@ -12,6 +12,7 @@ import Button from "@components/button/Button";
 import { useUpdateEmailAccount } from "./useUpdateEmailAccount";
 import { HiMiniChevronDown, HiMiniChevronUp } from "react-icons/hi2";
 import { useCreateEmailAccount } from "./useCreateEmailAccount";
+import Spinner from "@components/spinner/Spinner";
 
 
 const StyledBoxContainer = styled.div`
@@ -174,6 +175,8 @@ const CreateMailServerForm = ({formData = {}, onCloseModal}: CreateMailServerFor
     return ()=> localStorage.removeItem("EmailAccountValues")
   }, [reset]);
 
+  if (isLoading) return <Spinner/>
+  
   return (
     <StyledContainer>
     <Form type="regular" onSubmit={handleSubmit(createEmailFormHandler)}>
