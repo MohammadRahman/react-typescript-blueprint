@@ -10,7 +10,6 @@ import Input from "@components/form/Input";
 import { SingleSelect } from "@components/select";
 import Button from "@components/button/Button";
 import { useUpdateEmailAccount } from "./useUpdateEmailAccount";
-import Spinner from "@components/spinner/Spinner";
 import { HiMiniChevronDown, HiMiniChevronUp } from "react-icons/hi2";
 import { useCreateEmailAccount } from "./useCreateEmailAccount";
 
@@ -175,8 +174,6 @@ const CreateMailServerForm = ({formData = {}, onCloseModal}: CreateMailServerFor
     return ()=> localStorage.removeItem("EmailAccountValues")
   }, [reset]);
 
-  if(isLoading) return <Spinner />
-
   return (
     <StyledContainer>
     <Form type="regular" onSubmit={handleSubmit(createEmailFormHandler)}>
@@ -246,7 +243,7 @@ const CreateMailServerForm = ({formData = {}, onCloseModal}: CreateMailServerFor
         </div>
       )}
         <GroupButton>
-          <Button type="button" variation="outlinePrimaryEdit" size="medium" onClick={clearFields}>
+          <Button type="button" variation="outlinePrimaryEdit" size="medium" onClick={onCloseModal}>
             Cancel
           </Button>
           <Button variation="primary" size="medium">
