@@ -5,7 +5,6 @@ import styled from "styled-components";
 import ConfirmDelete from "@components/delete-confirmation/ConfirmDelete";
 import ButtonIcon from "@components/button-icons/ButtonIcon";
 import { useDelete } from "./useDelete";
-import Spinner from "@components/spinner/Spinner";
 
 interface MailServerRowProps{
   rowData: {
@@ -60,7 +59,6 @@ export const MailServerRow = ({ rowData, onEdit }: MailServerRowProps) => {
  }
  const shortendId = rowData?.id.split("-")[0];
 
- if(isLoading) return <Spinner/>
 
   return (
     <Table.Row>
