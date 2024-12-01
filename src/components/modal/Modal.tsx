@@ -41,7 +41,7 @@ const StyledModalWindow = styled.div<StyledModalWindowProps>`
   border: 1px solid var(--color-grey-100);
   ${props=> 
     props.type == 'aside' && css`
-  width: 40%;
+  width: 55vw;
   min-height: 100vh;
   right: 0;
   top: 0;
@@ -83,7 +83,7 @@ type OpenProps = {
 type ModalWindowProps = {
   children: ReactNode;
   name: string;
-  type?: "delete" | "regular";
+  type?: "delete" | "regular" | "aside";
 };
 const ModalContext = createContext<ModalContextProps | undefined>(undefined);
 
