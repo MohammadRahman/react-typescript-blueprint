@@ -71,9 +71,9 @@ export const Sources = () => {
       <StyledContainer ref={tableSectionRef}>
           <SourceTable isLoading={isLoading} onEdit={handleEditClick}/>
       </StyledContainer>
-      <StyledContainer>
+      {/* <StyledContainer>
         <ReactTable tableColumns={COLUMNS} tableData={MOCK_DATA}/>
-      </StyledContainer>
+      </StyledContainer> */}
     </StyledSource>
   );
 };
