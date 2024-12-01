@@ -1,6 +1,7 @@
 import { CreateEmailAccountPayload, EmailType, ImapPort, SecurityProtocol, SmtpPort } from "@apis/email-account";
 import { v4 as uuidv4 } from 'uuid';
 import { useEffect, useState } from "react";
+import { useCreateEmailAccount } from "./useCreateEmailAccount";
 import Form from "@components/form/Form";
 import { Row } from "@components/row";
 import styled from "styled-components";
@@ -10,9 +11,8 @@ import Input from "@components/form/Input";
 import { SingleSelect } from "@components/select";
 import Button from "@components/button/Button";
 import { useUpdateEmailAccount } from "./useUpdateEmailAccount";
-import { HiMiniChevronDown, HiMiniChevronUp } from "react-icons/hi2";
-import { useCreateEmailAccount } from "./useCreateEmailAccount";
 import Spinner from "@components/spinner/Spinner";
+import { HiMiniChevronDown, HiMiniChevronUp, HiOutlineEye, HiOutlineEyeSlash } from "react-icons/hi2";
 
 
 const StyledBoxContainer = styled.div`
@@ -119,7 +119,7 @@ export type CreateMailServerFormProps = {
 const CreateMailServerForm = ({formData = {}, onCloseModal}: CreateMailServerFormProps) => {
     
   const [showAdvanceOptions, setShowAdvanceOptions] = useState(false);
-
+  const [showPassword, setShowPassword] = useState(false)
   const {updateEmailAccount, isUpdating} = useUpdateEmailAccount();
 
     const {id, ...otherProps} = formData;
@@ -135,7 +135,10 @@ const CreateMailServerForm = ({formData = {}, onCloseModal}: CreateMailServerFor
     });
     
   const isLoading = isCreating || isUpdating;
-  
+  function clearFields(){
+    reset();
+    localStorage.removeItem("EmailAccountValues")
+  }
   function createEmailFormHandler(formValues: CreateEmailAccountPayload){
     if(isUpdateSession && id){
         updateEmailAccount({id, data: formValues}, {
@@ -144,6 +147,8 @@ const CreateMailServerForm = ({formData = {}, onCloseModal}: CreateMailServerFor
           }
         })
     }else{
+      console.log("formValues in createMailServer", formValues);
+
         createEmailAccount({...formValues,id: accountId, type: Number(formValues.type), 
             smtpPort: Number(formValues.smtpPort), 
             securityProtocol: Number(formValues.securityProtocol),
@@ -170,8 +175,8 @@ const CreateMailServerForm = ({formData = {}, onCloseModal}: CreateMailServerFor
     return ()=> localStorage.removeItem("EmailAccountValues")
   }, [reset]);
 
-  if (isLoading) return <Spinner/>
-  
+  if(isLoading) return <Spinner />
+
   return (
     <StyledContainer>
     <Form type="regular" onSubmit={handleSubmit(createEmailFormHandler)}>
@@ -184,17 +189,17 @@ const CreateMailServerForm = ({formData = {}, onCloseModal}: CreateMailServerFor
             <SingleSelect rules={{required:"Type is required"}} name="type" control={control} options={options} />
           </FormRowVertical>
           <FormRowVertical label="Email" error={errors.email?.message}>
-            <Input placeholder="type Email" {...register('email',{
+            <Input type="email" placeholder="type Email" {...register('email',{
               required: "Email is required",
               pattern: {
                 value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
                 message: "Invalid email format",
               },
             }
-            )} style={{ padding: "1rem 1.5rem" }} />
+            )} />
           </FormRowVertical>
           <FormRowVertical label="Display Name" error={errors.displayName?.message}>
-            <Input placeholder="type Name" {...register('displayName', { required: "Display Name is required" })} style={{ padding: "1rem 1.5rem" }} />
+            <Input type="text" placeholder="type Name" {...register('displayName', { required: "Display Name is required" })}/>
           </FormRowVertical>
           <FormRowVertical label="Password" error={errors.password?.message}>
             <Input placeholder="Type here"type="password" {...register("password",{ required: "Password is required" })}/>
@@ -205,7 +210,7 @@ const CreateMailServerForm = ({formData = {}, onCloseModal}: CreateMailServerFor
         <h4>Server SMTP</h4>
         <StyledSMTPServer>
           <FormRowVertical label="SMTP Address" error={errors.smtpAddress?.message}>
-            <Input placeholder="Type here" {...register("smtpAddress", { required: "SMTP Address is required" })}/>
+            <Input type="text" placeholder="Type here" {...register("smtpAddress", { required: "SMTP Address is required" })}/>
           </FormRowVertical>
           <FormRowVertical label="SMTP Port" error={errors.smtpPort?.message}>
           <SingleSelect rules={{required:"SMTP port is required"}} name="smtpPort" control={control} options={PORTS} />
@@ -226,13 +231,13 @@ const CreateMailServerForm = ({formData = {}, onCloseModal}: CreateMailServerFor
         <h4>Server IMAP</h4>
         <StyledIMAPServer>
           <FormRowVertical label="IMAP Address" error={errors.imapAddress?.message}>
-            <Input placeholder="Type here" {...register("imapAddress")} />
+            <Input type="text" placeholder="Type here" {...register("imapAddress")} />
           </FormRowVertical>
           <FormRowVertical label="IMAP Email" error={errors.imapEmail?.message}>
-            <Input placeholder="Type here" {...register("imapEmail")} />
+            <Input type="text" placeholder="Type here" {...register("imapEmail")} />
           </FormRowVertical>
           <FormRowVertical label="IMAP Password" error={errors.imapPassword?.message}>
-            <Input placeholder="Type here"  type="password" {...register("imapPassword")} />
+            <Input placeholder="Type here" type="password" {...register("imapPassword")} />
           </FormRowVertical>
           <FormRowVertical label="IMAP Port" error={errors.imapPort?.message}>
             <SingleSelect name="imapPort" control={control} options={PORTS} />
@@ -241,7 +246,7 @@ const CreateMailServerForm = ({formData = {}, onCloseModal}: CreateMailServerFor
         </div>
       )}
         <GroupButton>
-          <Button type="button" variation="outlinePrimaryEdit" size="medium" onClick={onCloseModal}>
+          <Button type="button" variation="outlinePrimaryEdit" size="medium" onClick={clearFields}>
             Cancel
           </Button>
           <Button variation="primary" size="medium">
