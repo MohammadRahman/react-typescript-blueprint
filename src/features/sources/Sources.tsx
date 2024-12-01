@@ -24,11 +24,9 @@ type SourceFieldProps = {
 export const Sources = () => {
   
   const [editingSourceAccount, seteditingSourceAccount] = useState<CreateSourceFormProps["formData"] | null>(null);
-  // const {database, type} = useSourceType();
 
   const {connectionStr} = useConnectionStr()
 
-  console.log("connection str", connectionStr);
 
   const tableSectionRef = useRef<HTMLDivElement>(null);
   const formSectionRef = useRef<HTMLDivElement>(null);
