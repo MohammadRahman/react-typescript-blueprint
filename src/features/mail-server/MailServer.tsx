@@ -70,7 +70,7 @@ export const MailServer = () => {
   useEffect(()=> {
     emailLists(formattedValues)
   },[])
-// if(emailData?.isLoading) return <h1>Loading...</h1>
+
 return (
     <StyledMailServer>
       <StyledContainer ref={formSectionRef}>
