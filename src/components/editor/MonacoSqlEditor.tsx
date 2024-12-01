@@ -68,7 +68,7 @@ const SQLQueryEditor = ({ setShowEditor, query, setQuery }: SQLQueryEditorProps)
   };
 
     return createPortal(
-    <div style={{ position: "absolute", top: "33%", left: "30%", width: "30rem" }}>
+    <div style={{ position: "absolute",zIndex: 1000,  top: "33%", left: "30%", width: "40rem", height: '50rem' }}>
       {isEditorVisible && (
         <>
         <EditorWrapper>
@@ -83,7 +83,7 @@ const SQLQueryEditor = ({ setShowEditor, query, setQuery }: SQLQueryEditorProps)
         />
          <CloseButton onClick={handleCloseEditor}>×</CloseButton>
         <div style={{ position:'absolute', right: '0', bottom: '0', display: "flex", gap: "0.5rem", background:"blue" }}>
-            <button >Save</button>
+            <button type="button" onClick={handleCloseEditor}>Save</button>
         </div>
       </EditorWrapper>
       </>

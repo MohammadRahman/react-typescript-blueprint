@@ -96,7 +96,7 @@ export const Queries = () => {
     createQuery({
       version: 0,
       id: queryId,
-      sourceId: uuidv4(),
+      sourceId: "85a96352-2648-4d83-ad15-7a7a375ba3cd",
       name: values.name,
       body: query
     })
