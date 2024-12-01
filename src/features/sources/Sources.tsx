@@ -6,6 +6,9 @@ import {  DEFAULT_SOURCE_FILTER } from "@constants/source";
 import { StyledContainer, StyledSource } from "./source.styles";
 import CreateSourceForm, { CreateSourceFormProps } from "./CreateSourceForm";
 import { useConnectionStr, useSourceType } from "@context/ConnectionStringContext";
+import ReactTable from "@components/table/ReactTable";
+import { COLUMNS } from "@constants/table";
+import MOCK_DATA from '@constants/MOCK_DATA.json';
 
 type SourceFieldProps = {
   name: string | "";
@@ -68,6 +71,9 @@ export const Sources = () => {
       <StyledContainer ref={tableSectionRef}>
           <SourceTable isLoading={isLoading} onEdit={handleEditClick}/>
       </StyledContainer>
+      {/* <StyledContainer>
+        <ReactTable tableColumns={COLUMNS} tableData={MOCK_DATA}/>
+      </StyledContainer> */}
     </StyledSource>
   );
 };
