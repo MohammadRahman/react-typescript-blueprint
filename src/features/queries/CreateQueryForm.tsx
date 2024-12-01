@@ -93,7 +93,7 @@ const CreateQueryForm = ({formData = {}, onCloseModal}: CreateQueryFormProps) =>
       }
 
     return (
-    <Form onSubmit={handleSubmit(submitHandler)}>
+    <Form onSubmit={handleSubmit(submitHandler)} style={{minWidth: '100%'}}>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "1rem", marginBottom: "1rem" }}>
           <StyledCheckBoxContainer>
           <FormRowVertical label="Name" error={errors.name?.message}>
