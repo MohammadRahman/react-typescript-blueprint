@@ -10,7 +10,6 @@ export function useUpdateQuery(){
     const { mutate: updateQueryData, isPending: isUpdating } = useMutation({
         mutationKey: ['QueryData'],
         mutationFn: async (data: QueryPayload)=> {
-            console.log("data for update", data);
             const response = await queryApi.updateQuery(data)
             return response.data;
         },

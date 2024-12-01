@@ -9,6 +9,7 @@ import { SingleSelect } from "@components/select";
 import { useForm } from "react-hook-form";
 import { useCreateEmailTemplate } from "./useCreateEmailTemplate";
 import { useUpdateTemplate } from "./useUpdateTemplate";
+import {v4 as uuidv4}  from 'uuid';
 
 const selectOptions = [
   {
@@ -52,7 +53,7 @@ export const NewTemplateForm = ({ templateToEdit = {}, onCloseModal }: NewTempla
   const {updateTemplate} = useUpdateTemplate();
 
   const { id, ...updateValues } = templateToEdit;
-  const isUpdateSession = Boolean(templateToEdit);
+  const isUpdateSession = Boolean(id);
   // const isWorking = isCreating || isEditing;
   const {createTemplate} = useCreateEmailTemplate();
   const {
@@ -64,17 +65,38 @@ export const NewTemplateForm = ({ templateToEdit = {}, onCloseModal }: NewTempla
   } = useForm<FormValues>({ defaultValues: isUpdateSession ? updateValues : {} });
 
   function handleCreateTemplateSubmit(values: any) {
+    const templateId = uuidv4()
+    const formatedValues = {
+      version: 0,
+      id: templateId,
+      name: values.name,
+      queryId: "6e49f603-93f1-4af4-a4ca-240188928259",
+      to: values.to,
+      subject: values.subject,
+      body: values.body
+    }
     if(isUpdateSession){
-      updateTemplate({...values,id,queryId: "c6d9babb-2f45-445f-95b8-5a7ee8af3f8f"})
+        updateTemplate({
+          id: templateToEdit.id,
+          version: 0,
+          name: values.name,
+          queryId: "6e49f603-93f1-4af4-a4ca-240188928259",
+          to: values.to,
+          subject: values.subject,
+          body: values.body
+        },{onSuccess: ()=> {
+          reset();
+          onCloseModal?.();
+        }})
     }else{
-      createTemplate({...values, queryId: "c6d9babb-2f45-445f-95b8-5a7ee8af3f8f"},{
+      createTemplate(formatedValues,{
         onSuccess: ()=> {
           reset();
           onCloseModal?.();
         }
-      });
+      }); 
     }
-    
+      
   }
   return (
     <div style={{paddingTop: "1rem", paddingLeft: '6rem'}}>

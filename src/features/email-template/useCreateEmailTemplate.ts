@@ -12,6 +12,7 @@ export function useCreateEmailTemplate() {
     const {mutate: createTemplate, isPending: isCreating} = useMutation({
         mutationKey: ['Template'],
         mutationFn: async(data: any)=>{
+          console.log("data received in hook", data);
             try {
                 const response = await templateApi.createNewTemplate(data);
                 return response.data;

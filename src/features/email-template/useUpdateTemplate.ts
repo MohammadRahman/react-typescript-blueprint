@@ -10,7 +10,7 @@ export function useUpdateTemplate(){
     const { mutate: updateTemplate, isPending: isUpdating } = useMutation({
         mutationKey: ['SourceAccount'],
         mutationFn: async (data: any)=> {
-            console.log("payload in update source", data);
+            // console.log("payload in update source", data);
             const response = await templateApi.updateTemplate( data);
             return response.data;
         },
