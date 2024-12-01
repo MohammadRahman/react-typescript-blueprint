@@ -1,6 +1,7 @@
 import { CreateEmailAccountPayload, EmailType, ImapPort, SecurityProtocol, SmtpPort } from "@apis/email-account";
 import { v4 as uuidv4 } from 'uuid';
 import { useEffect, useState } from "react";
+import { useCreateEmailAccount } from "./useCreateEmailAccount";
 import Form from "@components/form/Form";
 import { Row } from "@components/row";
 import styled from "styled-components";
@@ -10,9 +11,8 @@ import Input from "@components/form/Input";
 import { SingleSelect } from "@components/select";
 import Button from "@components/button/Button";
 import { useUpdateEmailAccount } from "./useUpdateEmailAccount";
-import { HiMiniChevronDown, HiMiniChevronUp } from "react-icons/hi2";
-import { useCreateEmailAccount } from "./useCreateEmailAccount";
 import Spinner from "@components/spinner/Spinner";
+import { HiMiniChevronDown, HiMiniChevronUp, HiOutlineEye, HiOutlineEyeSlash } from "react-icons/hi2";
 
 
 const StyledBoxContainer = styled.div`
@@ -175,8 +175,8 @@ const CreateMailServerForm = ({formData = {}, onCloseModal}: CreateMailServerFor
     return ()=> localStorage.removeItem("EmailAccountValues")
   }, [reset]);
 
-  if (isLoading) return <Spinner/>
-  
+  if(isLoading) return <Spinner />
+
   return (
     <StyledContainer>
     <Form type="regular" onSubmit={handleSubmit(createEmailFormHandler)}>
@@ -246,7 +246,7 @@ const CreateMailServerForm = ({formData = {}, onCloseModal}: CreateMailServerFor
         </div>
       )}
         <GroupButton>
-          <Button type="button" variation="outlinePrimaryEdit" size="medium" onClick={onCloseModal}>
+          <Button type="button" variation="outlinePrimaryEdit" size="medium" onClick={clearFields}>
             Cancel
           </Button>
           <Button variation="primary" size="medium">
