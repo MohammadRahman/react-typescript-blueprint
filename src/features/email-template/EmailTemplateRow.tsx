@@ -3,60 +3,52 @@ import { Table } from "@components/table";
 import { HiOutlinePencil, HiOutlineTrash } from "react-icons/hi2";
 import { RiAttachmentLine } from "react-icons/ri";
 import { NewTemplateForm } from "./NewTemplateForm";
+import { formatString } from "@utils/helper";
+import ButtonIcon from "@components/button-icons/ButtonIcon";
+import ConfirmDelete from "@components/delete-confirmation/ConfirmDelete";
+import {useDeleteTemplate} from "./useDeleteTemplate";
 
 interface EmailTemplateRowProps{
   data: {
+    id: string;
     name: string;
-    template: string;
-    description: string;
+    subject: string;
+    body: string;
     source: string;
   }
 }
 
 export const EmailTemplateRow = ({ data }: EmailTemplateRowProps) => {
+  const {deleteTemplate ,isLoading} = useDeleteTemplate();
   return (
     <Table.Row>
       <div>{data.name}</div>
-      <div>{data.template}</div>
-      <div>{data.description}</div>
+      <div>{data.subject}</div>
+      <div>{formatString(data.body)}</div>
       <div>{data.source ? data.source : <RiAttachmentLine color="#04AA61" />}</div>
       <div style={{ display: "flex", gap: "1rem" }}>
         <Modal>
           <Modal.Open opens="email-template">
-            <div
-              style={{
-                backgroundColor: "#04AA61",
-                width: "32px",
-                height: "32px",
-                borderRadius: "50%",
-                color: "white",
-                alignItems: "center",
-                justifyContent: "center",
-                display: "flex",
-              }}
-            >
-              <Modal.Open opens="delteWindow">
-                <HiOutlinePencil size={15} />
-              </Modal.Open>
-            </div>
-          </Modal.Open>
+                <ButtonIcon variation="square" type="edit">
+                  <HiOutlinePencil />
+                </ButtonIcon>
+              </Modal.Open> 
           <Modal.Window name="email-template">
             <NewTemplateForm templateToEdit={data} />
           </Modal.Window>
-        </Modal>
-        <div
-          style={{
-            width: "32px",
-            height: "32px",
-            borderRadius: "50%",
-            alignItems: "center",
-            justifyContent: "center",
-            display: "flex",
-            border: "2px solid #F9F9FB",
-          }}
-        >
+        <Modal.Open opens="deleteTemplate">
+        <ButtonIcon variation="square" type="delete">
           <HiOutlineTrash size={15} />
-        </div>
+        </ButtonIcon>
+        </Modal.Open>
+        <Modal.Window name="deleteTemplate" type="delete">
+            <ConfirmDelete 
+               resourceName={data.name} 
+               isLoading={isLoading}
+               onConfirm={()=> deleteTemplate(data.id)}  
+            />
+        </Modal.Window>
+        </Modal>
       </div>
     </Table.Row>
   );

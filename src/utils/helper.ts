@@ -10,7 +10,9 @@ type Database = {
 type ConnectionStrProps = {
     database: Database;
 }
-
+export function formatString(input: string) {
+    return input.replace(/<\/?[^>]+(>|$)/g, "").trim();
+}
 export function formatConnectionStr({database}: ConnectionStrProps){
     
     const {type, username, password, host, databaseName, port} = database;

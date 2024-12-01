@@ -35,8 +35,8 @@ export const QueryRow = ({ rowData, onEdit, isLoading }: QueryRowProps) => {
         Show Data
       </Button>
       <StyledActionButtonsContainer>
-          <ButtonIcon variation="square" type="edit">
-              <HiOutlinePencil onClick={()=> onEdit(rowData)}/>
+          <ButtonIcon variation="square" type="edit" onClick={()=> onEdit(rowData)}>
+              <HiOutlinePencil />
           </ButtonIcon>
           <Modal>
             <Modal.Open opens="deleteSource">

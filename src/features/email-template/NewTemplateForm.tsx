@@ -7,6 +7,9 @@ import { RichText } from "@components/rich-text/RichText";
 import { Row } from "@components/row";
 import { SingleSelect } from "@components/select";
 import { useForm } from "react-hook-form";
+import { useCreateEmailTemplate } from "./useCreateEmailTemplate";
+import { useUpdateTemplate } from "./useUpdateTemplate";
+import {v4 as uuidv4}  from 'uuid';
 
 const selectOptions = [
   {
@@ -23,56 +26,106 @@ const selectOptions = [
   },
 ];
 interface FormValues {
+  id?: string;
   name: string;
-  dataSource: string;
+  subject: string;
   template: string;
-  description: string;
+  body: string;
+  queryId?: string;
+  to?: string;
 }
 interface TemplateProps {
-  id?: number;
+  id?: string;
   name?: string;
-  dataSource?: string;
+  subject?: string;
   template?: string;
-  description?: string;
+  body?: string;
+  queryId?: string;
+  to?: string;
 }
 type NewTemplateFormProps = {
   templateToEdit?: TemplateProps;
   onCloseModal?: () => void;
 };
 export const NewTemplateForm = ({ templateToEdit = {}, onCloseModal }: NewTemplateFormProps) => {
-  // const { isCreating } = useCreateEmailTemplate();
-  // const { isEditing } = useUpdateEmailTemplate();
+
+  const {updateTemplate} = useUpdateTemplate();
 
   const { id, ...updateValues } = templateToEdit;
-  const isUpdateSession = Boolean(templateToEdit);
-  // const isWorking = isCreating || isEditing;
-
+  const isUpdateSession = Boolean(id);
+  const {createTemplate} = useCreateEmailTemplate();
   const {
     register,
     handleSubmit,
     formState: { errors },
     control,
+    reset
   } = useForm<FormValues>({ defaultValues: isUpdateSession ? updateValues : {} });
 
   function handleCreateTemplateSubmit(values: any) {
-    console.log("create email template values", values);
+    const templateId = uuidv4()
+    const formatedValues = {
+      version: 0,
+      id: templateId,
+      name: values.name,
+      queryId: "6e49f603-93f1-4af4-a4ca-240188928259",
+      to: values.to,
+      subject: values.subject,
+      body: values.body
+    }
+    if(isUpdateSession){
+        updateTemplate({
+          id: templateToEdit.id,
+          version: 0,
+          name: values.name,
+          queryId: "6e49f603-93f1-4af4-a4ca-240188928259",
+          to: values.to,
+          subject: values.subject,
+          body: values.body
+        },{onSuccess: ()=> {
+          reset();
+          onCloseModal?.();
+        }})
+    }else{
+      createTemplate(formatedValues,{
+        onSuccess: ()=> {
+          reset();
+          onCloseModal?.();
+        }
+      }); 
+    }
+      
   }
   return (
-    <>
-      <Form onSubmit={handleSubmit(handleCreateTemplateSubmit)}>
+    <div style={{paddingTop: "1rem", paddingLeft: '6rem'}}>
+      <Form onSubmit={handleSubmit(handleCreateTemplateSubmit)} type="modal">
         <span style={{ paddingBottom: "1rem" }}>&larr; Create New Email Template</span>
         <div style={{ width: "90%" }}>
+          <div style={{display: 'flex', justifyContent: 'space-between', width:'100%'}}>
+            <div style={{width: '49%'}}>
           <FormRowVertical label="Name" error={errors.name?.message}>
             <Input placeholder="Type here" {...register("name")} />
           </FormRowVertical>
-          <FormRowVertical label="Select data for source" error={errors.dataSource?.message}>
-            <SingleSelect name="dataSource" control={control} options={selectOptions} />
+          </div>
+          </div>
+          <div style={{display: 'flex', justifyContent: 'space-between', width:'100%'}}>
+            <div style={{width: '49%'}}>
+          <FormRowVertical label="To" error={errors.to?.message}>
+            <Input placeholder="Type here" {...register("to")} />
           </FormRowVertical>
-          <FormRowVertical label="Subject" error={errors.template?.message}>
-            <Input placeholder="Subject" {...register("template")} />
+          </div>
+          <div style={{width: '49%'}}>
+          <FormRowVertical label="Query" error={errors.queryId?.message}>
+            <SingleSelect name="queryId" control={control} options={selectOptions} />
           </FormRowVertical>
-          <FormRowVertical label="Description" error={errors.description?.message}>
-            <RichText name="description" control={control} />
+          </div>
+          </div>
+         
+          <FormRowVertical label="Subject" error={errors.subject?.message}>
+            <Input placeholder="Subject" {...register("subject")} />
+          </FormRowVertical>
+          <FormRowVertical label="body" error={errors.body?.message}>
+            <RichText name="body" control={control} />
           </FormRowVertical>
           <div style={{ paddingTop: "1rem", paddingBottom: "2rem" }}>
             <Row type="horizontal">
@@ -85,6 +138,6 @@ export const NewTemplateForm = ({ templateToEdit = {}, onCloseModal }: NewTempla
           </div>
         </div>
       </Form>
-    </>
+    </div>
   );
 };
