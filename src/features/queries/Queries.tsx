@@ -14,7 +14,7 @@ import CreateQueryForm from "./CreateQueryForm";
       {
         propertyName: "name",
         sign: 0, // Assuming `sign` means "equals"
-        value: "Test",
+        value: "Query 1",
       },
     ],
     orders: [
@@ -48,9 +48,14 @@ export const Queries = () => {
   };
   
   const handleEditClick = (accountData: any) => {
-    console.log("accountdAta",accountData);
-    setEditingEmailAccount(accountData); // Set the data to edit
+    setEditingEmailAccount(accountData); 
   };
+
+useEffect(()=>{
+  if(editingEmailAccount && formSectionRef.current){
+    formSectionRef.current.scrollIntoView({ behavior: "smooth" });
+  }
+},[editingEmailAccount])
 
   useEffect(()=>{
     queryLists(formattedValues);
@@ -58,7 +63,7 @@ export const Queries = () => {
 
   return (
     <StyledQueries>
-      <StyledContainer>
+      <StyledContainer ref={formSectionRef}>
         <span>&larr; New Query</span>
         <StyledContainer ref={formSectionRef}>
           {editingEmailAccount 

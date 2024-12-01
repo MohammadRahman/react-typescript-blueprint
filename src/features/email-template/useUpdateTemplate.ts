@@ -1,23 +1,24 @@
-import { queryApi, QueryPayload } from "@apis/query";
-import { usequeryData } from "@context/QueryContext";
+import { templateApi } from "@apis/email-template";
+import { useTemplateData } from "@context/TemplateContext";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 
-export function useUpdateQuery(){
+export function useUpdateTemplate(){
     const queryClient = useQueryClient();
-    const {setQueryData} = usequeryData();
+    const {setTemplateData} = useTemplateData();
 
-    const { mutate: updateQueryData, isPending: isUpdating } = useMutation({
-        mutationKey: ['QueryData'],
-        mutationFn: async (data: QueryPayload)=> {
-            const response = await queryApi.updateQuery(data)
+    const { mutate: updateTemplate, isPending: isUpdating } = useMutation({
+        mutationKey: ['SourceAccount'],
+        mutationFn: async (data: any)=> {
+            // console.log("payload in update source", data);
+            const response = await templateApi.updateTemplate( data);
             return response.data;
         },
         onSuccess: (updatedAccount)=> {
             toast.success("update successful.")
-            queryClient.invalidateQueries({queryKey: ['QueryData']})
+            queryClient.invalidateQueries({queryKey: ['SourceAccount']})
             
-            setQueryData((prevData)=> {
+            setTemplateData((prevData)=> {
                 if(!prevData) return null;
 
                 const updatedList = prevData.list.map((ac)=> (
@@ -34,5 +35,5 @@ export function useUpdateQuery(){
             toast.error(error.message)
         }
     })
-    return {updateQueryData, isUpdating}
+    return {updateTemplate, isUpdating}
 }

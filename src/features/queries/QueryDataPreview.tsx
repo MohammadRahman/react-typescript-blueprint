@@ -1,10 +1,15 @@
 import Heading from '@components/heading/Heading'
 
+type QueryDataPreviewProps = {
+  data: any;
+}
 const QueryDataPreview = () => {
+ 
   return (
     <>
           <Heading as="h2">Show data preview</Heading>
           <p style={{ paddingTop: "1rem" }}>
+            
             Lorem ipsum dolor sit amet consectetur, adipisicing elit. Repellendus ad reiciendis
             voluptates? Facere quae dignissimos magni, at unde doloremque aliquam voluptatum eius in
             culpa laboriosam dolores incidunt aspernatur nostrum reiciendis! Lorem ipsum dolor sit
