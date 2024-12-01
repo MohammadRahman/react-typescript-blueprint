@@ -12,7 +12,6 @@ type SourceTableProps = {
 const SourceTable = ({ onEdit, isLoading }:SourceTableProps) => {
     // const sourceData = getSourceMock();
     const {sourceData} = useSourceData();
-    
   return (
     <Table columns="5fr 4fr 4fr 3fr">
           <Table.Header>
