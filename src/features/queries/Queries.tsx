@@ -48,8 +48,7 @@ export const Queries = () => {
   };
   
   const handleEditClick = (accountData: any) => {
-    console.log("accountdAta",accountData);
-    setEditingEmailAccount(accountData); // Set the data to edit
+    setEditingEmailAccount(accountData); 
   };
 
 useEffect(()=>{
@@ -75,7 +74,7 @@ useEffect(()=>{
           {!editingEmailAccount && <CreateQueryForm />}
       </StyledContainer>
         <StyledTextContainer>
-            <QueryDataPreview data={editingEmailAccount?.body || ""}/>
+            <QueryDataPreview />
         </StyledTextContainer>
       </StyledContainer>
       <StyledContainer>

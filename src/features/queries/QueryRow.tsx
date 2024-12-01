@@ -31,12 +31,12 @@ export const QueryRow = ({ rowData, onEdit, isLoading }: QueryRowProps) => {
       <div>{rowData.body && rowData.body ? "Yes" : "-"}</div>
       <div>{rowData.sourceId && rowData.sourceId ? "Yes" : "-"}</div>
       <div style={{display:'flex', gap:'1rem'}}>
-      <Button variation="outlinePrimary" type="small" onClick={()=> onEdit(rowData)}>
+      <Button variation="outlinePrimary" type="small">
         Show Data
       </Button>
       <StyledActionButtonsContainer>
-          <ButtonIcon variation="square" type="edit">
-              <HiOutlinePencil onClick={()=> onEdit(rowData)}/>
+          <ButtonIcon variation="square" type="edit" onClick={()=> onEdit(rowData)}>
+              <HiOutlinePencil />
           </ButtonIcon>
           <Modal>
             <Modal.Open opens="deleteSource">

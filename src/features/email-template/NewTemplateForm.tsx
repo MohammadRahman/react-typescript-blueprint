@@ -48,13 +48,11 @@ type NewTemplateFormProps = {
   onCloseModal?: () => void;
 };
 export const NewTemplateForm = ({ templateToEdit = {}, onCloseModal }: NewTemplateFormProps) => {
-  // const { isCreating } = useCreateEmailTemplate();
-  // const { isEditing } = useUpdateEmailTemplate();
+
   const {updateTemplate} = useUpdateTemplate();
 
   const { id, ...updateValues } = templateToEdit;
   const isUpdateSession = Boolean(id);
-  // const isWorking = isCreating || isEditing;
   const {createTemplate} = useCreateEmailTemplate();
   const {
     register,
