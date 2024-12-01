@@ -10,7 +10,7 @@ function createSourceAccount(emailBody: CreateSourceAccountPayload){
 function getSourceLists(paginationProperties: SearchParamsProps, signal?: AbortSignal){
     return sourceService.post(SOURCE_ACCOUNT_FILTER_LIST, paginationProperties, {signal});
 }
-function updateSourceAccount(emailBody: CreateSourceAccountPayload){
+function updateTemplateData(emailBody: CreateSourceAccountPayload){
     return sourceService.put(SOURCE_ACCOUNT, emailBody);
 }
 function deleteSourceAccount(id: string){
@@ -19,6 +19,6 @@ function deleteSourceAccount(id: string){
 export const sourceApi = {
     createSourceAccount,
     getSourceLists,
-    updateSourceAccount,
+    updateTemplateData,
     deleteSourceAccount
 }

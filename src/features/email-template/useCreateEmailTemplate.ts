@@ -5,12 +5,12 @@ import { AxiosError } from "axios";
 import toast from "react-hot-toast";
 
 export function useCreateEmailTemplate() {
+    
   const queryClient = useQueryClient();
-    // const {setSourceData} = useSourceData();
     const {setTemplateData} = useTemplateData();
 
-    const {mutate: createSource, isPending: isCreating} = useMutation({
-        mutationKey: ['Source'],
+    const {mutate: createTemplate, isPending: isCreating} = useMutation({
+        mutationKey: ['Template'],
         mutationFn: async(data: any)=>{
             try {
                 const response = await templateApi.createNewTemplate(data);
@@ -45,10 +45,10 @@ export function useCreateEmailTemplate() {
                   totalCount: prev.totalCount + 1,
                 };
               });
-            queryClient.invalidateQueries({ queryKey: ['Source'] });
-            toast.success("source created.")
+            queryClient.invalidateQueries({ queryKey: ['Template'] });
+            toast.success("Template created.")
         },
         onError: (error)=> {toast.error(error.message)}
     })
-    return {createSource, isCreating}
+    return {createTemplate, isCreating}
 }

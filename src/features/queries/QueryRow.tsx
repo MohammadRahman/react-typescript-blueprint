@@ -31,7 +31,7 @@ export const QueryRow = ({ rowData, onEdit, isLoading }: QueryRowProps) => {
       <div>{rowData.body && rowData.body ? "Yes" : "-"}</div>
       <div>{rowData.sourceId && rowData.sourceId ? "Yes" : "-"}</div>
       <div style={{display:'flex', gap:'1rem'}}>
-      <Button variation="outlinePrimary" type="small">
+      <Button variation="outlinePrimary" type="small" onClick={()=> onEdit(rowData)}>
         Show Data
       </Button>
       <StyledActionButtonsContainer>
