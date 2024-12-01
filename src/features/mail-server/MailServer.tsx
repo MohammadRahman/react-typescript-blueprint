@@ -71,6 +71,8 @@ export const MailServer = () => {
     emailLists(formattedValues)
   },[])
 
+// if(emailData?.isLoading) return <h1>Loading...</h1>
+
 return (
     <StyledMailServer>
       <StyledContainer ref={formSectionRef}>
@@ -82,7 +84,7 @@ return (
           {!editingEmailAccount && <CreateMailServerForm />}
       </StyledContainer>
       <StyledContainer ref={tableSectionRef}>
-          <EmailAccountTable onEdit={handleEditClick}/>
+          <EmailAccountTable status={emailData?.isLoading} onEdit={handleEditClick}/>
       </StyledContainer>
     </StyledMailServer>
   );
