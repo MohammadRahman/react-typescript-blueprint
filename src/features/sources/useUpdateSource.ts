@@ -10,8 +10,7 @@ export function useUpdateSourceAccount(){
     const { mutate: updateSourceAccount, isPending: isUpdating } = useMutation({
         mutationKey: ['SourceAccount'],
         mutationFn: async (data: any)=> {
-            console.log("payload in update source", data);
-            const response = await sourceApi.updateSourceAccount( data);
+            const response = await sourceApi.updateSourceData(data);
             return response.data;
         },
         onSuccess: (updatedAccount)=> {

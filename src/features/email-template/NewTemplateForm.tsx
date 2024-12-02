@@ -68,7 +68,7 @@ export const NewTemplateForm = ({ templateToEdit = {}, onCloseModal }: NewTempla
       version: 0,
       id: templateId,
       name: values.name,
-      queryId: "6e49f603-93f1-4af4-a4ca-240188928259",
+      queryId: import.meta.env.VITE_QUERY_ID,
       to: values.to,
       subject: values.subject,
       body: values.body
@@ -78,7 +78,7 @@ export const NewTemplateForm = ({ templateToEdit = {}, onCloseModal }: NewTempla
           id: templateToEdit.id,
           version: 0,
           name: values.name,
-          queryId: "6e49f603-93f1-4af4-a4ca-240188928259",
+          queryId: import.meta.env.VITE_QUERY_ID,
           to: values.to,
           subject: values.subject,
           body: values.body

@@ -67,7 +67,7 @@ const CreateQueryForm = ({formData = {}, onCloseModal}: CreateQueryFormProps) =>
           version: 0,
           id: formData.id || "",
           name: values?.name || "",
-          sourceId: "85a96352-2648-4d83-ad15-7a7a375ba3cd",
+          sourceId: import.meta.env.VITE_SOURCE_ID,
           body: values?.body || "",
         }
         if(isUpdateSession){
@@ -80,7 +80,7 @@ const CreateQueryForm = ({formData = {}, onCloseModal}: CreateQueryFormProps) =>
           createQuery({
             version: 0,
             id: queryId,
-            sourceId: "85a96352-2648-4d83-ad15-7a7a375ba3cd",
+            sourceId: import.meta.env.VITE_SOURCE_ID,
             name: values?.name,
             body: query
           }, {
