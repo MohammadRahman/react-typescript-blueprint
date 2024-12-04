@@ -9,6 +9,9 @@ import { useConnectionStr, useSourceType } from "@context/ConnectionStringContex
 import ReactTable from "@components/table/ReactTable";
 import { COLUMNS } from "@constants/table";
 import MOCK_DATA from '@constants/MOCK_DATA.json';
+import ResizableTable from "@components/table/ResponsiveTable";
+import { ColumnDef } from "@tanstack/react-table";
+import ActionButtons from "@components/action-button/ActionButtons";
 
 type SourceFieldProps = {
   name: string | "";
@@ -24,7 +27,6 @@ type SourceFieldProps = {
 export const Sources = () => {
   
   const [editingSourceAccount, seteditingSourceAccount] = useState<CreateSourceFormProps["formData"] | null>(null);
-  // const {database, type} = useSourceType();
 
   const {connectionStr} = useConnectionStr()
 
@@ -50,10 +52,10 @@ export const Sources = () => {
     }
   }, [editingSourceAccount]);
 
-  useEffect(() => {
-    sourceLists(DEFAULT_SOURCE_FILTER);
+   // Fetching the list on mount
+   useEffect(() => {
+      sourceLists(DEFAULT_SOURCE_FILTER)
   }, []);
-
   return (
     <StyledSource>
       <StyledContainer ref={formSectionRef}>
@@ -72,7 +74,6 @@ export const Sources = () => {
           <SourceTable isLoading={isLoading} onEdit={handleEditClick}/>
       </StyledContainer>
       <StyledContainer>
-        <ReactTable tableColumns={COLUMNS} tableData={MOCK_DATA}/>
       </StyledContainer>
     </StyledSource>
   );

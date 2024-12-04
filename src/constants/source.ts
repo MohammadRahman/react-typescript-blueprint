@@ -8,20 +8,6 @@ export const DATA_SOURCE_TYPES = [
     { label: "Excel", value: 7 },
   ];
   export const DEFAULT_SOURCE_FILTER = {
-    currentPage: 0,
-    pageSize: 20,
-    logicalOperator: 1,
-    filters: [
-      {
-        propertyName: "type",
-        sign: 0,
-        value: "1",
-      },
-    ],
-    orders: [
-      {
-        propertyName: "name",
-        isDescending: true,
-      },
-    ],
+    page: -1,
+    pazesize: -1
   };
