@@ -26,7 +26,7 @@ const StyledCheckbox = styled.div`
   } */
 `;
 type CheckBoxProps = {
-  checked: boolean;
+  checked: boolean | undefined;
   onChange: () => void;
   disabled?: boolean;
   id: string;
