@@ -1,5 +1,5 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-// import "./table.styles.css";
+import { useCallback, useEffect, useRef, useState } from "react";
+
 import {
   useReactTable,
   getCoreRowModel,
@@ -60,19 +60,7 @@ const ResizableTable = <TData extends object>({ data, columns, searchProperty, i
   const handleChange = (e: any) => {
     setSearchProps(e.target.value);
   };
-  // Filtered Data
-  // const handleSearchQuery = () => {
-  //   if (searchProps && searchProperty) {
-  //     const result = data.filter((item: any) =>
-  //       String(item[searchProperty])
-  //         .toLowerCase()
-  //         .includes(searchProps.toLowerCase())
-  //     );
-  //     setFilteredData(result);
-  //   } else {
-  //     setFilteredData(data);
-  //   }
-  // };
+
   const handleSearchQuery = useCallback(() => {
     if (searchProps.trim() && searchProperty) {
       const result = data.filter((item: any) =>
@@ -236,156 +224,11 @@ const ResizableTable = <TData extends object>({ data, columns, searchProperty, i
           </StyledTable>
         </div>
       </div>
-
-      {/* Pagination */}
       <Table.Footer>
         <Pagination count={data.length} />
       </Table.Footer>
-      {/* <div style={{ marginTop: "1rem", display: "flex", justifyContent: "space-between" }}>
-        <button
-          onClick={() => table.previousPage()}
-          disabled={!table.getCanPreviousPage()}
-          style={{ padding: "0.5rem 1rem" }}
-        >
-          Previous
-        </button>
-        <span>
-          Page {table.getState().pagination.pageIndex + 1} of {table.getPageCount()}
-        </span>
-        <button
-          onClick={() => table.nextPage()}
-          disabled={!table.getCanNextPage()}
-          style={{ padding: "0.5rem 1rem" }}
-        >
-          Next
-        </button>
-      </div> */}
     </div>
   );
 };
 
 export default ResizableTable;
-
-// import { useState } from "react";
-// import {
-//   useReactTable,
-//   getCoreRowModel,
-//   getFilteredRowModel,
-//   getSortedRowModel,
-//   ColumnResizeMode,
-//   flexRender,
-//   ColumnDef,
-// } from "@tanstack/react-table";
-
-// type TableProps<TData extends object> = {
-//   data: TData[];
-//   columns: ColumnDef<TData, any>[];
-// };
-
-// const ResizableTable = <TData extends object>({ data, columns }: TableProps<TData>) => {
-//   const [columnVisibility, setColumnVisibility] = useState({});
-//   const [columnResizeMode, setColumnResizeMode] = useState<ColumnResizeMode>("onChange");
-//   const [columnSizing, setColumnSizing] = useState({});
-
-//   const table = useReactTable({
-//     data,
-//     columns,
-//     state: {
-//       columnVisibility,
-//       columnSizing,
-//     },
-//     onColumnVisibilityChange: setColumnVisibility,
-//     onColumnSizingChange: setColumnSizing,
-//     columnResizeMode,
-//     getCoreRowModel: getCoreRowModel(),
-//     getFilteredRowModel: getFilteredRowModel(),
-//     getSortedRowModel: getSortedRowModel(),
-//   });
-
-//   return (
-//     <div>
-//       {/* Column Visibility Controls */}
-//       <div style={{ marginBottom: "1rem" }}>
-//         <h4>Toggle Columns</h4>
-//         {table.getAllColumns().map((column) => (
-//           <label key={column.id} style={{ marginRight: "1rem" }}>
-//             <input
-//               type="checkbox"
-//               checked={column.getIsVisible()}
-//               onChange={() => column.toggleVisibility(!column.getIsVisible())}
-//             />{" "}
-//             {column.id}
-//           </label>
-//         ))}
-//       </div>
-//       <div style={{ overflowX: "auto" }}>
-//         <table
-//           style={{
-//             borderCollapse: "collapse",
-//             width: "100%",
-//           }}
-//         >
-//           <thead>
-//             {table.getHeaderGroups().map((headerGroup) => (
-//               <tr key={headerGroup.id}>
-//                 {headerGroup.headers.map((header) => (
-//                   <th
-//                     key={header.id}
-//                     colSpan={header.colSpan}
-//                     style={{
-//                       border: "1px solid black",
-//                       padding: "0.5rem",
-//                       position: "relative",
-//                       width: header.getSize(),
-//                     }}
-//                   >
-//                     {header.isPlaceholder
-//                       ? null
-//                       : flexRender(header.column.columnDef.header, header.getContext())}
-//                     {header.column.getCanResize() && (
-//                       <div
-//                         {...{
-//                           onMouseDown: header.getResizeHandler(),
-//                           onTouchStart: header.getResizeHandler(),
-//                           style: {
-//                             position: "absolute",
-//                             right: 0,
-//                             top: 0,
-//                             bottom: 0,
-//                             width: "5px",
-//                             cursor: "col-resize",
-//                             userSelect: "none",
-//                             touchAction: "none",
-//                           },
-//                         }}
-//                       />
-//                     )}
-//                   </th>
-//                 ))}
-//               </tr>
-//             ))}
-//           </thead>
-//           <tbody>
-//             {table.getRowModel().rows.map((row) => (
-//               <tr key={row.id}>
-//                 {row.getVisibleCells().map((cell) => (
-//                   <td
-//                     key={cell.id}
-//                     style={{
-//                       border: "1px solid black",
-//                       padding: "0.5rem",
-//                     }}
-//                   >
-//                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
-//                   </td>
-//                 ))}
-//               </tr>
-//             ))}
-//           </tbody>
-//         </table>
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default ResizableTable;
