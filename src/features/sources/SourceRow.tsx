@@ -26,7 +26,7 @@ interface SourceRowProps {
 export const SourceRow = ({ rowData, onEdit, isLoading }: SourceRowProps) => {
 
   const {deleteAccount, isLoading: isDeleting} = useDelete();
-
+  
   const statusToTagName = {
     1: "green-Success",
     2: "red-Failed",
@@ -45,8 +45,8 @@ if(isLoading) return <Spinner/>
       {/* </Tag> */}
       <div></div>
       <StyledActionButtonsContainer>
-          <ButtonIcon variation="square" type="edit">
-              <HiOutlinePencil onClick={()=> onEdit(rowData)}/>
+          <ButtonIcon variation="square" type="edit" onClick={()=> onEdit(rowData)}>
+              <HiOutlinePencil />
           </ButtonIcon>
           <Modal>
             <Modal.Open opens="deleteSource">
