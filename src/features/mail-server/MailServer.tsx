@@ -22,22 +22,8 @@ const StyledContainer = styled.div`
 `;
 
 const formattedValues = {
-  currentPage: 0,
-  pageSize: 20,
-  logicalOperator: 1,
-  filters: [
-    {
-      propertyName: "type",
-      sign: 0, // Assuming `sign` means "equals"
-      value: "1",
-    },
-  ],
-  orders: [
-    {
-      propertyName: "email",
-      isDescending: true,
-    },
-  ],
+  page: -1,
+  pagesize: -1
 };
 
 export const MailServer = () => {
@@ -70,8 +56,6 @@ export const MailServer = () => {
   useEffect(()=> {
     emailLists(formattedValues)
   },[])
-
-// if(emailData?.isLoading) return <h1>Loading...</h1>
 
 return (
     <StyledMailServer>

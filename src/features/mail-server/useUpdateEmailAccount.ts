@@ -10,6 +10,7 @@ export function useUpdateEmailAccount(){
     const { mutate: updateEmailAccount, isPending: isUpdating } = useMutation({
         mutationKey: ['EmailAccount'],
         mutationFn: async ({id, data}: {id: string, data: Omit<CreateEmailAccountPayload, "id">})=> {
+            console.log("update session", {id, data})
             const response = await emailAccountApi.upDateEmailAccount(id, data)
             return response.data;
         },
