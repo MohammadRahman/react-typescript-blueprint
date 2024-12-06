@@ -119,7 +119,6 @@ export type CreateMailServerFormProps = {
 const CreateMailServerForm = ({formData = {}, onCloseModal}: CreateMailServerFormProps) => {
     
   const [showAdvanceOptions, setShowAdvanceOptions] = useState(false);
-  const [showPassword, setShowPassword] = useState(false)
   const {updateEmailAccount, isUpdating} = useUpdateEmailAccount();
 
     const {id, ...otherProps} = formData;

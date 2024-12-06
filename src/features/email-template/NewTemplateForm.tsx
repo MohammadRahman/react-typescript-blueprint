@@ -10,21 +10,8 @@ import { useForm } from "react-hook-form";
 import { useCreateEmailTemplate } from "./useCreateEmailTemplate";
 import { useUpdateTemplate } from "./useUpdateTemplate";
 import {v4 as uuidv4}  from 'uuid';
+import { usequeryData } from "@context/QueryContext";
 
-const selectOptions = [
-  {
-    label: "data source 1",
-    value: "1",
-  },
-  {
-    label: "data source 1",
-    value: "2",
-  },
-  {
-    label: "data source 1",
-    value: "3",
-  },
-];
 interface FormValues {
   id?: string;
   name: string;
@@ -50,6 +37,12 @@ type NewTemplateFormProps = {
 export const NewTemplateForm = ({ templateToEdit = {}, onCloseModal }: NewTemplateFormProps) => {
 
   const {updateTemplate} = useUpdateTemplate();
+    const {queryData} = usequeryData();
+
+const queryLists = queryData?.list.map(({id, name})=>({
+    label: name,
+    value: id
+}))
 
   const { id, ...updateValues } = templateToEdit;
   const isUpdateSession = Boolean(id);
@@ -68,7 +61,7 @@ export const NewTemplateForm = ({ templateToEdit = {}, onCloseModal }: NewTempla
       version: 0,
       id: templateId,
       name: values.name,
-      queryId: import.meta.env.VITE_QUERY_ID,
+      queryId: values.queryId,
       to: values.to,
       subject: values.subject,
       body: values.body
@@ -78,7 +71,7 @@ export const NewTemplateForm = ({ templateToEdit = {}, onCloseModal }: NewTempla
           id: templateToEdit.id,
           version: 0,
           name: values.name,
-          queryId: import.meta.env.VITE_QUERY_ID,
+          queryId: values.queryId,
           to: values.to,
           subject: values.subject,
           body: values.body
@@ -116,7 +109,7 @@ export const NewTemplateForm = ({ templateToEdit = {}, onCloseModal }: NewTempla
           </div>
           <div style={{width: '49%'}}>
           <FormRowVertical label="Query" error={errors.queryId?.message}>
-            <SingleSelect name="queryId" control={control} options={selectOptions} />
+            <SingleSelect name="queryId" control={control} options={queryLists || []} />
           </FormRowVertical>
           </div>
           </div>

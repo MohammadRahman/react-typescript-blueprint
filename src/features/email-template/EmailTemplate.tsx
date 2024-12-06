@@ -2,15 +2,14 @@ import ButtonGroup from "@components/button-group/ButtonGroup";
 import Button from "@components/button/Button";
 import { Row } from "@components/row";
 import { Search } from "@components/search/Search";
-import { Table } from "@components/table";
 import { HiOutlineDocumentText, HiOutlinePlus } from "react-icons/hi2";
 import styled from "styled-components";
-import { EmailTemplateRow } from "./EmailTemplateRow";
 import { Modal } from "@components/modal";
 import { NewTemplateForm } from "./NewTemplateForm";
-import { useTemplateData } from "@context/TemplateContext";
 import { useEmailTemplate } from "./useEmailTemplate";
-import { useEffect, useRef } from "react";
+import { useEffect} from "react";
+import TemplateTable from "./TemplateTable";
+import { useQueryData } from "@features/queries/useQueryData";
 
 const StyledEmailTemplate = styled.div`
   display: flex;
@@ -20,41 +19,26 @@ const StyledEmailTemplate = styled.div`
 `;
 
 const formattedValues = {
-  currentPage: 0,
-  pageSize: 20,
-  logicalOperator: 1,
-  filters: [
-    {
-      propertyName: "subject",
-      sign: 0, // Assuming `sign` means "equals"
-      value: "Test Template",
-    },
-  ],
-  orders: [
-    {
-      propertyName: "name",
-      isDescending: true,
-    },
-  ],
+ page: -1,
+ pagesize: -1
 };
 
 export const EmailTemplate = () => {
-  // const emailTemplates = emailTemplateMock();
-  const {template} = useTemplateData();
-  const {templateLists} = useEmailTemplate()
+  
+  const {templateLists} = useEmailTemplate();
 
-  console.log("template Lists", template?.list);
-
-
+  const {queryLists} = useQueryData();
   useEffect(()=>{
     templateLists(formattedValues)
   },[])
+
+  useEffect(()=>{
+    queryLists(formattedValues)
+  },[])
+
   return (
     <StyledEmailTemplate>
-      <Row type="horizontal">
-        <div>
-          <Search onChange={()=> console.log("")}/>
-        </div>
+      <Row type="horizontal" style={{justifyContent: 'flex-end'}}>
         <ButtonGroup>
           <Button variation="outline" size="medium">
             <HiOutlineDocumentText />
@@ -73,19 +57,7 @@ export const EmailTemplate = () => {
           </Modal>
         </ButtonGroup>
       </Row>
-      <Table columns="1fr 1fr 3.5fr 0.8fr 1fr">
-        <Table.Header>
-          <div>Name</div>
-          <div>Template Name</div>
-          <div>Description</div>
-          <div>Source</div>
-          <div>Action</div>
-        </Table.Header>
-        <Table.Body data={template?.list || []} render={(template: any) => 
-          <EmailTemplateRow key={template.id} data={template} />
-        } 
-          />
-      </Table>
+      <TemplateTable/>
     </StyledEmailTemplate>
   );
 };

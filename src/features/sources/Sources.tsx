@@ -9,6 +9,9 @@ import { useConnectionStr, useSourceType } from "@context/ConnectionStringContex
 import ReactTable from "@components/table/ReactTable";
 import { COLUMNS } from "@constants/table";
 import MOCK_DATA from '@constants/MOCK_DATA.json';
+import ResizableTable from "@components/table/ResponsiveTable";
+import { ColumnDef } from "@tanstack/react-table";
+import ActionButtons from "@components/action-button/ActionButtons";
 
 type SourceFieldProps = {
   name: string | "";
@@ -27,14 +30,13 @@ export const Sources = () => {
 
   const {connectionStr} = useConnectionStr()
 
-
   const tableSectionRef = useRef<HTMLDivElement>(null);
   const formSectionRef = useRef<HTMLDivElement>(null);
   
   const { sourceLists, isLoading } = useSourceLists(); 
 
   const handleEditClick = (accountData: CreateSourceFormProps["formData"]) => {
-    seteditingSourceAccount(accountData); // Set the data to edit
+    seteditingSourceAccount(accountData);
   };
 
   const handleCloseForm = () => {
@@ -48,10 +50,10 @@ export const Sources = () => {
     }
   }, [editingSourceAccount]);
 
-  useEffect(() => {
-    sourceLists(DEFAULT_SOURCE_FILTER);
+   // Fetching the list on mount
+   useEffect(() => {
+      sourceLists(DEFAULT_SOURCE_FILTER)
   }, []);
-
   return (
     <StyledSource>
       <StyledContainer ref={formSectionRef}>
@@ -69,9 +71,8 @@ export const Sources = () => {
       <StyledContainer ref={tableSectionRef}>
           <SourceTable isLoading={isLoading} onEdit={handleEditClick}/>
       </StyledContainer>
-      {/* <StyledContainer>
-        <ReactTable tableColumns={COLUMNS} tableData={MOCK_DATA}/>
-      </StyledContainer> */}
+      <StyledContainer>
+      </StyledContainer>
     </StyledSource>
   );
 };

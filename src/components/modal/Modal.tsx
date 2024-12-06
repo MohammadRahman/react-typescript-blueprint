@@ -115,7 +115,7 @@ function Window({ children, name, type }: ModalWindowProps) {
         <StyledButton onClick={close}>
           <HiXMark />
         </StyledButton>
-        <div>{cloneElement(children as any, { onCloseModal: close })}</div>
+        <div style={{display: 'flex', justifyContent:'center', alignItems: 'center'}}>{cloneElement(children as any, { onCloseModal: close })}</div>
       </StyledModalWindow>
     </Overlay>,
     document.body

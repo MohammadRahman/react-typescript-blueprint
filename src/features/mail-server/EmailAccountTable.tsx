@@ -11,6 +11,10 @@ import toast from "react-hot-toast"
 import { CreateMailServerFormProps } from "./CreateMailServerForm"
 import { useSearchParams } from "react-router-dom"
 import styled from "styled-components"
+import ResizableTable from "@components/table/ResponsiveTable"
+import ActionButtons from "@components/action-button/ActionButtons"
+import { ColumnDef } from "@tanstack/react-table"
+import { useDelete } from "./useDelete"
 
 
 type FilterValues = {
@@ -57,7 +61,7 @@ const EmailAccountTable = ({onEdit, status}: EmailAccountTableProps) => {
     const isSingleSearch = filterValue.email || filterValue.displayName || filterValue.imapEmail
     
 
-    
+    const {deleteAccount} = useDelete();
 
     useEffect(() => {
       if (isSingleSearch) {
@@ -157,78 +161,181 @@ function onIMAPEmailChange(e: ChangeEvent<HTMLInputElement>){
   })
 }
 
-
-  return (
-    <Table columns="1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr">
-    <Table.Header>
-      <StyledTableHeader>ID</StyledTableHeader>
-      <StyledTableHeader>
-        Type <HiArrowDown style={{cursor: 'pointer'}}/>
-      </StyledTableHeader>
-      <StyledTableHeader>SMTP port</StyledTableHeader>
-      <StyledTableHeader>
-        Name <HiArrowDown style={{cursor: 'pointer'}}/>
-      </StyledTableHeader>
-     
-      <StyledTableHeader>S. Protocol</StyledTableHeader>
-
-      <StyledTableHeader>
-        Email <HiArrowDown style={{cursor: 'pointer'}}/>
-      </StyledTableHeader>
-      <StyledTableHeader>IMAP address</StyledTableHeader>
-      <StyledTableHeader>IMAP Port</StyledTableHeader>
-      <StyledTableHeader>
-        IMAP Email <HiArrowDown />
-      </StyledTableHeader>
-      <StyledTableHeader>Actions</StyledTableHeader>
-    </Table.Header>
-    <Table.Header>
-      <div></div>
-      <div style={{display: 'flex',alignItems: 'center', cursor: 'pointer'}}>
-        <Input
-        name="type" 
-        onChange={onTypeChange} 
-        style={{width: '80px', overflow: 'hidden', overflowY: 'scroll', padding: '7px'}} placeholder="Type"
-        /> 
-        <MdOutlineFilterList size={20} onClick={handleTypeSortsAndFilter}/>
-      </div>
-      <div></div>
-      <div style={{display: 'flex', alignItems: 'center',cursor: 'pointer'}}>
-        <Input name="displayName" style={{width: '80px', overflow: 'hidden', overflowY: 'scroll', padding: '7px'}}
-         placeholder="Name"
-        onChange={onDisplayChange}
-        /> 
-        <MdOutlineFilterList size={20} onClick={handleTypeSortsAndFilter}/>
-        </div>
-      <div></div>
-     
-        <div style={{display: 'flex', alignItems: 'center',cursor: 'pointer'}}>
-        <Input name="email" style={{width: '80px', overflow: 'hidden', overflowY: 'scroll', padding: '7px'}} placeholder="Email"
-        onChange={onEmailChange}
-        /> 
-        <MdOutlineFilterList size={20} onClick={handleTypeSortsAndFilter}/>
-      </div>
-      
-      <div></div>
-      <div></div>
-      <div>
-      <Input name="imapEmail" style={{width: '80px', overflow: 'hidden', overflowY: 'scroll', padding: '7px'}} placeholder="IMAP email"
-      onChange={onIMAPEmailChange}
+const columns: ColumnDef<any>[] = [
+  {
+    accessorKey: "formatedId", // Matches the "id" field in the payload
+    header: "ID",
+    size: 150,
+  },
+  {
+    accessorKey: "type", // Matches the "type" field in the payload
+    header: "Type",
+    accessorFn: (row) =>
+      row.type === 1 ? "Standard" : row.type === 2 ? "PEC" : "REM", // Map `1` to `Primary`, other values to `Secondary`
+    size: 100,
+  },
+  {
+    accessorKey: "email", // Matches the "email" field in the payload
+    header: "Email",
+    size: 200,
+  },
+  {
+    accessorKey: "displayName", // Matches the "displayName" field
+    header: "Name",
+    size: 150,
+  },
+  {
+    accessorKey: "smtpAddress", // Matches the "smtpAddress" field
+    header: "SMTP A.",
+    size: 150,
+  },
+  {
+    accessorKey: "smtpPort", // Matches the "smtpPort" field
+    header: "SMTP p.",
+    size: 150,
+  },
+  {
+    accessorKey: "securityProtocol", // Matches the "securityProtocol" field
+    header: "Protocl",
+    accessorFn: (row) =>
+      row.securityProtocol === 1 ? "TLS" : "SSL", // Map `1` to `TLS`, other values to `Unknown`
+    size: 150,
+  },
+  {
+    accessorKey: "imapAddress", // Matches the "imapAddress" field
+    header: "IMAP A.",
+    size: 150,
+  },
+  {
+    accessorKey: "imapEmail", // Matches the "imapEmail" field
+    header: "IMAP Email",
+    size: 200,
+  },
+  {
+    accessorKey: "imapPort", // Matches the "imapPort" field
+    header: "IMAP P",
+    size: 150,
+  },
+    // Hidden fields in table but available for edit functionality
+    {
+      accessorKey: "password",
+      header: "",
+      size: 0,
+      cell: ()=> null
+    },
+    {
+      accessorKey: "imapPassword",
+      header: "",
+      size: 0,
+      cell: ()=> null
+    },
+  {
+    id: "actions", // Custom column for actions
+    header: "Action",
+    cell: ({ row }) => (
+      <ActionButtons
+        onEdit={(values) => onEdit(values)} 
+        isLoading={false}
+        data={row.original}
+        deleteAccount={() => deleteAccount(row.original.id)}
       />
-      <MdOutlineFilterList size={20} onClick={handleTypeSortsAndFilter}/>
-      </div>
-      <div></div>
-    </Table.Header>
-    <Table.Body
-      data={paginatedData || []}
-      isLoading={isLoading}
-      render={(el: any) => <MailServerRow key={el.id} isLoading={status} rowData={el} onEdit={onEdit} />}
-    />
-    <Table.Footer>
-        <Pagination count={emailData?.list?.length || 0}/>
-    </Table.Footer>
-  </Table>
+    ),
+    size: 200,
+  },
+];
+
+
+const tableData = (emailData?.list || []).map((item) => ({
+  id: item.id,
+  formatedId: item.id.split("-")[0],
+  type: item.type,
+  email:  item.email,
+  displayName:  item.displayName,
+  smtpAddress: item.smtpAddress,
+  smtpPort:  item.smtpPort,
+  securityProtocol: item.securityProtocol,
+  imapAddress: item.imapAddress,
+  imapEmail: item.imapEmail,
+  imapPort: item.imapPort,
+  password: item.password,
+  imapPassword:item.imapPassword
+}));
+
+  return(
+    <ResizableTable searchProperty={["email", "displayName", "imapEmail"]} isLoading={status} columns={columns} data={tableData}/>
   )
+
+  // return (
+  //   <Table columns="1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr">
+  //   <Table.Header>
+  //     <StyledTableHeader>ID</StyledTableHeader>
+  //     <StyledTableHeader>
+  //       Type <HiArrowDown style={{cursor: 'pointer'}}/>
+  //     </StyledTableHeader>
+  //     <StyledTableHeader>SMTP port</StyledTableHeader>
+  //     <StyledTableHeader>
+  //       Name <HiArrowDown style={{cursor: 'pointer'}}/>
+  //     </StyledTableHeader>
+     
+  //     <StyledTableHeader>S. Protocol</StyledTableHeader>
+
+  //     <StyledTableHeader>
+  //       Email <HiArrowDown style={{cursor: 'pointer'}}/>
+  //     </StyledTableHeader>
+  //     <StyledTableHeader>IMAP address</StyledTableHeader>
+  //     <StyledTableHeader>IMAP Port</StyledTableHeader>
+  //     <StyledTableHeader>
+  //       IMAP Email <HiArrowDown />
+  //     </StyledTableHeader>
+  //     <StyledTableHeader>Actions</StyledTableHeader>
+  //   </Table.Header>
+  //   <Table.Header>
+  //     <div></div>
+  //     <div style={{display: 'flex',alignItems: 'center', cursor: 'pointer'}}>
+  //       <Input
+  //       name="type" 
+  //       onChange={onTypeChange} 
+  //       style={{width: '80px', overflow: 'hidden', overflowY: 'scroll', padding: '7px'}} placeholder="Type"
+  //       /> 
+  //       <MdOutlineFilterList size={20} onClick={handleTypeSortsAndFilter}/>
+  //     </div>
+  //     <div></div>
+  //     <div style={{display: 'flex', alignItems: 'center',cursor: 'pointer'}}>
+  //       <Input name="displayName" style={{width: '80px', overflow: 'hidden', overflowY: 'scroll', padding: '7px'}}
+  //        placeholder="Name"
+  //       onChange={onDisplayChange}
+  //       /> 
+  //       <MdOutlineFilterList size={20} onClick={handleTypeSortsAndFilter}/>
+  //       </div>
+  //     <div></div>
+     
+  //       <div style={{display: 'flex', alignItems: 'center',cursor: 'pointer'}}>
+  //       <Input name="email" style={{width: '80px', overflow: 'hidden', overflowY: 'scroll', padding: '7px'}} placeholder="Email"
+  //       onChange={onEmailChange}
+  //       /> 
+  //       <MdOutlineFilterList size={20} onClick={handleTypeSortsAndFilter}/>
+  //     </div>
+      
+  //     <div></div>
+  //     <div></div>
+  //     <div>
+  //     <Input name="imapEmail" style={{width: '80px', overflow: 'hidden', overflowY: 'scroll', padding: '7px'}} placeholder="IMAP email"
+  //     onChange={onIMAPEmailChange}
+  //     />
+  //     <MdOutlineFilterList size={20} onClick={handleTypeSortsAndFilter}/>
+  //     </div>
+  //     <div></div>
+  //   </Table.Header>
+  //   <Table.Body
+  //     data={paginatedData || []}
+  //     isLoading={isLoading}
+  //     render={(el: any) => <MailServerRow key={el.id} isLoading={status} rowData={el} onEdit={onEdit} />}
+  //   />
+  //   <Table.Footer>
+  //       <Pagination count={emailData?.list?.length || 0}/>
+  //   </Table.Footer>
+  // </Table>
+  // )
 }
 
 export default EmailAccountTable

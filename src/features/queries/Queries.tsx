@@ -5,24 +5,12 @@ import QueryTable from "./QueryTable";
 import { useQueryData } from "./useQueryData";
 import { usequeryData } from "@context/QueryContext";
 import CreateQueryForm from "./CreateQueryForm";
+import { useSourceLists } from "@features/sources/useSourceLists";
+import { useSourceData } from "@context/SourceContext";
 
  const formattedValues = {
-    currentPage: 0,
-    pageSize: 20,
-    logicalOperator: 1,
-    filters: [
-      {
-        propertyName: "name",
-        sign: 0, // Assuming `sign` means "equals"
-        value: "Query 1",
-      },
-    ],
-    orders: [
-      {
-        propertyName: "name",
-        isDescending: true,
-      },
-    ],
+    page: -1,
+    pazesize: -1
   };
   export type updateQueryDataProps = {
     formData?: {
@@ -37,9 +25,16 @@ import CreateQueryForm from "./CreateQueryForm";
 }
 export const Queries = () => {
 
+  const { sourceLists } = useSourceLists(); 
   const {queryLists } = useQueryData();
   const {queryData} = usequeryData();
   const [editingEmailAccount, setEditingEmailAccount] = useState<updateQueryDataProps['formData'] | null>(null);
+
+  const {sourceData} = useSourceData()
+
+  // const {sourceData} = useSourceData();
+
+  console.log("sourceData", sourceData);
 
   const formSectionRef = useRef<HTMLDivElement>(null);
 
@@ -59,6 +54,9 @@ useEffect(()=>{
 
   useEffect(()=>{
     queryLists(formattedValues);
+  },[])
+  useEffect(()=>{
+    sourceLists(formattedValues);
   },[])
 
   return (

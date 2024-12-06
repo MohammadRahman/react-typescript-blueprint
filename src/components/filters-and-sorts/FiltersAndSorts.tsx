@@ -3,15 +3,17 @@ import Form from "@components/form/Form";
 import FormRowVertical from "@components/form/FormRowVertical";
 import Input from "@components/form/Input";
 import { SingleSelect } from "@components/select";
+import SpinnerMini from "@components/spinner/SpinnerMini";
 import { useEmailAccount } from "@features/mail-server/useEmailAccount";
 import { useForm } from "react-hook-form";
-import { useSearchParams } from "react-router-dom";
 import styled from "styled-components";
 
 const StyledFiltersAndSorts = styled.div`
   display: flex;
   flex-direction: column;
   gap: 2rem;
+  padding: 1rem;
+  border: 1px solid var(--color-grey-100);
 `;
 // const StyledContainer = styled.div`
 //   width: 100%;
@@ -148,7 +150,7 @@ const FiltersAndSorts = () => {
         emailLists(formatedValues)
     }
 
-    if(isLoading) return <h1>Loading...</h1>
+    if(isLoading) return <SpinnerMini />
 
   return (
     <StyledFiltersAndSorts>  
