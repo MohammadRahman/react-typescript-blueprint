@@ -9,6 +9,7 @@ export function useDelete() {
     const {mutate: deleteAccount, isPending: isLoading} = useMutation({
         mutationFn: async (id: string)=> {
             const response = await emailAccountApi.deleteEmailAccount(id);
+            console.log("id received", id);
             return response.data;
         },
         onSuccess: (_, id: string)=> {

@@ -11,8 +11,7 @@ import { useEffect, useState } from "react"
 import { DATA_SOURCE_TYPES } from "@constants/source"
 import FileInput from "@components/form/FileInput"
 import { useUpdateSourceAccount } from "./useUpdateSource"
-import { useConnectionStr, useSourceType } from "@context/ConnectionStringContext"
-import { useDebounce } from "./useHandleConnectionStr"
+import { useConnectionStr } from "@context/ConnectionStringContext"
 import { formatConnectionStr } from "@utils/helper"
 
 type SourceFieldProps = {
@@ -58,6 +57,7 @@ const CreateSourceForm = ({formData= {database: {}},onCloseModal }: CreateSource
     const {updateSourceAccount, isUpdating} = useUpdateSourceAccount()
     
     const {setConnectionString} = useConnectionStr();
+  
 
     const {id, ...otherProps} = formData;
 
@@ -195,7 +195,6 @@ const dbProps = {
             break;
         }
       }, [watchValue.name, watchValue.type, isUpdateSession]);
-      
   return (
     <Form onSubmit={handleSubmit(handletypeForm)} style={{ all: "unset" }}>
           <FormContainer>

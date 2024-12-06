@@ -11,17 +11,20 @@ import Button from '@components/button/Button'
 import { useForm } from 'react-hook-form'
 import { useCreateQuery } from './useCreateQuery'
 import {v4 as uuidv4} from 'uuid';
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useUpdateQuery } from './useUpdateQuery'
 import { QueryPayload } from '@apis/query'
+import { useSourceData } from '@context/SourceContext'
+import { useSourceLists } from '@features/sources/useSourceLists'
+import { DEFAULT_SOURCE_FILTER } from '@constants/source'
 
 
-const sources = [
-    {
-      label: "source-1",
-      value: "source-1"
-    }
-  ]
+// const sources = [
+//     {
+//       label: "source-1",
+//       value: "source-1"
+//     }
+//   ]
   export type CreateQueryFormProps = {
     formData?: {
         version?: number; 
@@ -38,8 +41,13 @@ const CreateQueryForm = ({formData = {}, onCloseModal}: CreateQueryFormProps) =>
     const isUpdateSession = Boolean(id)
     const { updateQueryData, isUpdating } = useUpdateQuery();
     const [query, setQuery] = useState(isUpdateSession ?formData.body : "");
+    const {sourceLists} = useSourceLists()
+    const {sourceData} = useSourceData();
     
-    const [dataSource, setDataSource] = useState(!!formData.sourceId);
+
+    console.log("sourceData", sourceData?.list);
+    
+  const [dataSource, setDataSource] = useState(!!formData.sourceId);
   const [databaseConnection, setDatabaseConnection] = useState(false);
   const [sqlQuery, setSqlQuery] = useState(!!formData.body);
   const [showEditor, setShowEditor] = useState(false);
@@ -47,6 +55,11 @@ const CreateQueryForm = ({formData = {}, onCloseModal}: CreateQueryFormProps) =>
     const {createQuery} = useCreateQuery();
 
 
+
+    const sources = sourceData?.list.map((source) => ({
+      label: source.name, // Assign the source name to the label
+      value: source.id,   // Assign the source ID to the value
+    }));
 
     const {control, reset, register, formState:{errors}, handleSubmit} = useForm({
         defaultValues: isUpdateSession ? formData : {}
@@ -67,7 +80,7 @@ const CreateQueryForm = ({formData = {}, onCloseModal}: CreateQueryFormProps) =>
           version: 0,
           id: formData.id || "",
           name: values?.name || "",
-          sourceId: "85a96352-2648-4d83-ad15-7a7a375ba3cd",
+          sourceId: values?.sourceId || "",
           body: values?.body || "",
         }
         if(isUpdateSession){
@@ -80,7 +93,7 @@ const CreateQueryForm = ({formData = {}, onCloseModal}: CreateQueryFormProps) =>
           createQuery({
             version: 0,
             id: queryId,
-            sourceId: "85a96352-2648-4d83-ad15-7a7a375ba3cd",
+            sourceId: values?.sourceId,
             name: values?.name,
             body: query
           }, {
@@ -91,6 +104,10 @@ const CreateQueryForm = ({formData = {}, onCloseModal}: CreateQueryFormProps) =>
         }
         
       }
+
+useEffect(()=>{
+  sourceLists(DEFAULT_SOURCE_FILTER);
+},[])
 
     return (
     <Form onSubmit={handleSubmit(submitHandler)} style={{minWidth: '100%'}}>
@@ -114,7 +131,7 @@ const CreateQueryForm = ({formData = {}, onCloseModal}: CreateQueryFormProps) =>
             </StyledCheckbox>
             {dataSource && (
                  <HiddenContent isVisible={dataSource || isUpdateSession} style={{ paddingTop: '1rem', paddingBottom: '1rem', position: 'absolute'}}>
-                    <SingleSelect name="sourceId" control={control} options={sources}/>
+                    <SingleSelect name="sourceId" control={control} options={sources || []}/>
                 </HiddenContent>
             )}            
             </FormRowVertical>
@@ -184,17 +201,3 @@ const CreateQueryForm = ({formData = {}, onCloseModal}: CreateQueryFormProps) =>
 }
 
 export default CreateQueryForm;
-
- {/* { (sqlQuery && showEditor)&&(
-              <SQLQueryEditor 
-              setShowEditor={setShowEditor} 
-              query={query} 
-              setQuery={setQuery}
-              />
-            )} */}
-
-{/* { (sqlQuery && !showEditor) &&(
-              <div style={{position: 'absolute', right: '1rem'}}>
-                <HiOutlineEye type="button" onClick={()=> setShowEditor(true)}/>
-              </div>
-            )} */}

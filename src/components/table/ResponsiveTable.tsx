@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 import {
   useReactTable,
@@ -9,33 +9,53 @@ import {
   flexRender,
   ColumnDef,
   PaginationState,
+  ColumnFiltersState
 } from "@tanstack/react-table";
 import { Table } from "./Table";
 import { Pagination } from "@components/pagination";
 import { Row } from "@components/row";
 import Input from "@components/form/Input";
 import Button from "@components/button/Button";
-import { HiOutlineCog8Tooth } from "react-icons/hi2";
+import { HiOutlineCog8Tooth, HiOutlineMagnifyingGlass } from "react-icons/hi2";
 import { CiFilter } from "react-icons/ci";
 import Dropdown from "@components/dropdown/Dropdown";
 import Checkbox from "@components/form/CheckBox";
 import Spinner from "@components/spinner/Spinner";
-import { Empty, StyledBody, StyledHeader, StyledRow, StyledTable, StyledTh } from "./table.styles";
+import { Empty, EmptyWrapper, InputWrapper, StyledBody, StyledHeader, StyledRow, StyledTable, StyledTh } from "./table.styles";
+import styled from "styled-components";
+import TableEmptyState from "./EmptyTableState";
+import { RiH2 } from "react-icons/ri";
+import FiltersAndSorts from "@components/filters-and-sorts/FiltersAndSorts";
+import { Filter } from "@components/filters-and-sorts/Filter";
+
+
+export const SearchIcon = styled(HiOutlineMagnifyingGlass)`
+  position: absolute;
+  left: 10px;
+  color: gray; /* Adjust color */
+  pointer-events: none; /* Prevent interaction with the icon */
+`;
+const StyledInput = styled(Input)`
+padding-left: 2.5rem;
+  &:focus {
+    box-shadow: 0 0 3px rgba(0, 123, 255, 0.5);
+  }
+`
 
 type TableProps<TData extends object> = {
   data: TData[];
   columns: ColumnDef<TData, any>[];
   isLoading?: boolean;
-  searchProperty?: string;
+  searchProperty?: string | string[];
 };
 
 const ResizableTable = <TData extends object>({ data, columns, searchProperty, isLoading }: TableProps<TData>) => {
   const [searchProps, setSearchProps] = useState("");
   const [filteredData, setFilteredData] = useState(data);
-
-
-  console.log("seacrh text", searchProps);
- 
+const [showFilter,setShowFilter] = useState(false);
+const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>(
+  []
+)
   const [columnVisibility, setColumnVisibility] = useState({});
   const [columnResizeMode, setColumnResizeMode] = useState<ColumnResizeMode>("onChange");
   const [columnSizing, setColumnSizing] = useState({});
@@ -57,35 +77,52 @@ const ResizableTable = <TData extends object>({ data, columns, searchProperty, i
     }
     setColumnToggler(prev => !prev);
   };
-  const handleChange = (e: any) => {
+  const handleSearchChange = (e: any) => {
     setSearchProps(e.target.value);
   };
 
+  // handleMultiple searchProperty
   const handleSearchQuery = useCallback(() => {
-    if (searchProps.trim() && searchProperty) {
+    if (searchProps.trim()) {
+      // Convert searchProperty to an array if it's a single string
+      const propertiesToSearch = Array.isArray(searchProperty)
+        ? searchProperty
+        : [searchProperty];
+  
+      // Filter data based on multiple properties
       const result = data.filter((item: any) =>
-        String(item[searchProperty])
-          .toLowerCase()
-          .includes(searchProps.toLowerCase())
+        propertiesToSearch.some((property: any) =>
+          String(item[property] || "")
+            .toLowerCase()
+            .includes(searchProps.toLowerCase())
+        )
       );
       setFilteredData(result);
     } else {
-      setFilteredData(data); // Reset to all data if search is cleared
+      setFilteredData(data);
     }
   }, [searchProps, searchProperty, data]);
-
-  // Trigger search query when `searchProps` changes
   useEffect(() => {
     handleSearchQuery();
   }, [searchProps, handleSearchQuery]);
+
+  const currentData = useMemo(() => {
+    const start = pagination.pageIndex * pagination.pageSize;
+    const end = start + pagination.pageSize;
+    return filteredData.slice(start, end);
+  }, [filteredData, pagination.pageIndex, pagination.pageSize]);
+
   const table = useReactTable({
-    data:filteredData,
+    data: currentData,
     columns,
+    filterFns: {},
     state: {
+      pagination,
       columnVisibility,
       columnSizing,
-      pagination,
+      columnFilters,
     },
+    onColumnFiltersChange: setColumnFilters,
     onColumnVisibilityChange: setColumnVisibility,
     onColumnSizingChange: setColumnSizing,
     onPaginationChange: setPagination,
@@ -93,9 +130,8 @@ const ResizableTable = <TData extends object>({ data, columns, searchProperty, i
     getCoreRowModel: getCoreRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
     getSortedRowModel: getSortedRowModel(),
-    pageCount: Math.ceil(data.length / pagination.pageSize),
+    manualPagination: true
   });
-
 
   // Sync filteredData with data whenever data changes
   useEffect(() => {
@@ -104,17 +140,30 @@ const ResizableTable = <TData extends object>({ data, columns, searchProperty, i
 
   if (isLoading) return <Spinner />;
 
-  return (
+  const placeHolder = Array.isArray(searchProperty)
+  ? `Search by ${searchProperty.join(", ")}`
+  : `Search by ${searchProperty}`;
+
+  
+return (
     <div>
       <div style={{ position: "relative" }}>
         <Row type="horizontal" style={{ paddingBottom: "3rem" }}>
-          <div style={{ display: "flex", gap: "1rem" }}>
-            <Input onChange={handleChange} value={searchProps} placeholder="email or name" />
-            <Button type="button" onClick={handleSearchQuery}>search</Button>
-          </div>
+          <InputWrapper>
+            <SearchIcon />
+            <StyledInput style={{overflowX: 'scroll', whiteSpace: 'nowrap'}} onChange={handleSearchChange} value={searchProps} placeholder={placeHolder} />
+            <div style={{marginLeft: '1rem', display: 'flex', alignItems: 'center'}}>
+              <CiFilter size={24} onClick={()=> setShowFilter(prev=> !prev)}/>
+          {showFilter && (
+            <div style={{marginLeft: '2rem'}}>
+                <FiltersAndSorts />
+            </div>
+          )}
+            </div>
+          </InputWrapper>
+          
           <div>
             <HiOutlineCog8Tooth size={24} onClick={handleToggleDropdown} />
-            <CiFilter size={24} />
           </div>
           {columnToggler && (
             <Dropdown>
@@ -157,20 +206,14 @@ const ResizableTable = <TData extends object>({ data, columns, searchProperty, i
                       key={header.id}
                       colSpan={header.colSpan}
                       width={header.getSize()}
-                      // style={{
-                      //   padding: '1rem',
-                      //   position: "relative",                   
-                        // width: header.getSize(),
-                      // }}
                     >
+
                       {header.isPlaceholder
                         ? null
                         : flexRender(header.column.columnDef.header, header.getContext())}
                       {header.column.getCanResize() && (
                         <div
                           {...{
-                            // onMouseDown: header.getResizeHandler(),
-                            // onTouchStart: header.getResizeHandler(),
                             onMouseDown: e => {
                               header.getResizeHandler()(e);
                               e.currentTarget.style.backgroundColor = "rgba(0, 0, 0, 0.1)"; // Highlight during resize
@@ -195,16 +238,27 @@ const ResizableTable = <TData extends object>({ data, columns, searchProperty, i
                             onMouseLeave: e =>
                               //   (e.currentTarget.style.backgroundColor = "rgba(0, 0, 0, 0.1)"),
                               (e.currentTarget.style.backgroundColor = "transparent"),
-                          }}
+                            }}
+                          
                         />
                       )}
+                      {/* {header.column.getCanFilter() ? (
+                            <div>
+                              <Filter filterVariant={''} column={header.column} />
+                            </div>
+                      ) : null} */}
                     </StyledTh>
                   ))}
                 </tr>
               ))}
             </StyledHeader>
             <StyledBody>
-              {filteredData.length === 0 && <Empty>Nothing to show</Empty>}
+              {filteredData.length === 0 &&
+               (
+                <TableEmptyState message="Nothing to show" colSpan={columns.length} />
+              )
+               
+               }
               {table.getRowModel().rows.map(row => (
                 <StyledRow key={row.id}>
                   {row.getVisibleCells().map(cell => (
@@ -225,8 +279,11 @@ const ResizableTable = <TData extends object>({ data, columns, searchProperty, i
         </div>
       </div>
       <Table.Footer>
-        <Pagination count={data.length} />
-      </Table.Footer>
+      <Pagination 
+      count={filteredData.length}
+      tableI={table}
+      />
+  </Table.Footer>
     </div>
   );
 };

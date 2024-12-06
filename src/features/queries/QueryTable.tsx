@@ -2,19 +2,25 @@ import { usequeryData } from '@context/QueryContext'
 import ResizableTable from '@components/table/ResponsiveTable';
 import { ColumnDef } from '@tanstack/react-table';
 import ActionButtons from '@components/action-button/ActionButtons';
+import { useDeleteQuery } from './useDeleteQuery';
 
 type QueryTableProps = {
   onEdit:(data: any)=> void;
   status: boolean | undefined;
 }
-
 const QueryTable = ({onEdit, status: isLoading}:QueryTableProps) => {
     
   const {queryData} = usequeryData();
+  const {deleteQuery} = useDeleteQuery()
 
-  console.log("query data", queryData?.list);
 
     const columns: ColumnDef<any>[] = [
+      {
+        accessorKey: "id", // Matches top-level "name"
+        header: "",
+        size: 0,
+        cell: ()=> null
+      },
       {
         accessorKey: "name", // Matches top-level "name"
         header: "Sources",
@@ -37,10 +43,10 @@ const QueryTable = ({onEdit, status: isLoading}:QueryTableProps) => {
         header: "Action",
         cell: ({ row }) => (
           <ActionButtons
-            onEdit={(values) => console.log("Edit:", values)} // Replace with actual handler
+            onEdit={(values) => onEdit(values)} // Replace with actual handler
             isLoading={false} // Adjust based on your loading state
             data={row.original} // Pass the row data
-            deleteAccount={(id) => console.log("Delete:", id)} // Replace with actual handler
+            deleteAccount={() => deleteQuery(row.original.originalId)} // Replace with actual handler
           />
         ),
         size: 200,
@@ -51,12 +57,13 @@ const QueryTable = ({onEdit, status: isLoading}:QueryTableProps) => {
   
   
     const tableData = (queryData?.list || []).map((item) => ({
-      id: item.id.split("-")[0],
+      id: item.id,
+      formatedId: item.id.split("-")[0],
       name: item.name,
-      sourceType:  item.type,
-      host: item.database?.host || "N/A",
+      sourceId:  item.sourceId,
+      body: item.body,
     }));
-  
+
       return(
         <ResizableTable searchProperty="name" isLoading={isLoading} columns={columns} data={tableData}/>
       )

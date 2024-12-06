@@ -30,15 +30,13 @@ export const Sources = () => {
 
   const {connectionStr} = useConnectionStr()
 
-  console.log("connection str", connectionStr);
-
   const tableSectionRef = useRef<HTMLDivElement>(null);
   const formSectionRef = useRef<HTMLDivElement>(null);
   
   const { sourceLists, isLoading } = useSourceLists(); 
 
   const handleEditClick = (accountData: CreateSourceFormProps["formData"]) => {
-    seteditingSourceAccount(accountData); // Set the data to edit
+    seteditingSourceAccount(accountData);
   };
 
   const handleCloseForm = () => {
