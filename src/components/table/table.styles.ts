@@ -1,7 +1,6 @@
 import styled from "styled-components";
 
 export const StyledTable = styled.table`
-
   border-collapse: collapse;
   width: 100%;
   border: 1px solid var(--color-grey-200);
@@ -9,8 +8,7 @@ export const StyledTable = styled.table`
   background-color: var(--color-grey-0);
   border-radius: 7px;
   overflow: hidden;
-
-`
+`;
 export const StyledHeader = styled.thead`
   /* padding: 1.6rem 2.4rem;
   background-color: var(--color-grey-50);
@@ -27,10 +25,10 @@ export const StyledHeader = styled.thead`
   font-weight: 400;
   color: var(--color-grey-600);
 
-  &:hover{
+  &:hover {
     border-right: 1px solid black;
   }
-  &:focus{
+  &:focus {
     border-right: 1px solid var(--color-grey-100);
   }
 `;
@@ -44,7 +42,7 @@ export const StyledTh = styled.th<StyledThProps>`
   width: ${({ width }: { width: number }) => `${width}px`};
 
   &:hover {
-    border-right: 1px solid #007bff; 
+    border-right: 1px solid #007bff;
   }
 
   div {
@@ -68,7 +66,7 @@ export const StyledRow = styled.tr`
   &:not(:last-child) {
     border-bottom: 1px solid var(--color-grey-100);
   }
-  &:hover{
+  &:hover {
     cursor: pointer;
     background-color: var(--color-grey-100);
   }
@@ -86,10 +84,10 @@ export const StyledBody = styled.tbody`
   position: relative;
 `;
 export const StyledPagination = styled.div`
-width: 100%;
-display: flex;
-align-items: center;
-justify-content: space-between;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 `;
 export const P = styled.p`
   font-size: 1.4rem;

@@ -9,7 +9,7 @@ import {
   flexRender,
   ColumnDef,
   PaginationState,
-  ColumnFiltersState
+  ColumnFiltersState,
 } from "@tanstack/react-table";
 import { Table } from "./Table";
 import { Pagination } from "@components/pagination";
@@ -21,13 +21,21 @@ import { CiFilter } from "react-icons/ci";
 import Dropdown from "@components/dropdown/Dropdown";
 import Checkbox from "@components/form/CheckBox";
 import Spinner from "@components/spinner/Spinner";
-import { Empty, EmptyWrapper, InputWrapper, StyledBody, StyledHeader, StyledRow, StyledTable, StyledTh } from "./table.styles";
+import {
+  Empty,
+  EmptyWrapper,
+  InputWrapper,
+  StyledBody,
+  StyledHeader,
+  StyledRow,
+  StyledTable,
+  StyledTh,
+} from "./table.styles";
 import styled from "styled-components";
 import TableEmptyState from "./EmptyTableState";
 import { RiH2 } from "react-icons/ri";
 import FiltersAndSorts from "@components/filters-and-sorts/FiltersAndSorts";
 import { Filter } from "@components/filters-and-sorts/Filter";
-
 
 export const SearchIcon = styled(HiOutlineMagnifyingGlass)`
   position: absolute;
@@ -36,11 +44,11 @@ export const SearchIcon = styled(HiOutlineMagnifyingGlass)`
   pointer-events: none; /* Prevent interaction with the icon */
 `;
 const StyledInput = styled(Input)`
-padding-left: 2.5rem;
+  padding-left: 2.5rem;
   &:focus {
     box-shadow: 0 0 3px rgba(0, 123, 255, 0.5);
   }
-`
+`;
 
 type TableProps<TData extends object> = {
   data: TData[];
@@ -49,13 +57,16 @@ type TableProps<TData extends object> = {
   searchProperty?: string | string[];
 };
 
-const ResizableTable = <TData extends object>({ data, columns, searchProperty, isLoading }: TableProps<TData>) => {
+const ResizableTable = <TData extends object>({
+  data,
+  columns,
+  searchProperty,
+  isLoading,
+}: TableProps<TData>) => {
   const [searchProps, setSearchProps] = useState("");
   const [filteredData, setFilteredData] = useState(data);
-const [showFilter,setShowFilter] = useState(false);
-const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>(
-  []
-)
+  const [showFilter, setShowFilter] = useState(false);
+  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [columnVisibility, setColumnVisibility] = useState({});
   const [columnResizeMode, setColumnResizeMode] = useState<ColumnResizeMode>("onChange");
   const [columnSizing, setColumnSizing] = useState({});
@@ -85,10 +96,8 @@ const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>(
   const handleSearchQuery = useCallback(() => {
     if (searchProps.trim()) {
       // Convert searchProperty to an array if it's a single string
-      const propertiesToSearch = Array.isArray(searchProperty)
-        ? searchProperty
-        : [searchProperty];
-  
+      const propertiesToSearch = Array.isArray(searchProperty) ? searchProperty : [searchProperty];
+
       // Filter data based on multiple properties
       const result = data.filter((item: any) =>
         propertiesToSearch.some((property: any) =>
@@ -130,7 +139,7 @@ const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>(
     getCoreRowModel: getCoreRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
     getSortedRowModel: getSortedRowModel(),
-    manualPagination: true
+    manualPagination: true,
   });
 
   // Sync filteredData with data whenever data changes
@@ -141,27 +150,31 @@ const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>(
   if (isLoading) return <Spinner />;
 
   const placeHolder = Array.isArray(searchProperty)
-  ? `Search by ${searchProperty.join(", ")}`
-  : `Search by ${searchProperty}`;
+    ? `Search by ${searchProperty.join(", ")}`
+    : `Search by ${searchProperty}`;
 
-  
-return (
+  return (
     <div>
       <div style={{ position: "relative" }}>
         <Row type="horizontal" style={{ paddingBottom: "3rem" }}>
           <InputWrapper>
             <SearchIcon />
-            <StyledInput style={{overflowX: 'scroll', whiteSpace: 'nowrap'}} onChange={handleSearchChange} value={searchProps} placeholder={placeHolder} />
-            <div style={{marginLeft: '1rem', display: 'flex', alignItems: 'center'}}>
-              <CiFilter size={24} onClick={()=> setShowFilter(prev=> !prev)}/>
-          {showFilter && (
-            <div style={{marginLeft: '2rem'}}>
-                <FiltersAndSorts />
-            </div>
-          )}
+            <StyledInput
+              style={{ overflowX: "scroll", whiteSpace: "nowrap" }}
+              onChange={handleSearchChange}
+              value={searchProps}
+              placeholder={placeHolder}
+            />
+            <div style={{ marginLeft: "1rem", display: "flex", alignItems: "center" }}>
+              <CiFilter size={24} onClick={() => setShowFilter(prev => !prev)} />
+              {showFilter && (
+                <div style={{ marginLeft: "2rem" }}>
+                  <FiltersAndSorts />
+                </div>
+              )}
             </div>
           </InputWrapper>
-          
+
           <div>
             <HiOutlineCog8Tooth size={24} onClick={handleToggleDropdown} />
           </div>
@@ -202,12 +215,7 @@ return (
               {table.getHeaderGroups().map(headerGroup => (
                 <tr key={headerGroup.id}>
                   {headerGroup.headers.map(header => (
-                    <StyledTh
-                      key={header.id}
-                      colSpan={header.colSpan}
-                      width={header.getSize()}
-                    >
-
+                    <StyledTh key={header.id} colSpan={header.colSpan} width={header.getSize()}>
                       {header.isPlaceholder
                         ? null
                         : flexRender(header.column.columnDef.header, header.getContext())}
@@ -238,8 +246,7 @@ return (
                             onMouseLeave: e =>
                               //   (e.currentTarget.style.backgroundColor = "rgba(0, 0, 0, 0.1)"),
                               (e.currentTarget.style.backgroundColor = "transparent"),
-                            }}
-                          
+                          }}
                         />
                       )}
                       {/* {header.column.getCanFilter() ? (
@@ -253,12 +260,9 @@ return (
               ))}
             </StyledHeader>
             <StyledBody>
-              {filteredData.length === 0 &&
-               (
+              {filteredData.length === 0 && (
                 <TableEmptyState message="Nothing to show" colSpan={columns.length} />
-              )
-               
-               }
+              )}
               {table.getRowModel().rows.map(row => (
                 <StyledRow key={row.id}>
                   {row.getVisibleCells().map(cell => (
@@ -279,11 +283,8 @@ return (
         </div>
       </div>
       <Table.Footer>
-      <Pagination 
-      count={filteredData.length}
-      tableI={table}
-      />
-  </Table.Footer>
+        <Pagination count={filteredData.length} tableI={table} />
+      </Table.Footer>
     </div>
   );
 };

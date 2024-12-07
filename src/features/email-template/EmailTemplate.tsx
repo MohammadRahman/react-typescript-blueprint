@@ -7,7 +7,7 @@ import styled from "styled-components";
 import { Modal } from "@components/modal";
 import { NewTemplateForm } from "./NewTemplateForm";
 import { useEmailTemplate } from "./useEmailTemplate";
-import { useEffect} from "react";
+import { useEffect } from "react";
 import TemplateTable from "./TemplateTable";
 import { useQueryData } from "@features/queries/useQueryData";
 
@@ -19,26 +19,25 @@ const StyledEmailTemplate = styled.div`
 `;
 
 const formattedValues = {
- page: -1,
- pagesize: -1
+  page: -1,
+  pagesize: -1,
 };
 
 export const EmailTemplate = () => {
-  
-  const {templateLists} = useEmailTemplate();
+  const { templateLists } = useEmailTemplate();
 
-  const {queryLists} = useQueryData();
-  useEffect(()=>{
-    templateLists(formattedValues)
-  },[])
+  const { queryLists } = useQueryData();
+  useEffect(() => {
+    templateLists(formattedValues);
+  }, []);
 
-  useEffect(()=>{
-    queryLists(formattedValues)
-  },[])
+  useEffect(() => {
+    queryLists(formattedValues);
+  }, []);
 
   return (
     <StyledEmailTemplate>
-      <Row type="horizontal" style={{justifyContent: 'flex-end'}}>
+      <Row type="horizontal" style={{ justifyContent: "flex-end" }}>
         <ButtonGroup>
           <Button variation="outline" size="medium">
             <HiOutlineDocumentText />
@@ -57,7 +56,7 @@ export const EmailTemplate = () => {
           </Modal>
         </ButtonGroup>
       </Row>
-      <TemplateTable/>
+      <TemplateTable />
     </StyledEmailTemplate>
   );
 };

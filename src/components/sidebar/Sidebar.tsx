@@ -4,7 +4,6 @@ import { MainNavigation } from "@components/main-navigation";
 import { Logo } from "@components/logo";
 
 const StyledSidebar = styled.aside`
-  
   background-color: var(--color-blue-600);
   border-right: 1px solid var(--color-grey-100);
   position: relative;

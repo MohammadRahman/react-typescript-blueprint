@@ -2,11 +2,11 @@ import Checkbox from "@components/form/CheckBox";
 import { Table } from "@components/table";
 import { useState } from "react";
 
-interface ProfileRowProps{
+interface ProfileRowProps {
   rowData: {
     jobsPermission: number;
     permissionType: number;
-  }
+  };
 }
 
 export const ProfileRow = ({ rowData }: ProfileRowProps) => {

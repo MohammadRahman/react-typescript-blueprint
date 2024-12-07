@@ -25,7 +25,7 @@ export const ReportUpdatedStyles = () => {
     <StyledReports>
       <Row type="horizontal">
         <div>
-          <Search onChange={()=> console.log("")}/>
+          <Search onChange={() => console.log("")} />
         </div>
         <ButtonGroup>
           <Button variation="outline" size="medium">

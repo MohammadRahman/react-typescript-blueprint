@@ -6,20 +6,20 @@ import { NewTemplateForm } from "./NewTemplateForm";
 import { formatString } from "@utils/helper";
 import ButtonIcon from "@components/button-icons/ButtonIcon";
 import ConfirmDelete from "@components/delete-confirmation/ConfirmDelete";
-import {useDeleteTemplate} from "./useDeleteTemplate";
+import { useDeleteTemplate } from "./useDeleteTemplate";
 
-interface EmailTemplateRowProps{
+interface EmailTemplateRowProps {
   data: {
     id: string;
     name: string;
     subject: string;
     body: string;
     source: string;
-  }
+  };
 }
 
 export const EmailTemplateRow = ({ data }: EmailTemplateRowProps) => {
-  const {deleteTemplate ,isLoading} = useDeleteTemplate();
+  const { deleteTemplate, isLoading } = useDeleteTemplate();
   return (
     <Table.Row>
       <div>{data.name}</div>
@@ -29,25 +29,25 @@ export const EmailTemplateRow = ({ data }: EmailTemplateRowProps) => {
       <div style={{ display: "flex", gap: "1rem" }}>
         <Modal>
           <Modal.Open opens="email-template">
-                <ButtonIcon variation="square" type="edit">
-                  <HiOutlinePencil />
-                </ButtonIcon>
-              </Modal.Open> 
+            <ButtonIcon variation="square" type="edit">
+              <HiOutlinePencil />
+            </ButtonIcon>
+          </Modal.Open>
           <Modal.Window name="email-template">
             <NewTemplateForm templateToEdit={data} />
           </Modal.Window>
-        <Modal.Open opens="deleteTemplate">
-        <ButtonIcon variation="square" type="delete">
-          <HiOutlineTrash size={15} />
-        </ButtonIcon>
-        </Modal.Open>
-        <Modal.Window name="deleteTemplate" type="delete">
-            <ConfirmDelete 
-               resourceName={data.name} 
-               isLoading={isLoading}
-               onConfirm={()=> deleteTemplate(data.id)}  
+          <Modal.Open opens="deleteTemplate">
+            <ButtonIcon variation="square" type="delete">
+              <HiOutlineTrash size={15} />
+            </ButtonIcon>
+          </Modal.Open>
+          <Modal.Window name="deleteTemplate" type="delete">
+            <ConfirmDelete
+              resourceName={data.name}
+              isLoading={isLoading}
+              onConfirm={() => deleteTemplate(data.id)}
             />
-        </Modal.Window>
+          </Modal.Window>
         </Modal>
       </div>
     </Table.Row>

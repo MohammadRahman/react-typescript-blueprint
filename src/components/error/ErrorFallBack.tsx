@@ -3,7 +3,6 @@ import Heading from "@components/heading/Heading";
 import { CreateGlobalStyle } from "../../styles/CreateGlobalStyles";
 import styled from "styled-components";
 
-
 const StyledErrorFallback = styled.main`
   height: 100vh;
   background-color: var(--color-grey-50);
@@ -33,14 +32,14 @@ const Box = styled.div`
     color: var(--color-grey-500);
   }
 `;
-import { FallbackProps } from 'react-error-boundary';
+import { FallbackProps } from "react-error-boundary";
 
 type ErrorFallBackProps = FallbackProps;
 
 function ErrorFallback({ error, resetErrorBoundary }: ErrorFallBackProps) {
   return (
     <>
-    <CreateGlobalStyle />
+      <CreateGlobalStyle />
       <StyledErrorFallback>
         <Box>
           <Heading as="h1">Something went wrong 🧐</Heading>

@@ -1,8 +1,15 @@
-import React, { createContext, useState, useContext, ReactNode, cloneElement, ReactElement } from 'react';
-import styled from 'styled-components';
+import React, {
+  createContext,
+  useState,
+  useContext,
+  ReactNode,
+  cloneElement,
+  ReactElement,
+} from "react";
+import styled from "styled-components";
 
 // Tooltip Container Style with border, box shadow, and spike
-const TooltipContainer = styled.div<{ position: 'Top' | 'Bottom' | 'Left' | 'Right' }>`
+const TooltipContainer = styled.div<{ position: "Top" | "Bottom" | "Left" | "Right" }>`
   position: absolute;
   background-color: white;
   color: black;
@@ -13,12 +20,12 @@ const TooltipContainer = styled.div<{ position: 'Top' | 'Bottom' | 'Left' | 'Rig
   visibility: visible;
   opacity: 1;
   transition: opacity 0.2s ease-in-out;
-  border: 1px solid #ccc;  // Slight gray border
+  border: 1px solid #ccc; // Slight gray border
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); // Soft shadow for better appearance
-  
+
   ${({ position }) => {
     switch (position) {
-      case 'Top':
+      case "Top":
         return `
           bottom: 105%;
           left: 50%;
@@ -34,7 +41,7 @@ const TooltipContainer = styled.div<{ position: 'Top' | 'Bottom' | 'Left' | 'Rig
             border-color: white transparent transparent transparent;
           }
         `;
-      case 'Bottom':
+      case "Bottom":
         return `
           top: 100%;
           left: 50%;
@@ -50,7 +57,7 @@ const TooltipContainer = styled.div<{ position: 'Top' | 'Bottom' | 'Left' | 'Rig
             border-color: transparent transparent white transparent;
           }
         `;
-      case 'Left':
+      case "Left":
         return `
           right: 100%;
           top: 50%;
@@ -66,7 +73,7 @@ const TooltipContainer = styled.div<{ position: 'Top' | 'Bottom' | 'Left' | 'Rig
             border-color: transparent transparent transparent white;
           }
         `;
-      case 'Right':
+      case "Right":
         return `
           left: 100%;
           top: 50%;
@@ -83,7 +90,7 @@ const TooltipContainer = styled.div<{ position: 'Top' | 'Bottom' | 'Left' | 'Rig
           }
         `;
       default:
-        return '';
+        return "";
     }
   }}
 `;
@@ -103,43 +110,43 @@ type TooltipProps = {
 };
 
 export const Tooltip = ({ children }: TooltipProps) => {
-  const [openName, setOpenName] = useState('');
+  const [openName, setOpenName] = useState("");
 
   const show = (name: string) => {
     setOpenName(name);
   };
 
   const hide = () => {
-    setOpenName('');
+    setOpenName("");
   };
 
   return (
-    <TooltipContext.Provider value={{ openName, show, hide }}>
-      {children}
-    </TooltipContext.Provider>
+    <TooltipContext.Provider value={{ openName, show, hide }}>{children}</TooltipContext.Provider>
   );
 };
 
 // Button that triggers the tooltip
 type ToolTipButtonProps = {
   opens: string;
-  position?: 'Top' | 'Bottom' | 'Left' | 'Right';
+  position?: "Top" | "Bottom" | "Left" | "Right";
   children: ReactNode;
 };
 
-function Button({ children, opens, position = 'Top' }: ToolTipButtonProps) {
+function Button({ children, opens, position = "Top" }: ToolTipButtonProps) {
   const { show, openName, hide } = useContext(TooltipContext) as TooltipContextProps;
 
   // Extracting the text content from children
-  const textContent = React.Children.toArray(children).map(child => {
-    return typeof child === 'string' ? child : (child as React.ReactElement).props.children;
-  }).join('');
+  const textContent = React.Children.toArray(children)
+    .map(child => {
+      return typeof child === "string" ? child : (child as React.ReactElement).props.children;
+    })
+    .join("");
 
   return (
     <div
       onMouseEnter={() => show(opens)}
       onMouseLeave={hide}
-      style={{ display: 'inline-block', position: 'relative' }}
+      style={{ display: "inline-block", position: "relative" }}
     >
       {/* Directly render the children without affecting styles */}
       {children}
@@ -154,7 +161,6 @@ function Button({ children, opens, position = 'Top' }: ToolTipButtonProps) {
 }
 
 Tooltip.Button = Button;
-
 
 // Tooltip Container Style
 // const TooltipContainer = styled.div<{ position: 'Top' | 'Bottom' | 'Left' | 'Right' }>`
@@ -265,9 +271,6 @@ Tooltip.Button = Button;
 // }
 
 // Tooltip.Button = Button;
-
-
-
 
 // import { ReactNode, cloneElement, createContext, useContext, useState } from "react";
 // import styled from "styled-components";

@@ -32,7 +32,6 @@ type RichTextProps = {
   control?: any;
 };
 export const RichText = ({ control, name }: RichTextProps) => {
-
   return (
     <>
       <Controller

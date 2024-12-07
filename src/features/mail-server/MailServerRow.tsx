@@ -6,7 +6,7 @@ import ConfirmDelete from "@components/delete-confirmation/ConfirmDelete";
 import ButtonIcon from "@components/button-icons/ButtonIcon";
 import { useDelete } from "./useDelete";
 
-interface MailServerRowProps{
+interface MailServerRowProps {
   rowData: {
     id: string;
     type: number;
@@ -17,49 +17,45 @@ interface MailServerRowProps{
     imapAddress: string;
     imapEmail: string;
     imapPort: number;
-  },
-  onEdit: (data: MailServerRowProps['rowData'])=> void;
+  };
+  onEdit: (data: MailServerRowProps["rowData"]) => void;
   isLoading: boolean | undefined;
 }
 const StyledGroupButton = styled.div`
   margin-left: 2rem;
   display: flex;
   gap: 0.5rem;
-`
+`;
 const ButtonBox = styled(ButtonIcon)`
-                width: 32px;
-                height: 32px;
-                border-radius: 50%;
-                align-items: center;
-                justify-content: center;
-                display: flex;
-                &:hover{
-                  &:nth-child(1){
-                    border: 1px solid var(--color-brand); 
-                  cursor: pointer;
-                  }
-                  &:nth-child(2){
-                    border: 1px solid red; 
-                  cursor: pointer;
-                  }
-                  
-                }
-
-`
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  &:hover {
+    &:nth-child(1) {
+      border: 1px solid var(--color-brand);
+      cursor: pointer;
+    }
+    &:nth-child(2) {
+      border: 1px solid red;
+      cursor: pointer;
+    }
+  }
+`;
 const StyledShortTableRow = styled.div`
-    margin: 0 auto;
-    overflow-y: scroll;
-    overflow: hidden;
-`
+  margin: 0 auto;
+  overflow-y: scroll;
+  overflow: hidden;
+`;
 export const MailServerRow = ({ rowData, onEdit, isLoading }: MailServerRowProps) => {
-  
- const {deleteAccount, isLoading: isDeleting } = useDelete()
+  const { deleteAccount, isLoading: isDeleting } = useDelete();
 
- function deleteEmailAccount(id: string){
-  deleteAccount(id)
- }
- const shortendId = rowData?.id.split("-")[0];
-
+  function deleteEmailAccount(id: string) {
+    deleteAccount(id);
+  }
+  const shortendId = rowData?.id.split("-")[0];
 
   return (
     <Table.Row>
@@ -73,19 +69,19 @@ export const MailServerRow = ({ rowData, onEdit, isLoading }: MailServerRowProps
       <StyledShortTableRow>{rowData.imapPort}</StyledShortTableRow>
       <StyledShortTableRow>{rowData.imapEmail}</StyledShortTableRow>
       <StyledGroupButton>
-      <HiOutlinePencil 
-        style={{cursor: 'pointer'}} 
-        size={15}
-        onClick={()=> onEdit(rowData)}
-       />
-      <Modal>
-        <Modal.Open opens="deletePop-ups">
-        <HiOutlineTrash style={{cursor: 'pointer'}} size={15}/>
-        </Modal.Open>
-        <Modal.Window name="deletePop-ups" type="delete">
-            <ConfirmDelete resourceName={rowData.email} isLoading={isDeleting} onConfirm={()=>deleteEmailAccount(rowData.id)}/>
-        </Modal.Window>
-      </Modal>
+        <HiOutlinePencil style={{ cursor: "pointer" }} size={15} onClick={() => onEdit(rowData)} />
+        <Modal>
+          <Modal.Open opens="deletePop-ups">
+            <HiOutlineTrash style={{ cursor: "pointer" }} size={15} />
+          </Modal.Open>
+          <Modal.Window name="deletePop-ups" type="delete">
+            <ConfirmDelete
+              resourceName={rowData.email}
+              isLoading={isDeleting}
+              onConfirm={() => deleteEmailAccount(rowData.id)}
+            />
+          </Modal.Window>
+        </Modal>
       </StyledGroupButton>
     </Table.Row>
   );

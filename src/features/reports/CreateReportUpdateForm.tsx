@@ -23,13 +23,13 @@ const selectOptions = [
   },
 ];
 type CreateReportUpdateFormProps = {
-  onCloseModal?: ()=> void 
-}
-export const CreateReportUpdateForm = ({onCloseModal}: CreateReportUpdateFormProps) => {
+  onCloseModal?: () => void;
+};
+export const CreateReportUpdateForm = ({ onCloseModal }: CreateReportUpdateFormProps) => {
   const {
     register,
     formState: { errors },
-    control
+    control,
   } = useForm();
   return (
     <div style={{ height: "100%" }}>
@@ -46,11 +46,13 @@ export const CreateReportUpdateForm = ({onCloseModal}: CreateReportUpdateFormPro
             <Input placeholder="Subject" {...register("templateSubject")} />
           </FormRowVertical>
           <FormRowVertical label="Description" error={errors.description?.message}>
-            <RichText name=""/>
+            <RichText name="" />
           </FormRowVertical>
           <div style={{ paddingTop: "1rem", paddingBottom: "2rem" }}>
             <Row type="horizontal">
-              <Button variation="outlinePrimary" onClick={onCloseModal}>Cancel</Button>
+              <Button variation="outlinePrimary" onClick={onCloseModal}>
+                Cancel
+              </Button>
               <ButtonGroup>
                 <Button variation="outlinePrimary">Preview</Button>
                 <Button variation="primary">Save Template</Button>
