@@ -27,6 +27,8 @@ module.exports = {
   plugins: ['react', 'react-hooks', 'sonarjs', 'jsx-a11y', 'import'],
   rules: {
     'linebreak-style': 0,
+    '@typescript-eslint/no-unused-vars': ['warn', { argsIgnorePattern: '^_' }],
+    'no-unused-vars': 'off', // Disable the base rule because it's conflicting with @typescript-eslint/no-unused-vars
     'arrow-parens': ['error', 'always'],
     'react/jsx-filename-extension': [1, { extensions: ['.jsx', '.tsx'] }],
     'react/react-in-jsx-scope': 'off',
