@@ -3,22 +3,21 @@ import { usequeryData } from "@context/QueryContext";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 export function useDeleteQuery() {
-    const queryClient = useQueryClient()
-    const {queryData, setQueryData} = usequeryData();
+  const queryClient = useQueryClient();
+  const { queryData, setQueryData } = usequeryData();
 
-    const {mutate: deleteQuery, isPending: isLoading} = useMutation({
-        mutationFn: async (id: string)=> {
-            const response = await queryApi.deleteQuery(id);
-            return response.data;
-        },
-        onSuccess: (_, id: string)=> {
-            if(queryData){
-               const updatedList = queryData?.list.filter(acc=> acc.id != id);
-                setQueryData({ ...queryData, list: updatedList });
-            }     
-            queryClient.invalidateQueries({queryKey: ['QueryData']})
-        }
-
-    })
-    return {deleteQuery,isLoading}
+  const { mutate: deleteQuery, isPending: isLoading } = useMutation({
+    mutationFn: async (id: string) => {
+      const response = await queryApi.deleteQuery(id);
+      return response.data;
+    },
+    onSuccess: (_, id: string) => {
+      if (queryData) {
+        const updatedList = queryData?.list.filter(acc => acc.id != id);
+        setQueryData({ ...queryData, list: updatedList });
+      }
+      queryClient.invalidateQueries({ queryKey: ["QueryData"] });
+    },
+  });
+  return { deleteQuery, isLoading };
 }

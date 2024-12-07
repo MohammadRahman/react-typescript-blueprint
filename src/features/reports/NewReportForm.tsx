@@ -25,7 +25,7 @@ const selectOptions = [
   },
 ];
 interface ReportFormProps {
-  id?: number
+  id?: number;
   name?: string;
   dataSource?: string;
   template?: string;
@@ -79,7 +79,9 @@ export const NewReportForm = ({ templateToEdit = {}, onCloseModal }: NewTemplate
           </FormRowVertical>
           <div style={{ paddingTop: "1rem", paddingBottom: "2rem" }}>
             <Row type="horizontal">
-              <Button variation="outlinePrimary" onClick={onCloseModal}>Cancel</Button>
+              <Button variation="outlinePrimary" onClick={onCloseModal}>
+                Cancel
+              </Button>
               <ButtonGroup>
                 <Button variation="outlinePrimary">Preview</Button>
                 <Button variation="primary">Save Template</Button>

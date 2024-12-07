@@ -1,0 +1,19 @@
+# EditorConfig for React, TypeScript, and Vite
+
+# Apply settings to all JavaScript, JSX, TypeScript, TSX, and Vue files
+[*.{js,jsx,ts,tsx}]
+charset = utf-8
+indent_style = space
+indent_size = 2
+end_of_line = lf
+insert_final_newline = true
+trim_trailing_whitespace = true
+max_line_length = 100
+
+# Apply settings to all TypeScript files
+[*.{ts,tsx}]
+# These settings are already inherited from the previous section, no additional settings needed
+
+# Apply settings to JavaScript files
+[*.{js,jsx}]
+# These settings are also inherited from the previous section

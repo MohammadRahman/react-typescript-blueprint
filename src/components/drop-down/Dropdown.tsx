@@ -1,20 +1,19 @@
 import { useRef, useState, useEffect, ReactNode } from "react";
 import { createPortal } from "react-dom";
 
-
- type DropdownProps = {
-    isOpen: boolean;
-    children: ReactNode;
-    triggerRef: React.RefObject<HTMLElement>;
- }
- type PositionType = {
-    top: number;
-    left: number;
-  };
+type DropdownProps = {
+  isOpen: boolean;
+  children: ReactNode;
+  triggerRef: React.RefObject<HTMLElement>;
+};
+type PositionType = {
+  top: number;
+  left: number;
+};
 
 export const Dropdown = ({ isOpen, children, triggerRef }: DropdownProps) => {
-  const [position, setPosition] = useState<PositionType | null>(null);;
-  const dropdownRef = useRef<HTMLDivElement | null>(null);;
+  const [position, setPosition] = useState<PositionType | null>(null);
+  const dropdownRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     if (isOpen && triggerRef?.current && dropdownRef?.current) {
@@ -29,8 +28,8 @@ export const Dropdown = ({ isOpen, children, triggerRef }: DropdownProps) => {
         top: fitsBelow
           ? triggerRect.bottom + window.scrollY
           : fitsAbove
-          ? triggerRect.top - dropdownHeight + window.scrollY
-          : triggerRect.bottom + window.scrollY, // Default to below if neither fully fits
+            ? triggerRect.top - dropdownHeight + window.scrollY
+            : triggerRect.bottom + window.scrollY, // Default to below if neither fully fits
         left: triggerRect.left + window.scrollX,
       });
     }

@@ -68,14 +68,14 @@ const StyledBotIconContainer = styled.div`
   background-color: rgba(4, 170, 97, 1);
 `;
 export const Support = () => {
-  const {control} = useForm();
-  
+  const { control } = useForm();
+
   return (
     <StyledSupport>
       <StyledHelpContainer>
         <StyledText>Need some help?</StyledText>
         <div style={{ width: "40rem" }}>
-          <Search onChange={()=> console.log("")}/>
+          <Search onChange={() => console.log("")} />
         </div>
       </StyledHelpContainer>
       <StyledSupportContainer>
@@ -84,19 +84,39 @@ export const Support = () => {
         </Heading>
         <StyledFaqQuestioner>
           <div>
-            <SingleSelect name="" control={control} options={[{ label: "select", value: "selcet" }]} />
+            <SingleSelect
+              name=""
+              control={control}
+              options={[{ label: "select", value: "selcet" }]}
+            />
           </div>
           <div>
-            <SingleSelect name="" control={control} options={[{ label: "select", value: "selcet" }]} />
+            <SingleSelect
+              name=""
+              control={control}
+              options={[{ label: "select", value: "selcet" }]}
+            />
           </div>
           <div>
-            <SingleSelect name="" control={control} options={[{ label: "select", value: "selcet" }]} />
+            <SingleSelect
+              name=""
+              control={control}
+              options={[{ label: "select", value: "selcet" }]}
+            />
           </div>
           <div>
-            <SingleSelect name="" control={control} options={[{ label: "select", value: "selcet" }]} />
+            <SingleSelect
+              name=""
+              control={control}
+              options={[{ label: "select", value: "selcet" }]}
+            />
           </div>
           <div>
-            <SingleSelect name="" control={control} options={[{ label: "select", value: "selcet" }]} />
+            <SingleSelect
+              name=""
+              control={control}
+              options={[{ label: "select", value: "selcet" }]}
+            />
           </div>
         </StyledFaqQuestioner>
       </StyledSupportContainer>

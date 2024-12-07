@@ -1,7 +1,7 @@
 import { useRef, useState } from "react";
 import Editor from "@monaco-editor/react";
 import styled from "styled-components";
-import {createPortal} from "react-dom";
+import { createPortal } from "react-dom";
 
 const EditorWrapper = styled.div`
   width: 50vw;
@@ -30,13 +30,12 @@ const EditorWrapper = styled.div`
 `;
 const CloseButton = styled.button`
   position: absolute;
-  top: -15px; 
+  top: -15px;
   right: 1px;
   background: transparent;
   border: none;
   color: white;
   font-size: 3rem;
-  
 
   &:hover {
     cursor: pointer;
@@ -46,9 +45,8 @@ type SQLQueryEditorProps = {
   setShowEditor: (t: boolean) => void;
   query: string;
   setQuery: (value: string) => void;
-}
+};
 const SQLQueryEditor = ({ setShowEditor, query, setQuery }: SQLQueryEditorProps) => {
-  
   const [value] = useState("");
   const [isEditorVisible, setIsEditorVisible] = useState(true);
 
@@ -60,35 +58,54 @@ const SQLQueryEditor = ({ setShowEditor, query, setQuery }: SQLQueryEditorProps)
   };
   const handleEditorChange = (value: string | undefined) => {
     setQuery(value || "");
-    console.log("SQL value",value);
+    console.log("SQL value", value);
   };
 
   const handleCloseEditor = () => {
     setShowEditor(false); // Close the editor
   };
 
-    return createPortal(
-    <div style={{ position: "absolute",zIndex: 1000,  top: "33%", left: "30%", width: "40rem", height: '50rem' }}>
+  return createPortal(
+    <div
+      style={{
+        position: "absolute",
+        zIndex: 1000,
+        top: "33%",
+        left: "30%",
+        width: "40rem",
+        height: "50rem",
+      }}
+    >
       {isEditorVisible && (
         <>
-        <EditorWrapper>
-        <Editor
-          height="100%"
-          defaultLanguage="sql"
-          defaultValue={query}
-          theme="vs-dark"
-          onMount={onMount}
-          onChange={handleEditorChange}
-          value={value}
-        />
-         <CloseButton onClick={handleCloseEditor}>×</CloseButton>
-        <div style={{ position:'absolute', right: '0', bottom: '0', display: "flex", gap: "0.5rem", background:"blue" }}>
-            <button type="button" onClick={handleCloseEditor}>Save</button>
-        </div>
-      </EditorWrapper>
-      </>
+          <EditorWrapper>
+            <Editor
+              height="100%"
+              defaultLanguage="sql"
+              defaultValue={query}
+              theme="vs-dark"
+              onMount={onMount}
+              onChange={handleEditorChange}
+              value={value}
+            />
+            <CloseButton onClick={handleCloseEditor}>×</CloseButton>
+            <div
+              style={{
+                position: "absolute",
+                right: "0",
+                bottom: "0",
+                display: "flex",
+                gap: "0.5rem",
+                background: "blue",
+              }}
+            >
+              <button type="button" onClick={handleCloseEditor}>
+                Save
+              </button>
+            </div>
+          </EditorWrapper>
+        </>
       )}
-      
     </div>,
     document.body
   );

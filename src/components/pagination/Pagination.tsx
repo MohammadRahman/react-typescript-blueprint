@@ -64,15 +64,14 @@ type PaginationProps = {
   count: number;
   tableI: any;
 };
-export function Pagination({count, tableI}: PaginationProps) {
-  
-  const currentPage = tableI.getState().pagination.pageIndex + 1
+export function Pagination({ count, tableI }: PaginationProps) {
+  const currentPage = tableI.getState().pagination.pageIndex + 1;
   const pageCount = Math.ceil(count / PAGE_SIZE);
 
-  function nextPage(){
+  function nextPage() {
     tableI.nextPage();
   }
-  function prevPage(){
+  function prevPage() {
     tableI.previousPage();
   }
   if (pageCount <= 1) return null;
@@ -85,18 +84,18 @@ export function Pagination({count, tableI}: PaginationProps) {
         <span>{count}</span> results
       </P>
       <div>
-      <select
-        style={{
-          padding: '0.7rem',
-           border:'1px solid var(--color-grey-100)', 
-           borderRadius: '4px'
+        <select
+          style={{
+            padding: "0.7rem",
+            border: "1px solid var(--color-grey-100)",
+            borderRadius: "4px",
           }}
           value={tableI.getState().pagination.pageSize}
-          onChange={(e) => {
+          onChange={e => {
             tableI.setPageSize(Number(e.target.value));
           }}
         >
-          {[5,10, 20, 30, 40, 50].map((pageSize) => (
+          {[5, 10, 20, 30, 40, 50].map(pageSize => (
             <option key={pageSize} value={pageSize}>
               Page size {pageSize}
             </option>

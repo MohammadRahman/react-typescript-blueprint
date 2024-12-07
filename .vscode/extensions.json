@@ -1,0 +1,22 @@
+{
+    "recommendations": [
+      "dbaeumer.vscode-eslint",                   // ESLint: For linting JavaScript/TypeScript
+      "esbenp.prettier-vscode",                  // Prettier: Code formatter
+      "streetsidesoftware.code-spell-checker",   // Code Spell Checker: Spell checks comments, variables, etc.
+      "mikestead.dotenv",                        // DotENV: Syntax highlighting for `.env` files
+      "christian-kohler.path-intellisense",      // Path Intellisense: Auto-complete for file paths
+      "stylelint.vscode-stylelint",              // Stylelint: Linting for CSS, SCSS, etc.
+      "ms-playwright.playwright",                // Playwright: Testing framework for E2E tests
+      "graphql.vscode-graphql",                  // GraphQL: Syntax highlighting and more for GraphQL files
+      "eamodio.gitlens",                         // GitLens: Enhanced Git integration
+      "ms-vscode.vscode-typescript-tslint-plugin", // TSLint for TypeScript (if applicable)
+      "redhat.vscode-yaml",                      // YAML: Syntax support for YAML files
+      "wix.vscode-import-cost",                  // Import Cost: Show file size of imported modules
+      "bradlc.vscode-tailwindcss",               // Tailwind CSS IntelliSense (if using Tailwind)
+      "formulahendry.auto-close-tag",            // Auto Close Tag: Automatically close HTML/JSX tags
+      "formulahendry.auto-rename-tag",           // Auto Rename Tag: Rename paired HTML/JSX tags
+      "ms-vsliveshare.vsliveshare",              // Live Share: Real-time collaboration
+      "wudy.vs-alias-jump"                       // VS Alias Jump: Navigation for path aliases (if you use aliases)
+    ]
+  }
+  

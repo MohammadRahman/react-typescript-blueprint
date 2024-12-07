@@ -32,22 +32,20 @@ type StyledModalWindowProps = {
   type?: string;
 };
 const StyledModalWindow = styled.div<StyledModalWindowProps>`
-
   display: flex;
   justify-content: center;
   position: relative;
   position: absolute;
   background-color: var(--color-white);
   border: 1px solid var(--color-grey-100);
-  ${props=> 
-    props.type == 'aside' && css`
-  width: 55vw;
-  min-height: 100vh;
-  right: 0;
-  top: 0;
-
-    `
-  }
+  ${props =>
+    props.type == "aside" &&
+    css`
+      width: 55vw;
+      min-height: 100vh;
+      right: 0;
+      top: 0;
+    `}
   ${props =>
     props.type === "delete" &&
     css`
@@ -56,18 +54,18 @@ const StyledModalWindow = styled.div<StyledModalWindowProps>`
       /* background-color: red; */
       background-color: var(--color-grey-50);
     `}
-  ${props=> 
-    props.type == "regular" && css`
+  ${props =>
+    props.type == "regular" &&
+    css`
       width: 70vw;
       height: 80vh;
       /* overflow-y: auto; */
       /* transform:translate(-50%, -50%) ; */
-    `
-  }
+    `}
 `;
 StyledModalWindow.defaultProps = {
-  type: "aside"
-}
+  type: "aside",
+};
 type ModalContextProps = {
   openName: string;
   open: (name: string) => void;
@@ -115,7 +113,9 @@ function Window({ children, name, type }: ModalWindowProps) {
         <StyledButton onClick={close}>
           <HiXMark />
         </StyledButton>
-        <div style={{display: 'flex', justifyContent:'center', alignItems: 'center'}}>{cloneElement(children as any, { onCloseModal: close })}</div>
+        <div style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
+          {cloneElement(children as any, { onCloseModal: close })}
+        </div>
       </StyledModalWindow>
     </Overlay>,
     document.body

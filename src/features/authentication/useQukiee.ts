@@ -1,8 +1,7 @@
 export function useQukiee() {
-    const setCookie = () => { }
-    const getCookie = () => { }
-    const removeCookie = () => { }
+  const setCookie = () => {};
+  const getCookie = () => {};
+  const removeCookie = () => {};
 
-
-    return { setCookie, getCookie, removeCookie }
+  return { setCookie, getCookie, removeCookie };
 }

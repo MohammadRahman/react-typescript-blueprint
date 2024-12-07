@@ -1,9 +1,6 @@
 import { Progressbar } from "@components/progress-bar/Progressbar";
 
-import {
-  HiOutlineDocumentChartBar,
-  HiOutlinePaperAirplane,
-} from "react-icons/hi2";
+import { HiOutlineDocumentChartBar, HiOutlinePaperAirplane } from "react-icons/hi2";
 import styled, { css } from "styled-components";
 
 type StyledCardProps = {
@@ -19,17 +16,17 @@ const StyledCard = styled.div<StyledCardProps>`
   position: relative; /* Minimum width */
   gap: 1rem;
   max-width: calc(100% - gap / 5);
-  ${({color, type}) =>
+  ${({ color, type }) =>
     type === "sm" &&
     css`
       min-width: 227px;
       max-width: auto;
       height: 60px;
-      background: ${color &&  `var(--color-${color}-20)`};
+      background: ${color && `var(--color-${color}-20)`};
       color: black;
       padding: 0.5rem 1.6rem;
     `}
-  ${({ color, gradients,type }) =>
+  ${({ color, gradients, type }) =>
     type === "md" &&
     css`
       min-width: 210px;
@@ -37,8 +34,9 @@ const StyledCard = styled.div<StyledCardProps>`
       height: 96px;
       color: var(--color-white);
       padding: 12px 16px 12px 16px;
-      background: ${ color && gradients && 
-        `linear-gradient(to right, var(--color-${color}-50), var(--color-${gradients}))`};
+      background: ${color &&
+      gradients &&
+      `linear-gradient(to right, var(--color-${color}-50), var(--color-${gradients}))`};
     `}
 `;
 const StyledCardHeader = styled.div`

@@ -16,7 +16,7 @@ interface DayStatsProps {
     color?: string;
     jobType: string;
     quantity: number;
-  }
+  };
 }
 export const DayStats = ({ stats }: DayStatsProps) => {
   return (

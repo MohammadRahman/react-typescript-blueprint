@@ -103,14 +103,14 @@ type JobExecutionDetail = {
   status: number;
 };
 
-type JobExecutionDetailWithoutId = Omit<JobExecutionDetail, 'id'>;
+type JobExecutionDetailWithoutId = Omit<JobExecutionDetail, "id">;
 
 const jobsExecutionDetails: JobExecutionDetail[] = [];
 
 type FormatedExecutedJobData = {
   [key: number]: JobExecutionDetailWithoutId[]; // Adjust 'any' to the specific type you're pushing into this array
 };
-export function executedJobDetailsData():FormatedExecutedJobData {
+export function executedJobDetailsData(): FormatedExecutedJobData {
   const formatedExcecutedJobData: FormatedExecutedJobData = {};
 
   if (jobsExecutionDetails.length > 0) {

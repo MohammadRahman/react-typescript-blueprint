@@ -39,35 +39,35 @@ export const SingleSelect = ({ name, control, options, rules }: SelectProps) => 
         name={name}
         control={control}
         rules={rules}
-        render={({ field: { onChange, value }, fieldState: {error} }) => (
+        render={({ field: { onChange, value }, fieldState: { error } }) => (
           <>
-          <Select
-            theme={theme => ({
-              ...theme,
-              borderRadius: 4,
-              background: "transparent",
-              colors: {
-                ...theme.colors,
-                primary25: "",
-                primary: "#04AA61",
-              },
-              menu: (provided: any) => ({
-                ...provided,
+            <Select
+              theme={theme => ({
+                ...theme,
+                borderRadius: 4,
                 background: "transparent",
-                width: "4em"
-              }),
-            })}
-            styles={customStyles}
-            // value={selectedOption}
-            // onChange={handleChange}
-            value={options.find(option => option.value === value) || null}
-            onChange={selectedOption => onChange(selectedOption ?selectedOption.value : null)}
-            options={options}
-            components={{
-              IndicatorSeparator: () => null,
-            }}
-          />
-          {/* {error && <p style={{ color: "red", marginTop: "0.25rem" }}>{error.message}</p>}  */}
+                colors: {
+                  ...theme.colors,
+                  primary25: "",
+                  primary: "#04AA61",
+                },
+                menu: (provided: any) => ({
+                  ...provided,
+                  background: "transparent",
+                  width: "4em",
+                }),
+              })}
+              styles={customStyles}
+              // value={selectedOption}
+              // onChange={handleChange}
+              value={options.find(option => option.value === value) || null}
+              onChange={selectedOption => onChange(selectedOption ? selectedOption.value : null)}
+              options={options}
+              components={{
+                IndicatorSeparator: () => null,
+              }}
+            />
+            {/* {error && <p style={{ color: "red", marginTop: "0.25rem" }}>{error.message}</p>}  */}
           </>
         )}
       />

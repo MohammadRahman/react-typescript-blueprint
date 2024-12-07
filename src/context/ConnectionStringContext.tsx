@@ -51,8 +51,6 @@ export const useSourceType = (): SourceTypeContextProps => {
   return context;
 };
 
-
-
 interface ConnectionStrContextProps {
   connectionStr: string;
   setConnectionString: (str: string) => void;
@@ -67,7 +65,7 @@ export const ConnectionStrProvider: React.FC<{ children: ReactNode }> = ({ child
 
   // Method to set the connection string
   const setConnectionString = (str: string) => {
-    setConnectionStr(str)
+    setConnectionStr(str);
   };
 
   return (

@@ -30,17 +30,21 @@ export const StyledCheckbox = styled.div<{ isChecked: boolean | undefined }>`
   position: absolute;
   top: ${({ isChecked }) => (isChecked ? "1rem" : "50%")};
   transform: translateY(-50%);
-  transition: top 0.3s ease, transform 0.3s ease;
+  transition:
+    top 0.3s ease,
+    transform 0.3s ease;
 `;
 
-export const HiddenContent = styled.div<{ isVisible: boolean | undefined}>`
+export const HiddenContent = styled.div<{ isVisible: boolean | undefined }>`
   position: absolute;
-  top: ${({ isVisible }) => (isVisible? "5rem" : "50%")};
+  top: ${({ isVisible }) => (isVisible ? "5rem" : "50%")};
   left: 1rem;
   width: calc(100% - 2rem);
   opacity: ${({ isVisible }) => (isVisible ? 1 : 0)};
   transform: translateY(-50%);
-  transition: top 0.3s ease, opacity 0.3s ease;
+  transition:
+    top 0.3s ease,
+    opacity 0.3s ease;
   z-index: 1;
 `;
 export const StyledTextContainer = styled.div`
@@ -50,13 +54,13 @@ export const StyledTextContainer = styled.div`
   padding: 1rem 1.5rem;
 `;
 export const StyledButton = styled.div`
-/* style={{gridColumn: "1 / -1",display: "flex", justifyContent: "flex-end", gap: "1rem" }} */
-grid-column: 1/-1;
-display: flex;
-justify-content: flex-end;
-gap: 1rem;
-`
+  /* style={{gridColumn: "1 / -1",display: "flex", justifyContent: "flex-end", gap: "1rem" }} */
+  grid-column: 1/-1;
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+`;
 export const StyledActionButtonsContainer = styled.div`
-    display: flex;
-    gap: 1rem;
-`
+  display: flex;
+  gap: 1rem;
+`;

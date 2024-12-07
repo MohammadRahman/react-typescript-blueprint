@@ -21,7 +21,7 @@ const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
       staleTime: 0,
-      retry: 3
+      retry: 3,
     },
   },
 });
@@ -52,7 +52,7 @@ function App() {
             <Route path="/support" element={<SupportPage />} />
           </Route>
           <Route path="/login" element={<Login />} />
-            <Route path="*" element={<PageNotFound />} />
+          <Route path="*" element={<PageNotFound />} />
         </Routes>
         <Toaster
           position="top-right"

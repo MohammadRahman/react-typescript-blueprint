@@ -47,12 +47,15 @@ const users: User[] = [
 ];
 
 interface Permissions {
-  jobs: {jobView: number, jobEdit: number, jobDelete: number}[],
-  emailTemplate: {emilTemplateView: number, emilTemplateEdit: number, emilTemplateDelete: number}[]
-  reports: {reportsView: number, reportsEdit: number, reportsDelete: number}[],
-  queries: {queryView: number, queryEdit: number, queryDelete: number}[],
-  source: {sourceView: number, sourceEdit: number, sourceDelete: number}[]
-
+  jobs: { jobView: number; jobEdit: number; jobDelete: number }[];
+  emailTemplate: {
+    emilTemplateView: number;
+    emilTemplateEdit: number;
+    emilTemplateDelete: number;
+  }[];
+  reports: { reportsView: number; reportsEdit: number; reportsDelete: number }[];
+  queries: { queryView: number; queryEdit: number; queryDelete: number }[];
+  source: { sourceView: number; sourceEdit: number; sourceDelete: number }[];
 }
 
 type User = {
@@ -60,16 +63,15 @@ type User = {
   name: string;
   email: string;
   roles: Array<number>;
-  permissions: Permissions[]
-
-}
+  permissions: Permissions[];
+};
 type FormatedData = {
   [key: string]: User;
 };
 export function userByIdMocks(userId: string): FormatedData {
   const filteredUser: FormatedData = {};
 
-  users.forEach((user) => {
+  users.forEach(user => {
     if (!filteredUser[user.userId]) {
       filteredUser[user.userId] = user;
     }
