@@ -6,7 +6,6 @@ import React, { useEffect } from "react";
 import toast from "react-hot-toast";
 
 export function useEmailTemplate() {
-
   const { setTemplateData } = useTemplateData();
 
   const queryClient = useQueryClient();
@@ -14,43 +13,43 @@ export function useEmailTemplate() {
   const timeoutIdRef = React.useRef<NodeJS.Timeout | null>(null);
 
   const { mutate: templateLists, isPending: isLoading } = useMutation({
-    mutationKey: ['QueryData'],
+    mutationKey: ["QueryData"],
     mutationFn: async (data: any, options?: { signal?: AbortSignal }) => {
       try {
         const response = await templateApi.getTemplateLists(data, options?.signal);
         return response.data;
       } catch (error: AxiosError | any) {
         if (isCancel(error)) {
-          console.log('Request canceled:', error.message);
+          console.log("Request canceled:", error.message);
         } else {
-          console.error('Error:', error.message);
+          console.error("Error:", error.message);
           toast.error(error.message);
         }
         throw error; // Ensure errors bubble up
       }
     },
     onMutate: () => {
-      setTemplateData((prevState) => ({
+      setTemplateData(prevState => ({
         ...prevState!,
         isLoading: true,
       }));
     },
-    onSuccess: (data) => {
+    onSuccess: data => {
       setTemplateData({
         list: data.list,
         totalCount: data.totalCount,
         isLoading: false,
         currentPage: data.currentPage || 1,
       });
-      queryClient.invalidateQueries({ queryKey: ['QueryData'] });
-      if(data&&data.list.length ===0){
-        toast.success('Nothing found');
-      }else{
-        toast.success("email account fetch successful.")
+      queryClient.invalidateQueries({ queryKey: ["QueryData"] });
+      if (data && data.list.length === 0) {
+        toast.success("Nothing found");
+      } else {
+        toast.success("email account fetch successful.");
       }
     },
-    onError: (error) => {
-      setTemplateData((prevState) => ({
+    onError: error => {
+      setTemplateData(prevState => ({
         ...prevState!,
         isLoading: false,
       }));
@@ -76,7 +75,7 @@ export function useEmailTemplate() {
       if (abortControllerRef.current) {
         abortControllerRef.current.abort();
         // toast.error('Request timed out after 30 seconds');
-        setTemplateData((prevState) => ({
+        setTemplateData(prevState => ({
           ...prevState!,
           isLoading: false,
         }));
@@ -105,7 +104,6 @@ export function useEmailTemplate() {
   return { templateLists: fetchWithSignal, isLoading };
 }
 
-
 // export function useQueryData(){
 //     const { setTemplateData } = useEmailData();
 //     const queryClient = useQueryClient();
@@ -125,7 +123,7 @@ export function useEmailTemplate() {
 //                 console.error('Error:', error.message);
 //                 toast.error(error.message);
 //               }
-//             }           
+//             }
 //         },
 //         onMutate: () => {
 //             setTemplateData((prevState) => ({
@@ -152,7 +150,7 @@ export function useEmailTemplate() {
 //         abortControllerRef.current.abort();
 //       }
 //       abortControllerRef.current = new AbortController();
-  
+
 //       const signal = abortControllerRef.current.signal;
 //       try {
 //         return templateLists({ ...data, signal });

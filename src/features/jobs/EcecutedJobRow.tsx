@@ -30,7 +30,7 @@ const StyledButtonIcon = styled(ButtonIcon)`
   border: 1px solid var(--color-grey-100);
 `;
 
-interface EcecutedJobRowProps{
+interface EcecutedJobRowProps {
   data: {
     id: number;
     mailType: number;
@@ -40,7 +40,7 @@ interface EcecutedJobRowProps{
     success: number;
     fail: number;
     status: 1 | 2 | 3;
-  }
+  };
 }
 type JobExecutionDetail = {
   id: number;
@@ -52,7 +52,7 @@ type JobExecutionDetail = {
 export const EcecutedJobRow = ({ data }: EcecutedJobRowProps) => {
   const [showSecondaryTable, setShowSecondaryTable] = useState(false);
   const [_, setExecutionId] = useState(0);
-  const [dataByExecutionId, setDataByExecutionId] = useState<Omit<JobExecutionDetail, 'id'> []>([]);
+  const [dataByExecutionId, setDataByExecutionId] = useState<Omit<JobExecutionDetail, "id">[]>([]);
   const rowData = executedJobDetailsData();
 
   const successRate = (data?.success / data.recipent) * 100;

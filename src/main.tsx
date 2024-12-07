@@ -8,10 +8,7 @@ import ErrorFallback from "@components/error/ErrorFallBack.tsx";
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <BrowserRouter>
     <React.StrictMode>
-    <ErrorBoundary
-      FallbackComponent={ErrorFallback}
-      onReset={() => window.location.replace("/")}
-      >
+      <ErrorBoundary FallbackComponent={ErrorFallback} onReset={() => window.location.replace("/")}>
         <App />
       </ErrorBoundary>
     </React.StrictMode>

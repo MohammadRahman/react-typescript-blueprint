@@ -1,15 +1,16 @@
 import { DayStats } from "./DayStats";
 
-interface DayStatsContainerProps{
+interface DayStatsContainerProps {
   day: string;
   stats: {
     id: number;
     color?: string;
     jobType: string;
-    quantity: number; }[]
+    quantity: number;
+  }[];
 }
-export const DayStatsContainer = ({ day, stats }:DayStatsContainerProps ) => {
-  console.log("Stats from DayContainer",stats)
+export const DayStatsContainer = ({ day, stats }: DayStatsContainerProps) => {
+  console.log("Stats from DayContainer", stats);
   return (
     <div>
       <p>{day}</p>

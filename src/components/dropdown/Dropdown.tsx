@@ -1,9 +1,8 @@
-import Heading from '@components/heading/Heading'
-import { ReactNode } from 'react';
-import styled from 'styled-components'
+import Heading from "@components/heading/Heading";
+import { ReactNode } from "react";
+import styled from "styled-components";
 
 const StyledDropdownContainer = styled.div`
-
   width: 20rem;
   max-height: 25rem;
   overflow-y: auto;
@@ -19,26 +18,24 @@ const StyledDropdownContainer = styled.div`
   padding: 1rem;
 `;
 const StyledUL = styled.ul`
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-`
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+`;
 
 type DropdownProps = {
-    children: ReactNode;
-}
+  children: ReactNode;
+};
 
-const Dropdown = ({children}: DropdownProps) => {
+const Dropdown = ({ children }: DropdownProps) => {
   return (
     <StyledDropdownContainer>
-        <StyledUL>
-            <Heading as="h2">Toggle Columns</Heading>
-                {children}
-        </StyledUL>
+      <StyledUL>
+        <Heading as="h2">Toggle Columns</Heading>
+        {children}
+      </StyledUL>
     </StyledDropdownContainer>
-  )
-}
+  );
+};
 
-
-
-export default Dropdown
+export default Dropdown;

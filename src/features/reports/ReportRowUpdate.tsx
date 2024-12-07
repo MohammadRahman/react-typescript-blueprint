@@ -2,13 +2,13 @@ import { Table } from "@components/table";
 import { HiOutlinePencil, HiOutlineTrash } from "react-icons/hi2";
 import { RiAttachmentLine } from "react-icons/ri";
 
-interface ReportRowUpdateProps{
+interface ReportRowUpdateProps {
   data: {
     name: string;
     template: string;
     description: string;
     source: string;
-  }
+  };
 }
 
 export const ReportRowUpdate = ({ data }: ReportRowUpdateProps) => {

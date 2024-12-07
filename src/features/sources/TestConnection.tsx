@@ -11,20 +11,20 @@ const StyledTestConnetion = styled.div`
   max-width: 100%;
 `;
 type TestConnectionProps = {
-  connectionString: string
-}
-const TestConnection = ({connectionString}: TestConnectionProps) => {
-
-  const {register} = useForm();
+  connectionString: string;
+};
+const TestConnection = ({ connectionString }: TestConnectionProps) => {
+  const { register } = useForm();
 
   return (
     <StyledTestConnetion>
-      <Input placeholder="Conn_String"
-       style={{ width: "80%", backgroundColor: "#F9F9FB" }} 
-       disabled
-       value={connectionString}
+      <Input
+        placeholder="Conn_String"
+        style={{ width: "80%", backgroundColor: "#F9F9FB" }}
+        disabled
+        value={connectionString}
         {...register("connStr")}
-       />
+      />
       <Button variation="createNew" type="button" style={{ width: "18%" }}>
         Test
       </Button>

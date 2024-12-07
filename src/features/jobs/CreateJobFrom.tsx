@@ -31,7 +31,7 @@ interface FormValues {
   mailServer: string;
   eMailType: string;
 }
-interface TemplateProps{
+interface TemplateProps {
   id?: number;
   jobName?: string;
   reportAttachment?: string;

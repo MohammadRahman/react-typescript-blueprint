@@ -18,7 +18,7 @@ export function useSourceLists() {
         return response.data;
       } catch (error: AxiosError | any) {
         if (isCancel(error)) {
-          toast.error(error.message || "")
+          toast.error(error.message || "");
         } else {
           toast.error(error.message);
         }
@@ -30,16 +30,16 @@ export function useSourceLists() {
         isLoading: true,
       }));
     },
-    onSuccess: (data) => {
+    onSuccess: data => {
       setSourceData({
-          list: data.list,
-          totalCount: data.totalCount,
-          isLoading: false,
-          currentPage: data.currentPage || 1,
-        });
-      queryClient.invalidateQueries({ queryKey: ['EmailAccount'] });
-      toast.success('email lists successfully fetched.');
-  },
+        list: data.list,
+        totalCount: data.totalCount,
+        isLoading: false,
+        currentPage: data.currentPage || 1,
+      });
+      queryClient.invalidateQueries({ queryKey: ["EmailAccount"] });
+      toast.success("email lists successfully fetched.");
+    },
     onError: error => {
       toast.error(error.message);
     },

@@ -8,6 +8,6 @@ export const EmailTemplatePage = () => {
       <QueryProvider>
         <EmailTemplate />
       </QueryProvider>
-  </TemplateProvider>
-);
+    </TemplateProvider>
+  );
 };

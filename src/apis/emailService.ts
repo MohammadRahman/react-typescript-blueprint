@@ -1,9 +1,8 @@
-import { httpCommon } from '@apis/http-common';
-
+import { httpCommon } from "@apis/http-common";
 
 const url = import.meta.env.VITE_EMAIL_ACCOUNT;
-// const url = "http://localhost:5026" 
+// const url = "http://localhost:5026"
 
-console.log("baseUrlFromEnv",url);
+console.log("baseUrlFromEnv", url);
 
 export const emailService = httpCommon(url);

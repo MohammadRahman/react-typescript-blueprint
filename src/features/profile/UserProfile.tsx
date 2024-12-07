@@ -84,7 +84,7 @@ const options = [
 export const UserProfile = () => {
   const userData = permissionDataMocks();
   const imageUrl = "/images/profile/profile-avatar.png";
-  const {control} = useForm();
+  const { control } = useForm();
   return (
     <StyledProfile>
       <StyledContainer>

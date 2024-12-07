@@ -1,4 +1,3 @@
-
 type ReportDetailsProps = {
   reportId: number;
 };

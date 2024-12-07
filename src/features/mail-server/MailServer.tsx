@@ -23,23 +23,24 @@ const StyledContainer = styled.div`
 
 const formattedValues = {
   page: -1,
-  pagesize: -1
+  pagesize: -1,
 };
 
 export const MailServer = () => {
-
   const { emailData } = useEmailData();
 
-  const {emailLists} = useEmailAccount();
+  const { emailLists } = useEmailAccount();
 
-  const [editingEmailAccount, setEditingEmailAccount] = useState<CreateMailServerFormProps['formData'] | null>(null);
+  const [editingEmailAccount, setEditingEmailAccount] = useState<
+    CreateMailServerFormProps["formData"] | null
+  >(null);
   const tableSectionRef = useRef<HTMLDivElement>(null);
   const formSectionRef = useRef<HTMLDivElement>(null);
-  
-  const handleEditClick = (accountData: CreateMailServerFormProps['formData']) => {
+
+  const handleEditClick = (accountData: CreateMailServerFormProps["formData"]) => {
     setEditingEmailAccount(accountData); // Set the data to edit
   };
-  
+
   const handleCloseForm = () => {
     setEditingEmailAccount(null);
   };
@@ -48,27 +49,25 @@ export const MailServer = () => {
     if (emailData && tableSectionRef.current) {
       tableSectionRef.current.scrollIntoView({ behavior: "smooth" });
     }
-    if(editingEmailAccount && formSectionRef.current){
+    if (editingEmailAccount && formSectionRef.current) {
       formSectionRef.current.scrollIntoView({ behavior: "smooth" });
     }
   }, [emailData, editingEmailAccount]);
-  
-  useEffect(()=> {
-    emailLists(formattedValues)
-  },[])
 
-return (
+  useEffect(() => {
+    emailLists(formattedValues);
+  }, []);
+
+  return (
     <StyledMailServer>
       <StyledContainer ref={formSectionRef}>
-          {editingEmailAccount 
-          && <CreateMailServerForm 
-          formData={editingEmailAccount} 
-          onCloseModal={handleCloseForm} 
-          />}
-          {!editingEmailAccount && <CreateMailServerForm />}
+        {editingEmailAccount && (
+          <CreateMailServerForm formData={editingEmailAccount} onCloseModal={handleCloseForm} />
+        )}
+        {!editingEmailAccount && <CreateMailServerForm />}
       </StyledContainer>
       <StyledContainer ref={tableSectionRef}>
-          <EmailAccountTable status={emailData?.isLoading} onEdit={handleEditClick}/>
+        <EmailAccountTable status={emailData?.isLoading} onEdit={handleEditClick} />
       </StyledContainer>
     </StyledMailServer>
   );

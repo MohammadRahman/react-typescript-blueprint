@@ -3,12 +3,12 @@ import { Table } from "@components/table";
 import Tag from "@components/tag/Tag";
 
 interface ExcutedJobDetailsProps {
-  data:{
+  data: {
     email: string;
     dataIndex: number;
     fullName: string;
     status: 1 | 2;
-  },
+  };
   index: number;
 }
 

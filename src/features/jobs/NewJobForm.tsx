@@ -23,7 +23,7 @@ type UpdateForm = {
   id: string | number;
 };
 interface FormTemplateProps {
-  id?:number; 
+  id?: number;
   name?: string;
   dataSource?: string;
   description?: string;
@@ -71,7 +71,9 @@ export const NewJobForm = ({ templateToEdit = {}, onCloseModal }: NewTemplateFor
           </FormRowVertical>
           <div style={{ paddingTop: "1rem", paddingBottom: "2rem" }}>
             <Row type="horizontal">
-              <Button variation="outlinePrimary" onClick={onCloseModal}>Cancel</Button>
+              <Button variation="outlinePrimary" onClick={onCloseModal}>
+                Cancel
+              </Button>
               <ButtonGroup>
                 <Button variation="outlinePrimary">Preview</Button>
                 <Button variation="primary">Save Template</Button>

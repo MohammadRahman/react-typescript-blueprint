@@ -29,7 +29,7 @@ const StyledRow = styled(CommonRow)`
   &:not(:last-child) {
     border-bottom: 1px solid var(--color-grey-100);
   }
-  &:hover{
+  &:hover {
     cursor: pointer;
     background-color: var(--color-grey-100);
   }
@@ -106,11 +106,11 @@ function Row({ children }: RowProps) {
 type BodyProps<T> = {
   data: T[];
   render: (item: T, idx: number) => React.ReactNode;
-  isLoading?: boolean
+  isLoading?: boolean;
 };
 function Body<T>({ data, render, isLoading }: BodyProps<T>) {
   if (data?.length == 0) return <Empty>No data to show at the moment</Empty>;
-  if(isLoading) return <Spinner/>
+  if (isLoading) return <Spinner />;
   return <StyledBody>{data?.map(render)}</StyledBody>;
 }
 

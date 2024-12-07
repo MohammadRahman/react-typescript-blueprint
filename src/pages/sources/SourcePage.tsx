@@ -3,11 +3,11 @@ import { SourceProvider } from "@context/SourceContext";
 import { Sources } from "@features/sources/Sources";
 
 export const SourcePage = () => {
-  return(
+  return (
     <SourceProvider>
-    <ConnectionStrProvider>
+      <ConnectionStrProvider>
         <Sources />
-    </ConnectionStrProvider>
+      </ConnectionStrProvider>
     </SourceProvider>
-    );
+  );
 };
