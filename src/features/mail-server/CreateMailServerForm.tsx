@@ -24,6 +24,7 @@ import {
   HiOutlineEye,
   HiOutlineEyeSlash,
 } from "react-icons/hi2";
+import { mailTypes, ports, securityProtocols } from "@configs/mailServer";
 
 const StyledBoxContainer = styled.div`
   width: 100%;
@@ -65,40 +66,6 @@ const StyledContainer = styled.div`
   background-color: white;
   border-radius: 8px;
 `;
-const options = [
-  {
-    label: "Standard",
-    value: 1,
-  },
-  {
-    label: "PEC",
-    value: 2,
-  },
-  {
-    label: "REM",
-    value: 3,
-  },
-];
-const SECURITY_PROTOCOL = [
-  {
-    label: "SSL",
-    value: 1,
-  },
-  {
-    label: "TLS",
-    value: 2,
-  },
-];
-const PORTS = [
-  {
-    label: "SMTP",
-    value: 465,
-  },
-  {
-    label: "IMAP",
-    value: 993,
-  },
-];
 
 const StyledShowAdvance = styled.div`
   width: fit-content;
@@ -209,7 +176,7 @@ const CreateMailServerForm = ({ formData = {}, onCloseModal }: CreateMailServerF
               rules={{ required: "Type is required" }}
               name="type"
               control={control}
-              options={options}
+              options={mailTypes}
             />
           </FormRowVertical>
           <FormRowVertical label="Email" error={errors.email?.message}>
@@ -256,7 +223,7 @@ const CreateMailServerForm = ({ formData = {}, onCloseModal }: CreateMailServerF
                 rules={{ required: "SMTP port is required" }}
                 name="smtpPort"
                 control={control}
-                options={PORTS}
+                options={ports}
               />
             </FormRowVertical>
             <FormRowVertical label="Security Protocol" error={errors.securityProtocol?.message}>
@@ -264,7 +231,7 @@ const CreateMailServerForm = ({ formData = {}, onCloseModal }: CreateMailServerF
                 rules={{ required: "Security protocol is required" }}
                 name="securityProtocol"
                 control={control}
-                options={SECURITY_PROTOCOL}
+                options={securityProtocols}
               />
             </FormRowVertical>
           </StyledSMTPServer>
@@ -289,7 +256,7 @@ const CreateMailServerForm = ({ formData = {}, onCloseModal }: CreateMailServerF
                 <Input placeholder="Type here" type="password" {...register("imapPassword")} />
               </FormRowVertical>
               <FormRowVertical label="IMAP Port" error={errors.imapPort?.message}>
-                <SingleSelect name="imapPort" control={control} options={PORTS} />
+                <SingleSelect name="imapPort" control={control} options={ports} />
               </FormRowVertical>
             </StyledIMAPServer>
           </div>
