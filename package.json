@@ -21,6 +21,7 @@
     "@vitejs/plugin-legacy": "^6.0.0",
     "axios": "^1.6.7",
     "bootstrap": "^5.3.2",
+    "clean-deep": "^3.4.0",
     "date-fns": "^3.6.0",
     "lodash": "^4.17.21",
     "lucide-react": "^0.364.0",
