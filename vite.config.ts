@@ -38,6 +38,8 @@ export default defineConfig({
   resolve: {
     alias: {
       "@apis": path.resolve(__dirname, "./src/apis"),
+      "@configs": path.resolve(__dirname, "./src/configs"),
+      "@appConfigs": path.resolve(__dirname, "./src/appConfigs"),
       "@utils": path.resolve(__dirname, "./src/utils"),
       "@constants": path.resolve(__dirname, "./src/constants"),
       "@components": path.resolve(__dirname, "./src/components"),
@@ -53,7 +55,7 @@ export default defineConfig({
   },
   server: {
     host: true,
-    port: 8080,
+    port: 5173,
   },
   build: {
     sourcemap: env.NODE_ENV === "production", // Enable sourcemaps only in production
