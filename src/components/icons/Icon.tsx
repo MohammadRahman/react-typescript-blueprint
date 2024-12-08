@@ -1,4 +1,4 @@
-import { IconNames, icons } from "@config/reactIconsModule";
+import { IconNames, icons } from "@appConfigs/reactIconsModule";
 
 type IconProps = {
   name: IconNames; // The icon name should be of type `IconNames`

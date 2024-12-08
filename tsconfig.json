@@ -23,7 +23,7 @@
     "paths": {
       "@apis/*": ["src/apis/*"],
       "@configs/*": ["src/configs/*"],
-      "@appConfig/*": ["src/appConfigs/*"],
+      "@appConfigs/*": ["src/appConfigs/*"],
       "@utils/*": ["src/utils/*"],
       "@constants/*": ["src/constants/*"],
       "@components/*": ["src/components/*"],
