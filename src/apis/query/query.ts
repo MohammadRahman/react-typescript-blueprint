@@ -1,8 +1,9 @@
 export type QueryPayload = {
   version: number;
   id: string;
-  name: string;
   sourceId: string;
+  clientId?: string;
+  name: string;
   body: string;
 };
 export type SearchParamsProps = {};

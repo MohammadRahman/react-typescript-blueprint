@@ -7,6 +7,8 @@ import { useUser } from "@features/authentication/useUser";
 import ButtonIcon from "@components/button-icons/ButtonIcon";
 import { HiMagnifyingGlass, HiOutlineBell } from "react-icons/hi2";
 import { useLocation } from "react-router-dom";
+import { toCapitalCase } from "@utils/helper";
+import Heading from "@components/heading/Heading";
 
 const StyledHeader = styled.header`
   background-color: #f9f9fb; //var(--color-grey-0);
@@ -29,12 +31,11 @@ export function Header() {
   const { isAuthenticated } = useUser(localStorage.getItem("token"));
 
   const location = useLocation();
-  console.log(location.pathname);
   const pathName = location?.pathname === "/" ? "home" : location?.pathname.replace("/", "");
-  const capitalizedPathName = pathName.charAt(0).toUpperCase().concat(pathName.slice(1));
+  const capitalizedPathName = toCapitalCase(pathName);
   return (
     <StyledHeader>
-      <p>{capitalizedPathName}</p>
+      <Heading as="h2">{capitalizedPathName}</Heading>
       <div style={{ display: "flex", gap: "8px", alignItems: "center" }}>
         <ButtonIcon>
           <HiMagnifyingGlass />

@@ -11,6 +11,9 @@ import { useCreateEmailTemplate } from "./useCreateEmailTemplate";
 import { useUpdateTemplate } from "./useUpdateTemplate";
 import { v4 as uuidv4 } from "uuid";
 import { usequeryData } from "@context/QueryContext";
+import { useEffect, useState } from "react";
+import { Modal } from "@components/modal";
+import RenderHTML from "./RenderHTML";
 
 interface FormValues {
   id?: string;
@@ -37,7 +40,7 @@ type NewTemplateFormProps = {
 export const NewTemplateForm = ({ templateToEdit = {}, onCloseModal }: NewTemplateFormProps) => {
   const { updateTemplate } = useUpdateTemplate();
   const { queryData } = usequeryData();
-
+  const [bodyContent, setBodyContent] = useState("");
   const queryLists = queryData?.list.map(({ id, name }) => ({
     label: name,
     value: id,
@@ -52,7 +55,10 @@ export const NewTemplateForm = ({ templateToEdit = {}, onCloseModal }: NewTempla
     formState: { errors },
     control,
     reset,
+    watch,
   } = useForm<FormValues>({ defaultValues: isUpdateSession ? updateValues : {} });
+
+  const [body] = watch(["body"]);
 
   function handleCreateTemplateSubmit(values: any) {
     const templateId = uuidv4();
@@ -92,6 +98,7 @@ export const NewTemplateForm = ({ templateToEdit = {}, onCloseModal }: NewTempla
       });
     }
   }
+
   return (
     <div style={{ paddingTop: "1rem", paddingLeft: "6rem" }}>
       <Form onSubmit={handleSubmit(handleCreateTemplateSubmit)} type="modal">
@@ -129,7 +136,16 @@ export const NewTemplateForm = ({ templateToEdit = {}, onCloseModal }: NewTempla
                 Cancel
               </Button>
               <ButtonGroup>
-                <Button variation="outlinePrimary">Preview</Button>
+                <Modal>
+                  <Modal.Open opens="htmlPreview">
+                    <Button variation="outlinePrimary" type="button">
+                      Preview
+                    </Button>
+                  </Modal.Open>
+                  <Modal.Window name="htmlPreview" type="htmlPreview">
+                    <RenderHTML content={body} />
+                  </Modal.Window>
+                </Modal>
                 <Button variation="primary">Save Template</Button>
               </ButtonGroup>
             </Row>

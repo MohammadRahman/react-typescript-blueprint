@@ -26,3 +26,11 @@ export function formatConnectionStr({ database }: ConnectionStrProps) {
       return "";
   }
 }
+export function toCapitalCase(str: string): string {
+  return str
+    .split(/[-_/]/) // Split by hyphen, underscore, or slash
+    .map(
+      word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase() // Capitalize first letter, lowercase the rest
+    )
+    .join(" "); // Join the words back with space
+}

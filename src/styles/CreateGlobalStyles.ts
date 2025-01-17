@@ -5,6 +5,7 @@ export const CreateGlobalStyle = createGlobalStyle`
   &, &.light-mode {
   /* Grey */
  --color-brand: #0abd64;
+ --color-sidebar: #25263B;
   --color-grey-0: #fff;
   --color-pink-50: #FF4484;
   --color-white: #fff;
@@ -141,9 +142,8 @@ html {
 }
 
 body {
-  font-family: "Poppins", sans-serif;
-  color: var(--color-grey-700);
-
+  font-family: "Lato", sans-serif;
+  color: var(--color-black-100);
   transition: color 0.3s, background-color 0.3s;
   min-height: 100vh;
   line-height: 1.5;
