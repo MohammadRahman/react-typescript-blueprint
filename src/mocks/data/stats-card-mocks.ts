@@ -10,7 +10,7 @@ const gradients = [
   "bluegradient",
   "pinkgradient",
   "orangegradient",
-  "greegreengradient",
+  "greengradient",
   "blackgradient",
 ];
 const statsByDays = [
@@ -102,7 +102,6 @@ const statsByDays = [
 //   "18 Mar 2024",
 // ];
 const createreports = (howMany: number) => {
-  console.log(howMany);
   const getColors = howMany === 2 ? color : colors;
   const cardssData = [];
   for (let i = 0; i < howMany; i++) {

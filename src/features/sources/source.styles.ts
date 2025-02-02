@@ -7,12 +7,13 @@ export const StyledSource = styled.div`
 `;
 export const StyledContainer = styled.div`
   width: 100%;
-  padding: 1rem;
+  padding: 2rem;
   display: flex;
   flex-direction: column;
-  gap: 2rem;
-  background-color: white;
-  border-radius: 8px;
+  gap: 3rem;
+  background-color: var(--color-white);
+  border: 1px solid var(--color-grey-border);
+  border-radius: 1rem;
 `;
 export const FormContainer = styled.div`
   display: flex;

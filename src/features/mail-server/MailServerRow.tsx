@@ -3,7 +3,7 @@ import { Table } from "@components/table";
 import { HiOutlinePencil, HiOutlineTrash } from "react-icons/hi2";
 import styled from "styled-components";
 import ConfirmDelete from "@components/delete-confirmation/ConfirmDelete";
-import ButtonIcon from "@components/button-icons/ButtonIcon";
+import ButtonIcon from "@components/button-with-icon/ButtonWithIcon";
 import { useDelete } from "./useDelete";
 
 interface MailServerRowProps {

@@ -40,7 +40,6 @@ type NewTemplateFormProps = {
 export const NewTemplateForm = ({ templateToEdit = {}, onCloseModal }: NewTemplateFormProps) => {
   const { updateTemplate } = useUpdateTemplate();
   const { queryData } = usequeryData();
-  const [bodyContent, setBodyContent] = useState("");
   const queryLists = queryData?.list.map(({ id, name }) => ({
     label: name,
     value: id,
@@ -66,7 +65,8 @@ export const NewTemplateForm = ({ templateToEdit = {}, onCloseModal }: NewTempla
       version: 0,
       id: templateId,
       name: values.name,
-      queryId: values.queryId,
+      // queryId: values.queryId,
+      queryId: "a871bc2e-99f2-4e7f-9c16-112bf862ff9b",
       to: values.to,
       subject: values.subject,
       body: values.body,

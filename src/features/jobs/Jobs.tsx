@@ -1,38 +1,74 @@
 import ButtonGroup from "@components/button-group/ButtonGroup";
 import Button from "@components/button/Button";
 import { Row } from "@components/row";
-import { Search } from "@components/search/Search";
 import { Card } from "@features/statistics/Card";
 import { jobExecutaionCardData, jobsData } from "@mocks/data";
 import { HiOutlineDocumentText, HiOutlinePlus } from "react-icons/hi2";
-import { Table } from "@components/table";
 import styled from "styled-components";
-import { EcecutedJobRow } from "./EcecutedJobRow";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Modal } from "@components/modal";
 import { CreateJobFrom } from "./CreateJobFrom";
+import { useJobsList } from "./useJobLists";
+import JobTable from "./JobTable";
+import { useJobData } from "@context/JobContext";
 
 export const Styledjobs = styled.div`
   display: flex;
   flex-direction: column;
   gap: 2rem;
-  background-color: var(--color-grey-20);
 `;
+const StyledStatsCard = styled.div`
+  width: 100%;
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(5, 1fr);
+`;
+const formattedValues = {
+  page: -1,
+  pagesize: -1,
+};
+
 export const Jobs = () => {
   const jobStats = jobExecutaionCardData();
   const jobsDetails = jobsData();
-  const [searchInput, setSearchInput] = useState("");
+  const { jobData } = useJobData();
 
+  const [searchInput, setSearchInput] = useState("");
+  const { jobLists } = useJobsList();
   const filterdJobs = jobsDetails.filter((job: any) => searchInput == job.id);
 
   const filteredJobs = searchInput != "" ? filterdJobs : jobsDetails;
 
+  const colors = ["black", "blue", "pink", "green", "orange"];
+  const cardTitle = [
+    "Executed Job",
+    "Total Recipients",
+    "Most Contacted",
+    "Highest Success",
+    "Highest Failed",
+  ];
+  const totalRecipient = jobData?.list.forEach(job => {
+    let num = 0;
+    num += job.detailsCount;
+    return num;
+  });
+  const highestSuccess = Math.max(...(jobData?.list.map(({ successCount }) => successCount) || []));
+  const FailedSuccess = Math.max(...(jobData?.list.map(({ failCount }) => failCount) || []));
+
+  const executedJobStats = [
+    jobData?.list.length,
+    totalRecipient || 0,
+    0,
+    highestSuccess,
+    FailedSuccess,
+  ];
+  useEffect(() => {
+    jobLists(formattedValues);
+  }, []);
+
   return (
     <Styledjobs>
-      <Row type="horizontal">
-        <div>
-          <Search onChange={e => setSearchInput(e.target.value)} />
-        </div>
+      <Row type="horizontal" style={{ justifyContent: "flex-end" }}>
         <ButtonGroup>
           <Button variation="outline" size="medium">
             <HiOutlineDocumentText />
@@ -51,27 +87,18 @@ export const Jobs = () => {
           </Modal>
         </ButtonGroup>
       </Row>
-      <Row type="horizontal">
-        {jobStats.map((job: any) => (
-          <Card key={job.id} type="md" data={job} />
-        ))}
-      </Row>
-      <Table columns="0.8fr 1fr 1fr 1fr 1fr 1.5fr 1.5fr 1fr">
-        <Table.Header>
-          <div>Execution ID</div>
-          <div>Execution Date</div>
-          <div>Job Name</div>
-          <div>eMail Type</div>
-          <div>Recipents</div>
-          <div>Success Failed</div>
-          <div>Status</div>
-          <div>Actions</div>
-        </Table.Header>
-        <Table.Body
-          data={filteredJobs}
-          render={(job: any) => <EcecutedJobRow key={job.id} data={job} />}
-        />
-      </Table>
+      <StyledStatsCard>
+        {colors.map((color, idx) => {
+          const cardData = {
+            color: color,
+            gradients: `${color}gradient`,
+            title: cardTitle[idx],
+            stats: executedJobStats[idx],
+          };
+          return <Card key={idx} type="md" data={cardData} />;
+        })}
+      </StyledStatsCard>
+      <JobTable />
     </Styledjobs>
   );
 };

@@ -1,3 +1,5 @@
+import { format, parseISO } from "date-fns";
+
 type Database = {
   type: number;
   username: string;
@@ -33,4 +35,11 @@ export function toCapitalCase(str: string): string {
       word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase() // Capitalize first letter, lowercase the rest
     )
     .join(" "); // Join the words back with space
+}
+
+export function formatDate(dateString: string) {
+  const date = parseISO(dateString);
+
+  const formattedDate = format(date, "d MMM yyyy");
+  return formattedDate;
 }

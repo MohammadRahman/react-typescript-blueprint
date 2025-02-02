@@ -2,7 +2,7 @@ import Input from "@components/form/Input";
 import { HiOutlineMagnifyingGlass } from "react-icons/hi2";
 import styled from "styled-components";
 import { MdOutlineFilterList } from "react-icons/md";
-import ButtonIcon from "@components/button-icons/ButtonIcon";
+import ButtonIcon from "@components/button-with-icon/ButtonWithIcon";
 
 const StyledSearch = styled.div`
   min-width: 24rem;

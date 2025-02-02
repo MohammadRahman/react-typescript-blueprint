@@ -41,7 +41,7 @@ const StyledModalWindow = styled.div<StyledModalWindowProps>`
   ${props =>
     props.type == "aside" &&
     css`
-      width: 55vw;
+      width: 45vw;
       min-height: 100vh;
       right: 0;
       top: 0;

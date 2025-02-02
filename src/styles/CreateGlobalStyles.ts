@@ -4,6 +4,7 @@ export const CreateGlobalStyle = createGlobalStyle`
 :root {
   &, &.light-mode {
   /* Grey */
+  --color-grey-10: #E5E5E5;
  --color-brand: #0abd64;
  --color-sidebar: #25263B;
   --color-grey-0: #fff;
@@ -16,15 +17,23 @@ export const CreateGlobalStyle = createGlobalStyle`
   --card-shadow-orange:249,123,39;
   --color-pinkgradient: #FF97BA;
   --color-green-50: #05AA62;
-  --color-greegreengradient: #17FF99;
+  --color-primary: #04AA61;
+  --color-green: #04AA61;
+  --color-greengradient: #17FF99;
+  --color-light-green: rgba(4, 170, 97, 0.08);
+  --color-light-green-20: rgba(4, 170, 97, 0.1);
   --color-orange-50: #FF7D27;
+  --color-orange-20: #ff6242;
   --color-orangegradient: #FFA970;
   --color-black-50:  #25263B;
   --color-black-100:  #28293F;
   --color-blackgradient:#686A8C ;
   --color-blue-50: #1B60F9;
   --color-bluegradient: #6997FF;
+  --color-grey-30: #ececec;
   --color-grey-20: #F9F9FB;
+  --color-grey-60: #F9F9F9;
+  --color-grey-border: #ECECEC;
   --color-grey-50: #f9fafb;
   --color-grey-100: #f3f4f6;
   --color-grey-200: #e5e7eb;
@@ -39,7 +48,7 @@ export const CreateGlobalStyle = createGlobalStyle`
   --color-blue-100: #e0f2fe;
   --color-blue-600: #25263B;
   --color-blue-700: #0369a1;
-  --color-green-100: #dcfce7;
+  --color-green-100: rgba(4, 170, 97, 0.1);
   --color-green-200: #00FE87;
   --color-green-700: #15803d;
   --color-yellow-100: #fef9c3;
@@ -68,6 +77,7 @@ export const CreateGlobalStyle = createGlobalStyle`
   &.dark-mode {
     --color-grey-0: #18212f;
 --color-grey-50: #111827;
+--color-grey-20: #bababa;
 --color-grey-100: #1f2937;
 --color-grey-200: #374151;
 --color-grey-300: #4b5563;
@@ -117,7 +127,7 @@ export const CreateGlobalStyle = createGlobalStyle`
   --color-brand-800: #0f6c3e;
   --color-brand-900: #0e5936;
 
-  --border-radius-tiny: 3px;
+  --border-radius-xs: 3px;
   --border-radius-sm: 5px;
   --border-radius-md: 7px;
   --border-radius-lg: 9px;

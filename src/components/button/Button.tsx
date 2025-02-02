@@ -1,3 +1,5 @@
+import SpinnerMini from "@components/spinner/SpinnerMini";
+import { ReactNode } from "react";
 import styled, { css, RuleSet } from "styled-components";
 
 const sizes: { small: RuleSet<object>; medium: RuleSet<object>; large: RuleSet<object> } = {
@@ -12,6 +14,7 @@ const sizes: { small: RuleSet<object>; medium: RuleSet<object>; large: RuleSet<o
     font-size: 1.4rem;
     padding: 1.2rem 1.6rem;
     font-weight: 500;
+    min-width: 10rem;
   `,
   large: css`
     font-size: 1.6rem;
@@ -41,7 +44,7 @@ const variations = {
   `,
   primary: css`
     color: var(--color-brand-50);
-    background-color: var(--color-brand-600);
+    background-color: var(--color-primary);
 
     &:hover {
       background-color: var(--color-brand-700);
@@ -149,13 +152,15 @@ const variations = {
 type Size = keyof typeof sizes;
 type Variation = keyof typeof variations;
 
-type ButtonProps = {
+type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
   size?: Size;
   variation?: Variation;
   type?: string;
   onClick?: () => void;
+  isLoading?: boolean;
+  children: ReactNode;
 };
-const Button = styled.button<ButtonProps>`
+const StyledButton = styled.button<ButtonProps>`
   border: none;
   border-radius: var(--border-radius-sm);
   box-shadow: var(--shadow-sm);
@@ -163,6 +168,22 @@ const Button = styled.button<ButtonProps>`
   ${props => sizes[props.size || "medium"]}
   ${props => variations[props.variation || "primary"]}
 `;
+
+function Button({
+  size,
+  variation,
+  onClick,
+  type,
+  isLoading,
+  children,
+  ...restProps
+}: ButtonProps) {
+  return (
+    <StyledButton type={type} size={size} variation={variation} onClick={onClick} {...restProps}>
+      {isLoading && <SpinnerMini />} {children}
+    </StyledButton>
+  );
+}
 
 Button.defaultProps = {
   variation: "primary",

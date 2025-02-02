@@ -1,4 +1,4 @@
-import ButtonIcon from "@components/button-icons/ButtonIcon";
+import ButtonWithIcon from "@components/button-with-icon/ButtonWithIcon";
 import ConfirmDelete from "@components/delete-confirmation/ConfirmDelete";
 import { Modal } from "@components/modal";
 import { Table } from "@components/table";
@@ -44,14 +44,14 @@ export const SourceRow = ({ rowData, onEdit, isLoading }: SourceRowProps) => {
       {/* </Tag> */}
       <div></div>
       <StyledActionButtonsContainer>
-        <ButtonIcon variation="square" type="edit" onClick={() => onEdit(rowData)}>
+        <ButtonWithIcon variation="square" type="edit" onClick={() => onEdit(rowData)}>
           <HiOutlinePencil />
-        </ButtonIcon>
+        </ButtonWithIcon>
         <Modal>
           <Modal.Open opens="deleteSource">
-            <ButtonIcon variation="square" type="delete">
+            <ButtonWithIcon variation="square" type="delete">
               <HiOutlineTrash />
-            </ButtonIcon>
+            </ButtonWithIcon>
           </Modal.Open>
           <Modal.Window name="deleteSource" type="delete">
             <ConfirmDelete

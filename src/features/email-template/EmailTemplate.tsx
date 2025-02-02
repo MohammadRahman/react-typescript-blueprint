@@ -1,7 +1,6 @@
 import ButtonGroup from "@components/button-group/ButtonGroup";
 import Button from "@components/button/Button";
 import { Row } from "@components/row";
-import { Search } from "@components/search/Search";
 import { HiOutlineDocumentText, HiOutlinePlus } from "react-icons/hi2";
 import styled from "styled-components";
 import { Modal } from "@components/modal";
@@ -24,9 +23,10 @@ const formattedValues = {
 };
 
 export const EmailTemplate = () => {
-  const { templateLists } = useEmailTemplate();
+  const { templateLists, isLoading } = useEmailTemplate();
 
   const { queryLists } = useQueryData();
+
   useEffect(() => {
     templateLists(formattedValues);
   }, []);
@@ -47,7 +47,7 @@ export const EmailTemplate = () => {
             <Modal.Open opens="createNewTemplate">
               <Button variation="createNew" size="medium">
                 <HiOutlinePlus />
-                Create New Report
+                Create New Template
               </Button>
             </Modal.Open>
             <Modal.Window name="createNewTemplate" type="aside">
@@ -56,7 +56,7 @@ export const EmailTemplate = () => {
           </Modal>
         </ButtonGroup>
       </Row>
-      <TemplateTable />
+      <TemplateTable isLoading={isLoading} />
     </StyledEmailTemplate>
   );
 };
