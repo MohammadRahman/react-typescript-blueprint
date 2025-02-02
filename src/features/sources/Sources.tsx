@@ -3,26 +3,13 @@ import SourceTable from "./SourceTable";
 import { useSourceLists } from "./useSourceLists";
 import TestConnection from "./TestConnection";
 import { DEFAULT_SOURCE_FILTER } from "@constants/source";
-import { StyledContainer, StyledSource } from "./source.styles";
+import { StyledContainer } from "./source.styles";
 import CreateSourceForm, { CreateSourceFormProps } from "./CreateSourceForm";
-import { useConnectionStr, useSourceType } from "@context/ConnectionStringContext";
-import ReactTable from "@components/table/ReactTable";
-import { COLUMNS } from "@constants/table";
-import MOCK_DATA from "@constants/MOCK_DATA.json";
-import ResizableTable from "@components/table/ResponsiveTable";
-import { ColumnDef } from "@tanstack/react-table";
-import ActionButtons from "@components/action-button/ActionButtons";
+import { useConnectionStr } from "@context/ConnectionStringContext";
+import { HiArrowLongLeft } from "react-icons/hi2";
 
-type SourceFieldProps = {
-  name: string | "";
-  type: number | undefined;
-  databaseName: string | "";
-  host: string | "";
-  port: number | undefined;
-  username: string | "";
-  password: string | "";
-  file?: File;
-};
+import { Row } from "@components/row";
+import { IconContainer } from "@components/container/IconContainer";
 
 export const Sources = () => {
   const [editingSourceAccount, seteditingSourceAccount] = useState<
@@ -54,10 +41,17 @@ export const Sources = () => {
   useEffect(() => {
     sourceLists(DEFAULT_SOURCE_FILTER);
   }, []);
+
   return (
-    <StyledSource>
+    <Row type="vertical" gap="xl">
       <StyledContainer ref={formSectionRef}>
-        <span>&larr; New Database Connection</span>
+        <Row gap="md" justifyContent="flex-start">
+          <IconContainer type="round">
+            <HiArrowLongLeft />
+          </IconContainer>
+          <span>New Database Connection</span>
+        </Row>
+
         {editingSourceAccount && (
           <CreateSourceForm formData={editingSourceAccount} onCloseModal={handleCloseForm} />
         )}
@@ -68,7 +62,6 @@ export const Sources = () => {
       <StyledContainer ref={tableSectionRef}>
         <SourceTable isLoading={isLoading} onEdit={handleEditClick} />
       </StyledContainer>
-      <StyledContainer></StyledContainer>
-    </StyledSource>
+    </Row>
   );
 };

@@ -1,55 +1,11 @@
 import { HiOutlineHome, HiOutlineNewspaper } from "react-icons/hi2";
-import { NavLink } from "react-router-dom";
-import styled from "styled-components";
+import { PiChartPieSlice, PiDatabase } from "react-icons/pi";
+import { CiServer } from "react-icons/ci";
+import { LuClipboardList } from "react-icons/lu";
+import { NnavListLI, StyledNavLink } from "./mainNav.styles";
+import Icon from "@components/icon/Icon";
+import { Row } from "@components/row";
 
-const NavList = styled.ul`
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-`;
-interface NnavListLIProps {
-  collapsed?: boolean;
-}
-const NnavListLI = styled.li<NnavListLIProps>`
-  list-style: none;
-`;
-const StyledNavLink = styled(NavLink)`
-  &:link,
-  &:visited {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    color: var(--color-white);
-    font-size: 1.2rem;
-    font-weight: 500;
-    padding: 1rem 2rem;
-    transition: all 0.3s;
-  }
-
-  /* This works because react-router places the active class on the active NavLink */
-  &:hover,
-  &:active,
-  &.active:link,
-  &.active:visited {
-    color: var(--color-grey-800);
-    background-color: var(--color-green-200);
-    border-radius: var(--border-radius-sm);
-  }
-
-  & svg {
-    width: 2.4rem;
-    height: 2.4rem;
-    color: var(--color-white);
-    transition: all 0.3s;
-  }
-
-  &:hover svg,
-  &:active svg,
-  &.active:link svg,
-  &.active:visited svg {
-    color: var(--color-black-100);
-  }
-`;
 interface MainNavigationProps {
   collapse: boolean;
 }
@@ -57,15 +13,17 @@ interface MainNavigationProps {
 export const MainNavigation = ({ collapse }: MainNavigationProps) => {
   return (
     <nav>
-      <NavList>
+      <Row type="vertical" gap="xs">
         <NnavListLI>
           <StyledNavLink to="/">
             {collapse ? (
               <>
+                {/* <Icon name="query" library="custom" />
+                <span>Home</span> */}
                 <HiOutlineHome /> <span>Home</span>
               </>
             ) : (
-              <HiOutlineHome />
+              <Icon name="home" library="custom" />
             )}
           </StyledNavLink>
         </NnavListLI>
@@ -73,6 +31,7 @@ export const MainNavigation = ({ collapse }: MainNavigationProps) => {
           <StyledNavLink to="/jobs">
             {collapse ? (
               <>
+                {/* <Icon name="bag" library="custom" /> <span>Jobs</span> */}
                 <HiOutlineNewspaper /> <span>Jobs</span>
               </>
             ) : (
@@ -95,10 +54,10 @@ export const MainNavigation = ({ collapse }: MainNavigationProps) => {
           <StyledNavLink to="/reports">
             {collapse ? (
               <>
-                <HiOutlineNewspaper /> <span>Reports</span>
+                <LuClipboardList /> <span>Reports</span>
               </>
             ) : (
-              <HiOutlineNewspaper />
+              <LuClipboardList />
             )}
           </StyledNavLink>
         </NnavListLI>
@@ -106,10 +65,10 @@ export const MainNavigation = ({ collapse }: MainNavigationProps) => {
           <StyledNavLink to="/mail-server">
             {collapse ? (
               <>
-                <HiOutlineNewspaper /> <span>Mail Servers</span>
+                <CiServer /> <span>Mail Servers</span>
               </>
             ) : (
-              <HiOutlineNewspaper />
+              <CiServer />
             )}
           </StyledNavLink>
         </NnavListLI>
@@ -117,10 +76,10 @@ export const MainNavigation = ({ collapse }: MainNavigationProps) => {
           <StyledNavLink to="/queries">
             {collapse ? (
               <>
-                <HiOutlineNewspaper /> <span>Queries</span>
+                <PiChartPieSlice /> <span>Queries</span>
               </>
             ) : (
-              <HiOutlineNewspaper />
+              <PiChartPieSlice />
             )}
           </StyledNavLink>
         </NnavListLI>
@@ -128,10 +87,10 @@ export const MainNavigation = ({ collapse }: MainNavigationProps) => {
           <StyledNavLink to="/data-source">
             {collapse ? (
               <>
-                <HiOutlineNewspaper /> <span>Sources</span>
+                <PiDatabase /> <span>Sources</span>
               </>
             ) : (
-              <HiOutlineNewspaper />
+              <PiDatabase />
             )}
           </StyledNavLink>
         </NnavListLI>
@@ -157,7 +116,7 @@ export const MainNavigation = ({ collapse }: MainNavigationProps) => {
             )}
           </StyledNavLink>
         </NnavListLI>
-      </NavList>
+      </Row>
     </nav>
   );
 };

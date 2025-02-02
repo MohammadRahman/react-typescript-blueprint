@@ -18,6 +18,11 @@ import FileInput from "@components/form/FileInput";
 import { useUpdateSourceAccount } from "./useUpdateSource";
 import { useConnectionStr } from "@context/ConnectionStringContext";
 import { formatConnectionStr } from "@utils/helper";
+import { FormInputWithCheckBox } from "@components/container/FormInputWithCeckbox";
+import Checkbox from "@components/form/CheckBox";
+import { Grid } from "@components/grid/Grid";
+import { Container } from "@components/container/Container";
+import { Row } from "@components/row";
 
 type SourceFieldProps = {
   name: string;
@@ -27,7 +32,7 @@ type SourceFieldProps = {
   port: number | undefined;
   username: string;
   password: string;
-  file?: File;
+  csv?: FileList;
 };
 type Database = {
   databaseName?: string;
@@ -35,7 +40,8 @@ type Database = {
   port?: number | undefined;
   username?: string;
   password?: string;
-  file?: File;
+  csv?: FileList;
+  type?: number;
   version?: number;
 };
 
@@ -63,7 +69,7 @@ const CreateSourceForm = ({ formData = { database: {} }, onCloseModal }: CreateS
 
   const { setConnectionString } = useConnectionStr();
 
-  const { id, ...otherProps } = formData;
+  const { id } = formData;
 
   const mapToOneObject = {
     id: formData.id,
@@ -94,6 +100,7 @@ const CreateSourceForm = ({ formData = { database: {} }, onCloseModal }: CreateS
   }
   function handletypeForm(values: SourceFieldProps) {
     const randomId = uuidv4();
+    // const mediaFile = values.file ? values.file?.item(0) : null;
     const formatedPayload = {
       version: 0,
       id: randomId,
@@ -108,6 +115,8 @@ const CreateSourceForm = ({ formData = { database: {} }, onCloseModal }: CreateS
         username: values.username,
         password: values.password,
       },
+      csv: values.csv ? values.csv[0] : null,
+      // csv: mediaFile,
     };
     if (isUpdateSession && id) {
       const updatePayload = {
@@ -124,6 +133,7 @@ const CreateSourceForm = ({ formData = { database: {} }, onCloseModal }: CreateS
           username: values.username,
           password: values.password,
         },
+        csv: values.csv ? values.csv[0] : null,
       };
       updateSourceAccount(updatePayload, {
         onSuccess: () => {
@@ -134,7 +144,6 @@ const CreateSourceForm = ({ formData = { database: {} }, onCloseModal }: CreateS
       createSource(formatedPayload, {
         onSuccess: () => {
           clearFields();
-          // reset(), localStorage.removeItem("SourceAccountValues");
         },
         onError: () => {
           localStorage.setItem("SourceAccountValues", JSON.stringify(values)); // Save form values on error
@@ -200,6 +209,10 @@ const CreateSourceForm = ({ formData = { database: {} }, onCloseModal }: CreateS
         setValue("host", "");
         setValue("port", undefined);
         break;
+      case 8:
+        setValue("host", "");
+        setValue("port", undefined);
+        break;
       default:
         setValue("host", "");
         setValue("port", undefined);
@@ -209,49 +222,104 @@ const CreateSourceForm = ({ formData = { database: {} }, onCloseModal }: CreateS
   return (
     <Form onSubmit={handleSubmit(handletypeForm)} style={{ all: "unset" }}>
       <FormContainer>
-        <ContainerTwoElements>
-          <FormRowVertical label="" error={errors.name?.message}>
-            <Input {...register("name")} placeholder="Name" />
-          </FormRowVertical>
-          <FormRowVertical label="" error={errors.type?.message}>
-            <SingleSelect name="type" control={control} options={DATA_SOURCE_TYPES} />
-          </FormRowVertical>
-        </ContainerTwoElements>
+        <Grid columns={2} gap="md">
+          <FormInputWithCheckBox>
+            {watchValue.name && <Checkbox checked={true} id="name" />}
+            <FormRowVertical label="" error={errors.name?.message}>
+              <Input {...register("name")} placeholder="Server Name" isCheckbox="true" />
+            </FormRowVertical>
+          </FormInputWithCheckBox>
+          <FormInputWithCheckBox>
+            {watchValue.type && <Checkbox checked={true} id="type" />}
+            <FormRowVertical label="" error={errors.type?.message}>
+              <SingleSelect
+                name="type"
+                control={control}
+                isCheckbox="true"
+                options={DATA_SOURCE_TYPES}
+              />
+            </FormRowVertical>
+          </FormInputWithCheckBox>
+        </Grid>
 
-        {showOtherParameters && watchValue.type !== 7 ? (
-          <TypeParametersContainer>
-            <FormRowVertical error={errors.username?.message}>
-              <Input placeholder="User Name" {...register("username")} />
-            </FormRowVertical>
-            <FormRowVertical error={errors.password?.message}>
-              <Input type="password" {...register("password")} />
-            </FormRowVertical>
-            <FormRowVertical error={errors.host?.message}>
-              <Input placeholder="Host" {...register("host")} />
-            </FormRowVertical>
-            <FormRowVertical error={errors.port?.message}>
-              <Input placeholder="Port" {...register("port")} />
-            </FormRowVertical>
-            <FormRowVertical error={errors.databaseName?.message}>
-              <Input placeholder="Database Name" {...register("databaseName")} />
-            </FormRowVertical>
-          </TypeParametersContainer>
-        ) : showOtherParameters && watchValue.type === 7 ? (
+        {showOtherParameters && watchValue.type != 7 && watchValue.type != 8 ? (
+          <Grid columns={2} gap="md">
+            <FormInputWithCheckBox>
+              {watchValue.username && <Checkbox checked={true} id="userName" />}
+
+              <FormRowVertical error={errors.username?.message}>
+                <Input placeholder="User Name" {...register("username")} isCheckbox="true" />
+              </FormRowVertical>
+            </FormInputWithCheckBox>
+            <FormInputWithCheckBox>
+              {watchValue.password && <Checkbox checked={true} id="password" />}
+
+              <FormRowVertical error={errors.password?.message}>
+                <Input
+                  type="password"
+                  {...register("password")}
+                  placeholder="Password"
+                  isCheckbox="true"
+                />
+              </FormRowVertical>
+            </FormInputWithCheckBox>
+            <FormInputWithCheckBox>
+              {watchValue.host && <Checkbox checked={true} id="host" />}
+              <FormRowVertical error={errors.host?.message}>
+                <Input placeholder="Host" {...register("host")} isCheckbox="true" />
+              </FormRowVertical>
+            </FormInputWithCheckBox>
+            <FormInputWithCheckBox>
+              {watchValue.port && <Checkbox checked={true} id="port" />}
+              <FormRowVertical error={errors.port?.message}>
+                <Input placeholder="Port" {...register("port")} isCheckbox="true" />
+              </FormRowVertical>
+            </FormInputWithCheckBox>
+            <FormInputWithCheckBox>
+              {watchValue.databaseName && <Checkbox checked={true} id="databaseName" />}
+
+              <FormRowVertical error={errors.databaseName?.message}>
+                <Input
+                  placeholder="Database Name"
+                  {...register("databaseName")}
+                  isCheckbox="true"
+                />
+              </FormRowVertical>
+            </FormInputWithCheckBox>
+            <FormInputWithCheckBox>
+              {(watchValue.csv ?? []).length > 0 && <Checkbox checked={true} id="csv" />}
+
+              <FormRowVertical label="" error={errors.csv?.message}>
+                <FileInput {...register("csv")} />
+              </FormRowVertical>
+            </FormInputWithCheckBox>
+          </Grid>
+        ) : (showOtherParameters && watchValue.type === 7) ||
+          (showOtherParameters && watchValue.type === 8) ? (
           <div style={{ minWidth: "60px", maxWidth: "fit-content" }}>
-            <FormRowVertical label="" error={errors.file?.message}>
-              <FileInput {...register("file")} />
-            </FormRowVertical>
+            <FormInputWithCheckBox>
+              {watchValue.csv && <Checkbox checked={true} id="csv" />}
+              <FormRowVertical label="" error={errors.csv?.message}>
+                <FileInput {...register("csv")} />
+              </FormRowVertical>
+            </FormInputWithCheckBox>
           </div>
         ) : null}
 
         {showOtherParameters && (
-          <SytledFormButton>
-            <Button type="button" variation="outlinePrimary" onClick={clearFields}>
-              Cancel
-            </Button>
+          <Container padding="md" style={{ paddingTop: "2rem" }}>
+            <Row style={{ justifyContent: "flex-end", gap: "1rem" }}>
+              {!isUpdateSession && (
+                <Button type="button" variation="danger" onClick={clearFields}>
+                  Cancel
+                </Button>
+              )}
 
-            <Button>Save</Button>
-          </SytledFormButton>
+              <Button variation="primary" size="medium" isLoading={isCreating}>
+                Save
+              </Button>
+            </Row>
+          </Container>
         )}
       </FormContainer>
     </Form>

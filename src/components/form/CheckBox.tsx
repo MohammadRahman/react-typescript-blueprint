@@ -5,12 +5,36 @@ const StyledCheckbox = styled.div`
   gap: 1.6rem;
 
   & input[type="checkbox"] {
+    appearance: none;
+    border: none;
     height: 2.4rem;
     width: 2.4rem;
-    /* outline-offset: 2px; */
-    /* transform-origin: 0; */
-    /* border: 1px solid black; */
+    cursor: pointer;
+    position: relative;
+    transition: all 0.3s;
+    border: 1px solid black;
+    border-radius: 4px;
     accent-color: var(--color-brand-600);
+
+    &:checked {
+      border: 1px solid var(--color-brand-600);
+      background-color: var(--color-brand-600);
+    }
+    &:checked::after {
+      content: "";
+      position: absolute;
+      top: 5px;
+      left: 9px;
+      width: 6px;
+      height: 12px;
+      border: solid white;
+      border-width: 0 2px 2px 0; //Creates the tick shape
+      transform: rotate(45deg);
+      transition: all 0.3s;
+    }
+    &:focus {
+      outline: none;
+    }
   }
 
   & input[type="checkbox"]:disabled {
@@ -27,16 +51,16 @@ const StyledCheckbox = styled.div`
 `;
 type CheckBoxProps = {
   checked: boolean | undefined;
-  onChange: () => void;
+  onChange?: () => void;
   disabled?: boolean;
   id: string;
-  children: React.ReactNode;
+  children?: React.ReactNode;
 };
 function Checkbox({ checked, onChange, disabled = false, id, children }: CheckBoxProps) {
   return (
     <StyledCheckbox>
       <input
-        style={{ border: "1px solid black" }}
+        // style={{ border: "1px solid black" }}
         type="checkbox"
         id={id}
         checked={checked}

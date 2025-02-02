@@ -7,7 +7,7 @@ const Form = styled.form<FormProps>`
   ${props =>
     props.type === "regular" &&
     css`
-      min-width: 100rem;
+      /* min-width: 100rem; */
       max-width: auto;
       padding: 2.4rem 2rem;
       /* Box */
@@ -19,7 +19,7 @@ const Form = styled.form<FormProps>`
   ${props =>
     props.type === "modal" &&
     css`
-      width: 70rem;
+      width: 60rem;
     `}
     
   overflow: hidden;

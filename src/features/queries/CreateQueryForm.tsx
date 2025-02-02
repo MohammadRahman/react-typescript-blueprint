@@ -1,15 +1,9 @@
 import Form from "@components/form/Form";
-import {
-  HiddenContent,
-  StyledButton,
-  StyledCheckbox,
-  StyledCheckBoxContainer,
-} from "./query.styles";
+import { StyledButton } from "./query.styles";
 import FormRowVertical from "@components/form/FormRowVertical";
 import Input from "@components/form/Input";
 import Checkbox from "@components/form/CheckBox";
 import { SingleSelect } from "@components/select";
-import TestConnection from "@features/sources/TestConnection";
 import SQLQueryEditor from "@components/editor/MonacoSqlEditor";
 import { HiOutlineEye } from "react-icons/hi2";
 import Button from "@components/button/Button";
@@ -22,13 +16,8 @@ import { QueryPayload } from "@apis/query";
 import { useSourceData } from "@context/SourceContext";
 import { useSourceLists } from "@features/sources/useSourceLists";
 import { DEFAULT_SOURCE_FILTER } from "@constants/source";
+import { FormInputWithCheckBox } from "@components/container/FormInputWithCeckbox";
 
-// const sources = [
-//     {
-//       label: "source-1",
-//       value: "source-1"
-//     }
-//   ]
 export type CreateQueryFormProps = {
   formData?: {
     version?: number;
@@ -36,11 +25,13 @@ export type CreateQueryFormProps = {
     name?: string;
     body?: string;
     sourceId?: string;
+    email?: string;
+    clientIdField?: string;
   };
   onCloseModal?: () => void;
 };
 const CreateQueryForm = ({ formData = {}, onCloseModal }: CreateQueryFormProps) => {
-  const { id, ...otherProps } = formData;
+  const { id } = formData;
   const isUpdateSession = Boolean(id);
   const { updateQueryData, isUpdating } = useUpdateQuery();
   const [query, setQuery] = useState(isUpdateSession ? formData.body : "");
@@ -50,6 +41,7 @@ const CreateQueryForm = ({ formData = {}, onCloseModal }: CreateQueryFormProps) 
   console.log("sourceData", sourceData?.list);
 
   const [dataSource, setDataSource] = useState(!!formData.sourceId);
+  const [clientIdField, setclientIdField] = useState(!!formData.clientIdField);
   const [databaseConnection, setDatabaseConnection] = useState(false);
   const [sqlQuery, setSqlQuery] = useState(!!formData.body);
   const [showEditor, setShowEditor] = useState(false);
@@ -57,8 +49,8 @@ const CreateQueryForm = ({ formData = {}, onCloseModal }: CreateQueryFormProps) 
   const { createQuery } = useCreateQuery();
 
   const sources = sourceData?.list.map(source => ({
-    label: source.name, // Assign the source name to the label
-    value: source.id, // Assign the source ID to the value
+    label: source.name,
+    value: source.id,
   }));
 
   const {
@@ -87,6 +79,8 @@ const CreateQueryForm = ({ formData = {}, onCloseModal }: CreateQueryFormProps) 
       id: formData.id || "",
       name: values?.name || "",
       sourceId: values?.sourceId || "",
+      clientIdField: values?.clientIdField || "",
+      email: values?.email || "",
       body: values?.body || "",
     };
     if (isUpdateSession) {
@@ -101,6 +95,8 @@ const CreateQueryForm = ({ formData = {}, onCloseModal }: CreateQueryFormProps) 
           version: 0,
           id: queryId,
           sourceId: values?.sourceId,
+          clientIdField: values?.clientIdField,
+          email: values?.email,
           name: values?.name,
           body: query,
         },
@@ -127,56 +123,36 @@ const CreateQueryForm = ({ formData = {}, onCloseModal }: CreateQueryFormProps) 
           marginBottom: "1rem",
         }}
       >
-        <StyledCheckBoxContainer>
-          <FormRowVertical label="Name" error={errors.name?.message}>
-            <Input {...register("name")} style={{ width: "30rem" }} placeholder="Type here..." />
+        <FormInputWithCheckBox>
+          <Checkbox checked={true} id="name" />
+          <FormRowVertical error={errors.name?.message}>
+            <Input {...register("name")} placeholder="Name" isCheckbox="true" />
           </FormRowVertical>
-        </StyledCheckBoxContainer>
-        <StyledCheckBoxContainer>
-          <FormRowVertical label="">
-            <StyledCheckbox isChecked={dataSource}>
-              <Checkbox
-                id="dataSource"
-                checked={dataSource}
-                //   disabled={rowData.jobsPermission === 56}
-                onChange={() => setDataSource(prev => !prev)}
-              >
-                <span>Data Source</span>
-              </Checkbox>
-            </StyledCheckbox>
-            {dataSource && (
-              <HiddenContent
-                isVisible={dataSource || isUpdateSession}
-                style={{ paddingTop: "1rem", paddingBottom: "1rem", position: "absolute" }}
-              >
-                <SingleSelect name="sourceId" control={control} options={sources || []} />
-              </HiddenContent>
-            )}
+        </FormInputWithCheckBox>
+        <FormInputWithCheckBox>
+          <Checkbox checked={true} id="clientIdField" />
+          <FormRowVertical error={errors.clientIdField?.message}>
+            <Input {...register("clientIdField")} placeholder="Client Id" isCheckbox="true" />
           </FormRowVertical>
-        </StyledCheckBoxContainer>
-        <StyledCheckBoxContainer>
-          <FormRowVertical>
-            <StyledCheckbox isChecked={databaseConnection}>
-              <Checkbox
-                id="dataBaseConnection"
-                checked={databaseConnection}
-                //   disabled={rowData.jobsPermission === 56}
-                onChange={() => setDatabaseConnection(prev => !prev)}
-              >
-                <span>Connection to Database</span>
-              </Checkbox>
-            </StyledCheckbox>
-            {databaseConnection && (
-              <HiddenContent
-                isVisible={databaseConnection}
-                style={{ paddingTop: "1rem", paddingBottom: "1rem" }}
-              >
-                <TestConnection connectionString="" />
-              </HiddenContent>
-            )}
+        </FormInputWithCheckBox>
+        <FormInputWithCheckBox>
+          <Checkbox checked={true} id="email" />
+          <FormRowVertical error={errors.email?.message}>
+            <Input {...register("email")} placeholder="Email" isCheckbox="true" />
           </FormRowVertical>
-        </StyledCheckBoxContainer>
-        <StyledCheckBoxContainer style={{ gridColumn: "1 / -1", width: "50%" }}>
+        </FormInputWithCheckBox>
+        <FormInputWithCheckBox style={{ width: "100%" }}>
+          <Checkbox checked={true} id="dataSource" />
+          <FormRowVertical error={errors.sourceId?.message}>
+            <SingleSelect
+              name="sourceId"
+              isCheckbox="true"
+              control={control}
+              options={sources || []}
+            />
+          </FormRowVertical>
+        </FormInputWithCheckBox>
+        <FormInputWithCheckBox>
           <FormRowVertical label="">
             <Checkbox
               id="sqlQuery"
@@ -210,7 +186,7 @@ const CreateQueryForm = ({ formData = {}, onCloseModal }: CreateQueryFormProps) 
               </>
             )}
           </FormRowVertical>
-        </StyledCheckBoxContainer>
+        </FormInputWithCheckBox>
         <StyledButton>
           <Button type="button" onClick={clearFields}>
             Cancel

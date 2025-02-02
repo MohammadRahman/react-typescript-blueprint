@@ -1,7 +1,7 @@
 import Button from "@components/button/Button";
 import { Table } from "@components/table";
 import { StyledActionButtonsContainer } from "./query.styles";
-import ButtonIcon from "@components/button-icons/ButtonIcon";
+import ButtonWithIcon from "@components/button-with-icon/ButtonWithIcon";
 import { HiOutlinePencil, HiOutlineTrash } from "react-icons/hi2";
 import { Modal } from "@components/modal";
 import ConfirmDelete from "@components/delete-confirmation/ConfirmDelete";
@@ -34,14 +34,14 @@ export const QueryRow = ({ rowData, onEdit, isLoading }: QueryRowProps) => {
           Show Data
         </Button>
         <StyledActionButtonsContainer>
-          <ButtonIcon variation="square" type="edit" onClick={() => onEdit(rowData)}>
+          <ButtonWithIcon variation="square" type="edit" onClick={() => onEdit(rowData)}>
             <HiOutlinePencil />
-          </ButtonIcon>
+          </ButtonWithIcon>
           <Modal>
             <Modal.Open opens="deleteSource">
-              <ButtonIcon variation="square" type="delete">
+              <ButtonWithIcon variation="square" type="delete">
                 <HiOutlineTrash />
-              </ButtonIcon>
+              </ButtonWithIcon>
             </Modal.Open>
             <Modal.Window name="deleteSource" type="delete">
               <ConfirmDelete

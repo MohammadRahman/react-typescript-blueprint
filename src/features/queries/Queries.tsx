@@ -32,10 +32,6 @@ export const Queries = () => {
 
   const { sourceData } = useSourceData();
 
-  // const {sourceData} = useSourceData();
-
-  console.log("sourceData", sourceData);
-
   const formSectionRef = useRef<HTMLDivElement>(null);
 
   const handleCloseForm = () => {

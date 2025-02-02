@@ -4,8 +4,12 @@ import { ColumnDef } from "@tanstack/react-table";
 import { useTemplateData } from "@context/TemplateContext";
 import ActionButtons from "@components/action-button/ActionButtons";
 import { formatString } from "@utils/helper";
+import { Container } from "@components/container/Container";
 
-const TemplateTable = () => {
+type TemplateTableProps = {
+  isLoading: boolean;
+};
+const TemplateTable = ({ isLoading }: TemplateTableProps) => {
   const { template } = useTemplateData();
   const { deleteTemplate } = useDeleteTemplate();
 
@@ -43,7 +47,7 @@ const TemplateTable = () => {
       cell: () => null,
     },
     {
-      id: "actions", // Custom column for actions
+      id: "actions",
       header: "Action",
       cell: ({ row }) => (
         <ActionButtons
@@ -69,7 +73,16 @@ const TemplateTable = () => {
       }))
     : [];
 
-  return <ResizableTable searchProperty="name" columns={columns} data={tableData} />;
+  return (
+    <Container padding="md" bgc="white" borderRadius="lg" border="sm">
+      <ResizableTable
+        isLoading={isLoading}
+        searchProperty="name"
+        columns={columns}
+        data={tableData}
+      />
+    </Container>
+  );
 };
 
 export default TemplateTable;

@@ -44,8 +44,6 @@ export function useEmailTemplate() {
       queryClient.invalidateQueries({ queryKey: ["QueryData"] });
       if (data && data.list.length === 0) {
         toast.success("Nothing found");
-      } else {
-        toast.success("email account fetch successful.");
       }
     },
     onError: error => {
@@ -103,60 +101,3 @@ export function useEmailTemplate() {
 
   return { templateLists: fetchWithSignal, isLoading };
 }
-
-// export function useQueryData(){
-//     const { setTemplateData } = useEmailData();
-//     const queryClient = useQueryClient();
-
-//     const abortControllerRef = React.useRef<AbortController | null>(null);
-
-//     const {mutate: templateLists, isPending: isLoading} = useMutation({
-//         mutationKey: ['QueryData'],
-//         mutationFn: async(data: any, options?: { signal?: AbortSignal })=>{
-//             try {
-//                 const response = await QueryDataApi.gettemplateLists(data, options?.signal);
-//                 return response.data;
-//             } catch (error: AxiosError | any) {
-//             if (isCancel(error)) {
-//                 console.log('Request canceled:', error.message);
-//               } else {
-//                 console.error('Error:', error.message);
-//                 toast.error(error.message);
-//               }
-//             }
-//         },
-//         onMutate: () => {
-//             setTemplateData((prevState) => ({
-//               ...prevState!,
-//               isLoading: true,
-//             }));
-//           },
-//         onSuccess: (data) => {
-//             setTemplateData({
-//                 list: data.list,
-//                 totalCount: data.totalCount,
-//                 isLoading: false,
-//                 currentPage: data.currentPage || 1,
-//               });
-//             queryClient.invalidateQueries({ queryKey: ['QueryData'] });
-//             toast.success('email lists successfully fetched.');
-//         },
-//         onError: (error)=> {
-//             toast.error(error.message)
-//         },
-//     });
-//     const fetchWithSignal = (data: any)=>{
-//     if (abortControllerRef.current) {
-//         abortControllerRef.current.abort();
-//       }
-//       abortControllerRef.current = new AbortController();
-
-//       const signal = abortControllerRef.current.signal;
-//       try {
-//         return templateLists({ ...data, signal });
-//       } catch (error) {
-//         throw error; // Ensure errors bubble up
-//       }
-//     }
-//     return {templateLists:fetchWithSignal, isLoading}
-// }

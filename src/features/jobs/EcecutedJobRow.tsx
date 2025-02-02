@@ -10,7 +10,7 @@ import { Stacked } from "..";
 import Tag from "@components/tag/Tag";
 import ButtonGroup from "@components/button-group/ButtonGroup";
 import Button from "@components/button/Button";
-import ButtonIcon from "@components/button-icons/ButtonIcon";
+import ButtonWithIcon from "@components/button-with-icon/ButtonWithIcon";
 import styled from "styled-components";
 import { ExcutedJobDetails } from "./ExcutedJobDetails";
 import { executedJobDetailsData } from "@mocks/data";
@@ -20,7 +20,7 @@ const StyleButtonGroup = styled(ButtonGroup)`
   gap: 0.5rem;
   align-items: center;
 `;
-const StyledButtonIcon = styled(ButtonIcon)`
+const StyledButtonWithIcon = styled(ButtonWithIcon)`
   width: 32px;
   height: 32px;
   border-radius: 50%;
@@ -98,9 +98,9 @@ export const EcecutedJobRow = ({ data }: EcecutedJobRowProps) => {
           <Button variation="primary" type="smallDetail" onClick={() => clickHandler(data.id)}>
             Details
           </Button>
-          <StyledButtonIcon>
+          <StyledButtonWithIcon>
             <HiOutlinePencil />
-          </StyledButtonIcon>
+          </StyledButtonWithIcon>
           <HiOutlineTrash />
         </StyleButtonGroup>
       </Table.Row>

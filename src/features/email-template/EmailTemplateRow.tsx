@@ -4,7 +4,7 @@ import { HiOutlinePencil, HiOutlineTrash } from "react-icons/hi2";
 import { RiAttachmentLine } from "react-icons/ri";
 import { NewTemplateForm } from "./NewTemplateForm";
 import { formatString } from "@utils/helper";
-import ButtonIcon from "@components/button-icons/ButtonIcon";
+import ButtonIcon from "@components/button-with-icon/ButtonWithIcon";
 import ConfirmDelete from "@components/delete-confirmation/ConfirmDelete";
 import { useDeleteTemplate } from "./useDeleteTemplate";
 

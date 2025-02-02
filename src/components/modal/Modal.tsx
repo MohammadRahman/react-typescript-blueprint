@@ -41,7 +41,7 @@ const StyledModalWindow = styled.div<StyledModalWindowProps>`
   ${props =>
     props.type == "aside" &&
     css`
-      width: 55vw;
+      width: 45vw;
       min-height: 100vh;
       right: 0;
       top: 0;
@@ -60,6 +60,17 @@ const StyledModalWindow = styled.div<StyledModalWindowProps>`
       width: 70vw;
       height: 80vh;
       /* overflow-y: auto; */
+      /* transform:translate(-50%, -50%) ; */
+    `}
+  ${props =>
+    props.type == "htmlPreview" &&
+    css`
+      width: 100vw;
+      height: 100vh;
+      left: 0;
+      top: 0;
+      /* overflow-y: scroll; */
+      overflow-y: auto;
       /* transform:translate(-50%, -50%) ; */
     `}
 `;
@@ -81,7 +92,7 @@ type OpenProps = {
 type ModalWindowProps = {
   children: ReactNode;
   name: string;
-  type?: "delete" | "regular" | "aside";
+  type?: "delete" | "regular" | "aside" | "htmlPreview";
 };
 const ModalContext = createContext<ModalContextProps | undefined>(undefined);
 
