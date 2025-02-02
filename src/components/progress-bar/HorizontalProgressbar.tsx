@@ -14,7 +14,7 @@ const ProgressBar = styled.div<ProgressBarProp>`
   max-width: ${props => props.percent}%;
   min-height: 12px;
   border-radius: 16px;
-  background-color: ${props => (props.percent ? "#04AA61" : "#ff6242")};
+  background-color: ${props => (props.percent ? "var(--color-primary)" : "var(--color-orange-20)")};
 `;
 type ProgressBarProps = {
   percent: number;

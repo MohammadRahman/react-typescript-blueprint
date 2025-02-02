@@ -1,4 +1,5 @@
-import ButtonIcon from "@components/button-icons/ButtonIcon";
+import ButtonWithIcon from "@components/button-with-icon/ButtonWithIcon";
+import Button from "@components/button/Button";
 import ConfirmDelete from "@components/delete-confirmation/ConfirmDelete";
 import { Modal } from "@components/modal";
 import { NewTemplateForm } from "@features/email-template/NewTemplateForm";
@@ -12,10 +13,13 @@ type ActionButtonsProps = {
   deleteAccount: (id: string) => void;
   isModal?: boolean;
   modalName?: string;
+  isDetails?: boolean;
+  onDetailsClick?: () => void;
+  isView?: boolean;
 };
 const GroupButton = styled.div`
   display: flex;
-  gap: 1rem;
+  gap: 0.5rem;
   justify-content: center;
   align-items: center;
 `;
@@ -26,41 +30,49 @@ const ActionButtons = ({
   data,
   isModal = false,
   deleteAccount,
+  isDetails,
+  onDetailsClick,
+  isView = false,
 }: ActionButtonsProps) => {
   const handleEdit = () => {
-    console.log("source data", data);
     if (onEdit) {
-      onEdit(data); // Call onEdit if defined
+      onEdit(data);
     }
   };
 
   return (
     <GroupButton>
       <Modal>
+        {isView && isDetails ? (
+          <Button type="button" variation="outlinePrimary" onClick={onDetailsClick}>
+            Details
+          </Button>
+        ) : isView ? (
+          <ButtonWithIcon variation="square">
+            <HiOutlineEye />
+          </ButtonWithIcon>
+        ) : null}
+
         {isModal ? (
           <>
             <Modal.Open opens={modalName || ""}>
-              <ButtonIcon variation="square" type="edit">
+              <ButtonWithIcon variation="square" type="edit">
                 <HiOutlinePencil />
-              </ButtonIcon>
+              </ButtonWithIcon>
             </Modal.Open>
             <Modal.Window name={modalName || ""}>
               {modalName === "emailTemplate" ? <NewTemplateForm templateToEdit={data} /> : null}
             </Modal.Window>
           </>
         ) : (
-          <ButtonIcon variation="square" type="edit">
+          <ButtonWithIcon variation="square" type="edit">
             <HiOutlinePencil onClick={handleEdit} />
-          </ButtonIcon>
+          </ButtonWithIcon>
         )}
-
-        <ButtonIcon variation="square">
-          <HiOutlineEye />
-        </ButtonIcon>
-        <Modal.Open opens="deleteSource">
-          <ButtonIcon variation="square" type="delete">
+        <Modal.Open opens={modalName || ""}>
+          <ButtonWithIcon variation="square" type="delete">
             <HiOutlineTrash />
-          </ButtonIcon>
+          </ButtonWithIcon>
         </Modal.Open>
         <Modal.Window name="deleteSource" type="delete">
           <ConfirmDelete

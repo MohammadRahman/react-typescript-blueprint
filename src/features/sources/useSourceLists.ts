@@ -38,7 +38,6 @@ export function useSourceLists() {
         currentPage: data.currentPage || 1,
       });
       queryClient.invalidateQueries({ queryKey: ["EmailAccount"] });
-      toast.success("email lists successfully fetched.");
     },
     onError: error => {
       toast.error(error.message);

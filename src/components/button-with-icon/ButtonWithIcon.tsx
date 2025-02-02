@@ -5,12 +5,10 @@ type ButtonIconProps = {
   type?: "edit" | "delete";
 };
 
-const ButtonIcon = styled.button<ButtonIconProps>`
+const ButtonWithIcon = styled.button<ButtonIconProps>`
   background: white;
-  /* border: none; */
-  border: 1px solid var(--color-grey-200);
+  border: 1px solid var(--color-grey-20);
   padding: 0.6rem;
-  /* border-radius: var(--border-radius-sm); */
   border-radius: ${props => (props.variation === "square" ? "4px" : "50%")};
   transition: all 0.2s;
   &:hover {
@@ -34,8 +32,7 @@ const ButtonIcon = styled.button<ButtonIconProps>`
   & svg {
     width: 2rem;
     height: 2rem;
-    /* color: var(--color-brand-600); */
   }
 `;
 
-export default ButtonIcon;
+export default ButtonWithIcon;

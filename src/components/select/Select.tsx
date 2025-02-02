@@ -12,16 +12,29 @@ type SelectProps = {
   value?: Option | null;
   control?: any;
   onChange?: (option: Option) => void;
+  isCheckbox?: string;
 };
 
-const customStyles = {
-  control: (provided: any) => ({
+const customStyles = (isCheckbox: SelectProps["isCheckbox"]) => ({
+  control: (provided: any, state: any) => ({
     ...provided,
     background: "transparent",
     display: "flex",
     flexWrap: "wrap",
     width: "auto",
     padding: "0.4rem",
+    border:
+      isCheckbox && !state.isFocused && !state.menuIsOpen
+        ? "none"
+        : "1px solid var(--color-grey-300)",
+    borderRadius: isCheckbox ? "0" : "var(--border-radius-sm)",
+    boxShadow: "none",
+    "&:hover": {
+      border: isCheckbox ? "none" : "1px solid var(--color-grey-300)",
+    },
+    "&:focus-within": {
+      border: isCheckbox ? "none" : "1px solid var(--color-grey-300)", // Prevent focus border
+    },
   }),
   menu: (provided: any) => ({
     ...provided,
@@ -30,9 +43,9 @@ const customStyles = {
     marginTop: "-0px",
     width: "100%",
   }),
-};
+});
 
-export const SingleSelect = ({ name, control, options, rules }: SelectProps) => {
+export const SingleSelect = ({ name, control, options, rules, isCheckbox }: SelectProps) => {
   return (
     <>
       <Controller
@@ -42,9 +55,10 @@ export const SingleSelect = ({ name, control, options, rules }: SelectProps) => 
         render={({ field: { onChange, value }, fieldState: { error } }) => (
           <>
             <Select
+              isClearable
               theme={theme => ({
                 ...theme,
-                borderRadius: 4,
+                borderRadius: isCheckbox ? 0 : 4,
                 background: "transparent",
                 colors: {
                   ...theme.colors,
@@ -57,9 +71,7 @@ export const SingleSelect = ({ name, control, options, rules }: SelectProps) => 
                   width: "4em",
                 }),
               })}
-              styles={customStyles}
-              // value={selectedOption}
-              // onChange={handleChange}
+              styles={customStyles(isCheckbox)}
               value={options.find(option => option.value === value) || null}
               onChange={selectedOption => onChange(selectedOption ? selectedOption.value : null)}
               options={options}

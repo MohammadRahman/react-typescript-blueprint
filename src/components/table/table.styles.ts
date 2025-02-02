@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 
 export const StyledTable = styled.table`
   border-collapse: collapse;
@@ -7,23 +7,15 @@ export const StyledTable = styled.table`
   font-size: 1.4rem;
   background-color: var(--color-grey-0);
   border-radius: 7px;
+  padding: 1rem;
   overflow: hidden;
 `;
 export const StyledHeader = styled.thead`
-  /* padding: 1.6rem 2.4rem;
-  background-color: var(--color-grey-50);
-  border-bottom: 1px solid var(--color-grey-100);
-  text-transform: uppercase;
-  letter-spacing: 0.4px;
-  font-weight: 600;
-  color: var(--color-grey-600); */
   padding: 1rem 2.4rem;
-  background-color: #ececec;
+  width: 100%;
+  background-color: var(--color-grey-10);
   border-bottom: 1px solid var(--color-grey-100);
-  /* text-transform: uppercase; */
-  /* letter-spacing: 0.1px; */
   font-weight: 400;
-  color: var(--color-grey-600);
 
   &:hover {
     border-right: 1px solid black;
@@ -38,6 +30,7 @@ type StyledThProps = {
 
 export const StyledTh = styled.th<StyledThProps>`
   padding: 1rem;
+  color: #797979;
   position: relative;
   width: ${({ width }: { width: number }) => `${width}px`};
 
@@ -60,15 +53,23 @@ export const StyledTh = styled.th<StyledThProps>`
     }
   }
 `;
-export const StyledRow = styled.tr`
-  padding: 1.2rem 2.4rem;
+type StyledRowProps = {
+  isActive?: boolean;
+};
 
+export const StyledRow = styled.tr.withConfig({
+  shouldForwardProp: prop => prop !== "isActive",
+})<StyledRowProps>`
+  padding: 1.2rem 2.4rem;
+  background-color: ${({ isActive }) => (isActive ? "var(--color-light-green)" : "transparent")};
+  transition: background-color 0.3s ease;
   &:not(:last-child) {
-    border-bottom: 1px solid var(--color-grey-100);
+    /* border-bottom: 1px solid var(--color-grey-100); */
+    border-bottom: 1px solid var(--color-grey-30);
   }
   &:hover {
     cursor: pointer;
-    background-color: var(--color-grey-100);
+    background-color: var(--color-light-green);
   }
 `;
 // Styled empty message
@@ -101,7 +102,7 @@ export const InputWrapper = styled.div`
   position: relative;
   display: flex;
   align-items: center;
-  width: 100%; /* Adjust as needed */
+  width: 100%;
 `;
 export const Buttons = styled.div`
   display: flex;
@@ -113,5 +114,5 @@ export const EmptyWrapper = styled.div`
   left: 50%;
   transform: translate(-50%, -50%);
   text-align: center;
-  width: 100%; /* Ensure it spans the table width */
+  width: 100%;
 `;

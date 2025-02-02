@@ -63,10 +63,11 @@ const PaginationButton = styled.button<PaginationButtonProps>`
 type PaginationProps = {
   count: number;
   tableI: any;
+  pageSize: number;
 };
-export function Pagination({ count, tableI }: PaginationProps) {
+export function Pagination({ count, tableI, pageSize }: PaginationProps) {
   const currentPage = tableI.getState().pagination.pageIndex + 1;
-  const pageCount = Math.ceil(count / PAGE_SIZE);
+  const pageCount = Math.ceil(count / pageSize);
 
   function nextPage() {
     tableI.nextPage();
@@ -79,8 +80,8 @@ export function Pagination({ count, tableI }: PaginationProps) {
   return (
     <StyledPagination>
       <P>
-        Showing <span>{(currentPage - 1) * PAGE_SIZE + 1}</span> to{" "}
-        <span>{currentPage === pageCount ? count : currentPage * PAGE_SIZE}</span> of{" "}
+        Showing <span>{(currentPage - 1) * pageSize + 1}</span> to{" "}
+        <span>{currentPage === pageCount ? count : currentPage * pageSize}</span> of{" "}
         <span>{count}</span> results
       </P>
       <div>

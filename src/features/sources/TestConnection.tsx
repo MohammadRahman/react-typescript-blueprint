@@ -1,15 +1,8 @@
 import Button from "@components/button/Button";
 import Input from "@components/form/Input";
+import { Row } from "@components/row";
 import { useForm } from "react-hook-form";
-import styled from "styled-components";
 
-const StyledTestConnetion = styled.div`
-  display: flex;
-  justify-content: space-between;
-  margin-top: 1rem;
-  min-width: 50%;
-  max-width: 100%;
-`;
 type TestConnectionProps = {
   connectionString: string;
 };
@@ -17,7 +10,7 @@ const TestConnection = ({ connectionString }: TestConnectionProps) => {
   const { register } = useForm();
 
   return (
-    <StyledTestConnetion>
+    <Row type="horizontal" gap="md" justifyContent="flex-start">
       <Input
         placeholder="Conn_String"
         style={{ width: "80%", backgroundColor: "#F9F9FB" }}
@@ -25,10 +18,10 @@ const TestConnection = ({ connectionString }: TestConnectionProps) => {
         value={connectionString}
         {...register("connStr")}
       />
-      <Button variation="createNew" type="button" style={{ width: "18%" }}>
+      <Button variation="createNew" type="button" size="large" style={{ width: "20%" }}>
         Test
       </Button>
-    </StyledTestConnetion>
+    </Row>
   );
 };
 

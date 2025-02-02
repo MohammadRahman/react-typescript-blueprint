@@ -6,6 +6,7 @@ import styled, { css } from "styled-components";
 // `;
 
 const Heading = styled.h1`
+  color: #28293f;
   ${props =>
     props.as === "h1" &&
     css`
@@ -16,8 +17,9 @@ const Heading = styled.h1`
   ${props =>
     props.as === "h2" &&
     css`
-      font-size: 2rem;
-      font-weight: 600;
+      font-size: 17px;
+      font-weight: 700;
+      line-height: 27px;
     `}
     
     ${props =>

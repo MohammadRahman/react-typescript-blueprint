@@ -5,7 +5,7 @@ const StyledFormRow = styled.div`
   display: flex;
   flex-direction: column;
   gap: 0.4rem;
-  /* padding: 1.2rem 0; */
+  flex: 1;
   padding: 0.4rem 0;
 `;
 
