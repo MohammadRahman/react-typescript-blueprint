@@ -4,12 +4,8 @@ import { useEmailData } from "@context/EmailAccountContext";
 import { useEffect, useRef, useState } from "react";
 import EmailAccountTable from "./EmailAccountTable";
 import { useEmailAccount } from "./useEmailAccount";
-
-const StyledMailServer = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 2rem;
-`;
+import { DEFAULT_FILTER_VALUES } from "@constants/source";
+import { Row } from "@components/row";
 
 const StyledContainer = styled.div`
   width: 100%;
@@ -20,11 +16,6 @@ const StyledContainer = styled.div`
   background-color: white;
   border-radius: 8px;
 `;
-
-const formattedValues = {
-  page: -1,
-  pagesize: -1,
-};
 
 export const MailServer = () => {
   const { emailData } = useEmailData();
@@ -55,11 +46,11 @@ export const MailServer = () => {
   }, [emailData, editingEmailAccount]);
 
   useEffect(() => {
-    emailLists(formattedValues);
+    emailLists(DEFAULT_FILTER_VALUES);
   }, []);
 
   return (
-    <StyledMailServer>
+    <Row type="vertical" gap="lg">
       <StyledContainer ref={formSectionRef}>
         {editingEmailAccount && (
           <CreateMailServerForm formData={editingEmailAccount} onCloseModal={handleCloseForm} />
@@ -69,6 +60,6 @@ export const MailServer = () => {
       <StyledContainer ref={tableSectionRef}>
         <EmailAccountTable status={emailData?.isLoading} onEdit={handleEditClick} />
       </StyledContainer>
-    </StyledMailServer>
+    </Row>
   );
 };

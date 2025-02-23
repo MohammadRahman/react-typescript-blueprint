@@ -8,7 +8,7 @@ export const DATA_SOURCE_TYPES = [
   { label: "Excel", value: 7 },
   { label: "CSV", value: 8 },
 ];
-export const DEFAULT_SOURCE_FILTER = {
+export const DEFAULT_FILTER_VALUES = {
   page: -1,
   pazesize: -1,
 };

@@ -58,11 +58,10 @@ const SQLQueryEditor = ({ setShowEditor, query, setQuery }: SQLQueryEditorProps)
   };
   const handleEditorChange = (value: string | undefined) => {
     setQuery(value || "");
-    console.log("SQL value", value);
   };
 
   const handleCloseEditor = () => {
-    setShowEditor(false); // Close the editor
+    setShowEditor(false);
   };
 
   return createPortal(

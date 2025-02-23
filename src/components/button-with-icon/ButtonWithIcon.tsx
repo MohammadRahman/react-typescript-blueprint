@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 
 type ButtonIconProps = {
   variation?: "round" | "square";
@@ -6,7 +6,7 @@ type ButtonIconProps = {
 };
 
 const ButtonWithIcon = styled.button<ButtonIconProps>`
-  background: white;
+  background: var(--color-white);
   border: 1px solid var(--color-grey-20);
   padding: 0.6rem;
   border-radius: ${props => (props.variation === "square" ? "4px" : "50%")};
@@ -33,6 +33,33 @@ const ButtonWithIcon = styled.button<ButtonIconProps>`
     width: 2rem;
     height: 2rem;
   }
+  ${props =>
+    props.variation === "round" &&
+    css`
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background-color: var(--color-primary);
+      color: var(--color-white);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      &:hover {
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        background-color: var(--color-primary);
+        color: var(--color-white);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      & svg {
+        width: 1.5rem;
+        height: 1.5rem;
+      }
+    `}
 `;
 
 export default ButtonWithIcon;

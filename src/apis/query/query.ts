@@ -4,12 +4,16 @@ export type QueryPayload = {
   sourceId: string;
   clientIdField?: string;
   name: string;
-  email: string;
+  emailField: string;
   body: string;
+};
+type QueryResultPayload = {
+  sourceId: string;
+  queryScript: string;
 };
 export type SearchParamsProps = {};
 
-import { QUERY, QUERY_DELETE, QUERY_FILTER_LIST } from "@apis/api-routes";
+import { QUERY, QUERY_DELETE, QUERY_FILTER_LIST, QUERY_RESULT } from "@apis/api-routes";
 import { queryService } from "@apis/queryService";
 
 function createQuery(payload: QueryPayload) {
@@ -21,12 +25,21 @@ function getQueryLists(paginationProperties: SearchParamsProps, signal?: AbortSi
 function updateQuery(payload: QueryPayload) {
   return queryService.put(QUERY, payload);
 }
+function getQueryFields(id: string) {
+  return queryService.post(`${QUERY}/${id}Fields`);
+}
+function queryResult(data: QueryResultPayload) {
+  return queryService.post(QUERY_RESULT, data);
+}
 function deleteQuery(id: string) {
   return queryService.delete(`${QUERY_DELETE}=${id}`);
 }
+
 export const queryApi = {
   createQuery,
   getQueryLists,
   updateQuery,
   deleteQuery,
+  getQueryFields,
+  queryResult,
 };

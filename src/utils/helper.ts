@@ -43,3 +43,17 @@ export function formatDate(dateString: string) {
   const formattedDate = format(date, "d MMM yyyy");
   return formattedDate;
 }
+export function transformLongString(str: string) {
+  const sliecedString = str.slice(0, 90);
+  if (str.length > 90) {
+    return sliecedString.concat("...");
+  }
+  return sliecedString;
+}
+
+export function formatSelectOptions<T extends Record<string, any>>(data: T[], labelKey: keyof T) {
+  return data.map(item => ({
+    label: item[labelKey],
+    value: item.id,
+  }));
+}

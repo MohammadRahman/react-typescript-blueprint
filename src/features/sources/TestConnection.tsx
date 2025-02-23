@@ -10,7 +10,7 @@ const TestConnection = ({ connectionString }: TestConnectionProps) => {
   const { register } = useForm();
 
   return (
-    <Row type="horizontal" gap="md" justifyContent="flex-start">
+    <Row type="horizontal" gap="md" justifycontent="flex-start">
       <Input
         placeholder="Conn_String"
         style={{ width: "80%", backgroundColor: "#F9F9FB" }}

@@ -9,8 +9,6 @@ import { v4 as uuidv4 } from "uuid";
 import { useEffect, useState } from "react";
 import { useCreateEmailAccount } from "./useCreateEmailAccount";
 import Form from "@components/form/Form";
-import { Row } from "@components/row";
-import styled from "styled-components";
 import { useForm } from "react-hook-form";
 import FormRowVertical from "@components/form/FormRowVertical";
 import Input from "@components/form/Input";
@@ -18,63 +16,14 @@ import { SingleSelect } from "@components/select";
 import Button from "@components/button/Button";
 import { useUpdateEmailAccount } from "./useUpdateEmailAccount";
 import Spinner from "@components/spinner/Spinner";
-import {
-  HiMiniChevronDown,
-  HiMiniChevronUp,
-  HiOutlineEye,
-  HiOutlineEyeSlash,
-} from "react-icons/hi2";
+import { HiMiniChevronDown, HiMiniChevronUp } from "react-icons/hi2";
 import { mailTypes, ports, securityProtocols } from "@configs/mailServer";
+import FormHeader from "@components/header/FormHeader";
+import { GroupButton, StyledContainer } from "./mailServer.styles";
+import { Grid } from "@components/grid/Grid";
+import { Container } from "@components/container/Container";
+import { Row } from "@components/row";
 
-const StyledBoxContainer = styled.div`
-  width: 100%;
-  display: grid;
-  grid-template-columns: repeat(3, auto);
-  gap: 1rem;
-`;
-const StyledSMTPServer = styled.div`
-  width: 100%;
-  display: grid;
-  grid-template-columns: repeat(5, auto);
-  gap: 1rem;
-
-  &:nth-child(1) {
-    margin-bottom: 2rem; /* padding for the first child */
-  }
-
-  &:nth-child(2) {
-    margin-bottom: 3rem; /* padding for the second child */
-  }
-`;
-const StyledIMAPServer = styled.div`
-  width: 100%;
-  display: grid;
-  grid-template-columns: repeat(4, auto);
-  gap: 1rem;
-`;
-const GroupButton = styled.div`
-  display: flex;
-  justify-content: flex-end;
-  gap: 1rem;
-`;
-const StyledContainer = styled.div`
-  width: 100%;
-  padding: 1rem;
-  display: flex;
-  flex-direction: column;
-  gap: 2rem;
-  background-color: white;
-  border-radius: 8px;
-`;
-
-const StyledShowAdvance = styled.div`
-  width: fit-content;
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  padding: 1rem 0rem;
-  cursor: pointer;
-`;
 export type CreateMailServerFormProps = {
   formData?: {
     id?: string;
@@ -164,113 +113,120 @@ const CreateMailServerForm = ({ formData = {}, onCloseModal }: CreateMailServerF
   if (isLoading) return <Spinner />;
 
   return (
-    <StyledContainer>
+    <>
       <Form type="regular" onSubmit={handleSubmit(createEmailFormHandler)}>
-        <Row type="horizontal">
-          <span>&larr; Create New Mail Server</span>
-          <span>Basilinq Logo</span>
-        </Row>
-        <StyledBoxContainer style={{ padding: "1rem 0rem" }}>
-          <FormRowVertical label="Type" error={errors.type?.message}>
-            <SingleSelect
-              rules={{ required: "Type is required" }}
-              name="type"
-              control={control}
-              options={mailTypes}
-            />
-          </FormRowVertical>
-          <FormRowVertical label="Email" error={errors.email?.message}>
-            <Input
-              type="email"
-              placeholder="type Email"
-              {...register("email", {
-                required: "Email is required",
-                pattern: {
-                  value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
-                  message: "Invalid email format",
-                },
-              })}
-            />
-          </FormRowVertical>
-          <FormRowVertical label="Display Name" error={errors.displayName?.message}>
-            <Input
-              type="text"
-              placeholder="type Name"
-              {...register("displayName", { required: "Display Name is required" })}
-            />
-          </FormRowVertical>
-          <FormRowVertical label="Password" error={errors.password?.message}>
-            <Input
-              placeholder="Type here"
-              type="password"
-              {...register("password", { required: "Password is required" })}
-            />
-          </FormRowVertical>
-        </StyledBoxContainer>
-        <hr style={{ border: "none", height: "1px", backgroundColor: "#E5E5E5" }} />
-        <div style={{ padding: "1rem 0rem" }}>
-          <h4>Server SMTP</h4>
-          <StyledSMTPServer>
-            <FormRowVertical label="SMTP Address" error={errors.smtpAddress?.message}>
+        <FormHeader logo={true} heading="Create New Mail Server" />
+        <Row type="vertical" gap="lg">
+          <Grid columns={4} gap="md">
+            <FormRowVertical label="Type" error={errors.type?.message}>
+              <SingleSelect
+                rules={{ required: "Type is required" }}
+                name="type"
+                control={control}
+                options={mailTypes}
+              />
+            </FormRowVertical>
+            <FormRowVertical label="Email" error={errors.email?.message}>
+              <Input
+                type="email"
+                placeholder="type Email"
+                {...register("email", {
+                  required: "Email is required",
+                  pattern: {
+                    value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
+                    message: "Invalid email format",
+                  },
+                })}
+              />
+            </FormRowVertical>
+            <FormRowVertical label="Display Name" error={errors.displayName?.message}>
               <Input
                 type="text"
+                placeholder="type Name"
+                {...register("displayName", { required: "Display Name is required" })}
+              />
+            </FormRowVertical>
+            <FormRowVertical label="Password" error={errors.password?.message}>
+              <Input
                 placeholder="Type here"
-                {...register("smtpAddress", { required: "SMTP Address is required" })}
+                type="password"
+                {...register("password", { required: "Password is required" })}
               />
             </FormRowVertical>
-            <FormRowVertical label="SMTP Port" error={errors.smtpPort?.message}>
-              <SingleSelect
-                rules={{ required: "SMTP port is required" }}
-                name="smtpPort"
-                control={control}
-                options={ports}
-              />
-            </FormRowVertical>
-            <FormRowVertical label="Security Protocol" error={errors.securityProtocol?.message}>
-              <SingleSelect
-                rules={{ required: "Security protocol is required" }}
-                name="securityProtocol"
-                control={control}
-                options={securityProtocols}
-              />
-            </FormRowVertical>
-          </StyledSMTPServer>
-        </div>
-        <hr style={{ border: "none", height: "1px", backgroundColor: "#E5E5E5" }} />
+          </Grid>
+          <hr style={{ border: "none", height: "1px", backgroundColor: "#E5E5E5" }} />
+          <Container>
+            <h4>Server SMTP</h4>
+            <Grid columns={3} gap="md">
+              <FormRowVertical label="SMTP Address" error={errors.smtpAddress?.message}>
+                <Input
+                  type="text"
+                  placeholder="Type here"
+                  {...register("smtpAddress", { required: "SMTP Address is required" })}
+                />
+              </FormRowVertical>
+              <FormRowVertical label="SMTP Port" error={errors.smtpPort?.message}>
+                <SingleSelect
+                  rules={{ required: "SMTP port is required" }}
+                  name="smtpPort"
+                  control={control}
+                  options={ports}
+                />
+              </FormRowVertical>
+              <FormRowVertical label="Security Protocol" error={errors.securityProtocol?.message}>
+                <SingleSelect
+                  rules={{ required: "Security protocol is required" }}
+                  name="securityProtocol"
+                  control={control}
+                  options={securityProtocols}
+                />
+              </FormRowVertical>
+            </Grid>
+          </Container>
+          <hr style={{ border: "none", height: "1px", backgroundColor: "#E5E5E5" }} />
 
-        <StyledShowAdvance onClick={() => setShowAdvanceOptions(prev => !prev)}>
-          <p>Show Advance Options</p>
-          {showAdvanceOptions ? <HiMiniChevronUp size={20} /> : <HiMiniChevronDown size={20} />}
-        </StyledShowAdvance>
-        {showAdvanceOptions && (
-          <div style={{ padding: "1rem 0rem" }}>
-            <h4>Server IMAP</h4>
-            <StyledIMAPServer>
-              <FormRowVertical label="IMAP Address" error={errors.imapAddress?.message}>
-                <Input type="text" placeholder="Type here" {...register("imapAddress")} />
-              </FormRowVertical>
-              <FormRowVertical label="IMAP Email" error={errors.imapEmail?.message}>
-                <Input type="text" placeholder="Type here" {...register("imapEmail")} />
-              </FormRowVertical>
-              <FormRowVertical label="IMAP Password" error={errors.imapPassword?.message}>
-                <Input placeholder="Type here" type="password" {...register("imapPassword")} />
-              </FormRowVertical>
-              <FormRowVertical label="IMAP Port" error={errors.imapPort?.message}>
-                <SingleSelect name="imapPort" control={control} options={ports} />
-              </FormRowVertical>
-            </StyledIMAPServer>
-          </div>
-        )}
-        <GroupButton>
-          <Button type="button" variation="outlinePrimaryEdit" size="medium" onClick={clearFields}>
-            Cancel
-          </Button>
-          <Button variation="primary" size="medium">
-            {isUpdateSession ? "Update" : "Save"}
-          </Button>
-        </GroupButton>
+          <Container
+            onClick={() => setShowAdvanceOptions(prev => !prev)}
+            style={{ width: "fit-content", display: "flex" }}
+          >
+            <p>Show Advance Options</p>
+            {showAdvanceOptions ? <HiMiniChevronUp size={20} /> : <HiMiniChevronDown size={20} />}
+          </Container>
+          {showAdvanceOptions && (
+            <Container>
+              <h4>Server IMAP</h4>
+              <Grid columns={4} gap="md">
+                <FormRowVertical label="IMAP Address" error={errors.imapAddress?.message}>
+                  <Input type="text" placeholder="Type here" {...register("imapAddress")} />
+                </FormRowVertical>
+                <FormRowVertical label="IMAP Email" error={errors.imapEmail?.message}>
+                  <Input type="text" placeholder="Type here" {...register("imapEmail")} />
+                </FormRowVertical>
+                <FormRowVertical label="IMAP Password" error={errors.imapPassword?.message}>
+                  <Input placeholder="Type here" type="password" {...register("imapPassword")} />
+                </FormRowVertical>
+                <FormRowVertical label="IMAP Port" error={errors.imapPort?.message}>
+                  <SingleSelect name="imapPort" control={control} options={ports} />
+                </FormRowVertical>
+              </Grid>
+            </Container>
+          )}
+          <GroupButton>
+            <Button
+              type="button"
+              variation="outlinePrimaryEdit"
+              size="medium"
+              onClick={clearFields}
+            >
+              Cancel
+            </Button>
+            <Button variation="primary" size="medium">
+              {isUpdateSession ? "Update" : "Save"}
+            </Button>
+          </GroupButton>
+        </Row>
       </Form>
-    </StyledContainer>
+    </>
   );
 };
 

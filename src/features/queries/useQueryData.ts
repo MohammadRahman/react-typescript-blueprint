@@ -1,13 +1,15 @@
 import { queryApi } from "@apis/query";
+import { showToast } from "@components/toast/Toast";
 import { usequeryData } from "@context/QueryContext";
+import { useErrorHandler } from "@hooks/useErrorHandler";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { AxiosError, isCancel } from "axios";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 
 export function useQueryData() {
   const { setQueryData } = usequeryData();
-
+  const { errorState, showErrorWithDelay } = useErrorHandler();
   const queryClient = useQueryClient();
   const abortControllerRef = React.useRef<AbortController | null>(null);
   const timeoutIdRef = React.useRef<NodeJS.Timeout | null>(null);
@@ -22,10 +24,10 @@ export function useQueryData() {
         if (isCancel(error)) {
           console.log("Request canceled:", error.message);
         } else {
-          console.error("Error:", error.message);
-          toast.error(error.message);
+          showErrorWithDelay();
+          showToast({ message: error.message, statusCode: 400, type: "error" });
         }
-        throw error; // Ensure errors bubble up
+        throw error;
       }
     },
     onMutate: () => {
@@ -46,12 +48,11 @@ export function useQueryData() {
         toast.success("Nothing found");
       }
     },
-    onError: error => {
+    onError: () => {
       setQueryData(prevState => ({
         ...prevState!,
         isLoading: false,
       }));
-      toast.error(error.message);
     },
   });
 
@@ -94,5 +95,5 @@ export function useQueryData() {
     };
   }, []);
 
-  return { queryLists: fetchWithSignal, isLoading };
+  return { queryLists: fetchWithSignal, isLoading, errorState };
 }

@@ -2,9 +2,13 @@ import ActionButtons from "@components/action-button/ActionButtons";
 import ResizableTable from "@components/table/ResponsiveTable";
 import { ColumnDef } from "@tanstack/react-table";
 import { formatDate } from "@utils/helper";
+import { useJobDetails } from "./useJobDetails";
+import { useEffect } from "react";
+import Spinner from "@components/spinner/Spinner";
+import Tag from "@components/tag/Tag";
 
 type SecondaryTable = {
-  data: any;
+  jobId: string;
 };
 type JobDetailsProps = {
   id: string;
@@ -15,20 +19,19 @@ type JobDetailsProps = {
   emailSubject: string;
   emailBody: string;
 };
-const SecondaryTable = ({ data }: SecondaryTable) => {
+const SecondaryTable = ({ jobId }: SecondaryTable) => {
+  const { jobDetails, jobDetailsData, loading } = useJobDetails();
   function deleteJob(jobId: string) {}
   const columns: ColumnDef<JobDetailsProps>[] = [
     {
       accessorKey: "id",
       header: "#",
       size: 150,
-      cell: () => null,
     },
     {
       accessorKey: "jobId",
       header: "Job Id",
       size: 150,
-      cell: () => null,
     },
     {
       accessorKey: "sendTo",
@@ -43,25 +46,48 @@ const SecondaryTable = ({ data }: SecondaryTable) => {
     {
       accessorKey: "emailSendingStatus",
       header: "Status",
-      cell: () => {},
+      cell: ({ row }) => {
+        const statusToTag: Record<number, string> = {
+          1: "red-Fail",
+          2: "green-Success",
+        };
+        return (
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              width: "100%",
+            }}
+          >
+            <Tag
+              tag_type="normal"
+              type={statusToTag[row.original.emailSendingStatus].split("-")[0]}
+            >
+              {statusToTag[row.original.emailSendingStatus].split("-")[1]}
+            </Tag>
+          </div>
+        );
+      },
       size: 150,
     },
     {
       accessorKey: "emailSubject",
-      header: "Subject",
-      size: 150,
+      header: "",
+      size: 0,
+      cell: () => null,
     },
     {
       accessorKey: "emailBody",
-      header: "Body",
-      size: 150,
+      header: "",
+      size: 0,
+      cell: () => null,
     },
     {
       id: "actions",
       header: "Actions",
       cell: ({ row }) => (
         <ActionButtons
-          //   onEdit={(values) => onEdit(values)}
           isModal={true}
           isDetails={true}
           modalName="emailjobData"
@@ -73,18 +99,25 @@ const SecondaryTable = ({ data }: SecondaryTable) => {
       size: 150,
     },
   ];
-  const tableData = (data || []).map((item: JobDetailsProps) => ({
-    id: item.id || "",
-    jobId: item.jobId || "",
+  const tableData = (jobDetailsData || []).map((item: JobDetailsProps) => ({
+    id: item.id.split("-")[0] || "",
+    jobId: item.jobId.split("-")[0] || "",
     sendTo: item.sendTo || "",
     emailSendingDate: formatDate(item.emailSendingDate) || "",
     emailSendingStatus: item.emailSendingStatus || 0,
     emailSubject: item.emailSubject || "",
     emailBody: item.emailBody || "",
   }));
+
+  useEffect(() => {
+    if (!jobId) return;
+    jobDetails(jobId);
+  }, [jobId]);
+
+  if (loading) return <Spinner />;
   return (
     <div>
-      <ResizableTable columns={columns} data={tableData} />
+      <ResizableTable showOperations={false} columns={columns} data={tableData} />
     </div>
   );
 };

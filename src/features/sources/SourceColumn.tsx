@@ -37,7 +37,7 @@ export const useSourceColumn = ({ onEdit }: TableColProps) => {
       id: "status",
       header: "Status",
       cell: () => {
-        const currentLength = sourceData?.list.length || 0;
+        const currentLength = sourceData?.list?.length || 0;
         if (currentLength < currentLength + 1) {
           return (
             <div
@@ -48,14 +48,14 @@ export const useSourceColumn = ({ onEdit }: TableColProps) => {
                 width: "100%",
               }}
             >
-              <Tag tagType="normal" type="green">
+              <Tag tag_type="normal" type="green">
                 Success
               </Tag>
             </div>
           );
         }
       },
-      size: 150,
+      size: 80,
       meta: { align: "center" },
     },
     {

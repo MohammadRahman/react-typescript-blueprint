@@ -141,13 +141,13 @@ export const Statistics = () => {
               <span> MoM</span>
             </Button>
           </Row>
-          <div style={{ display: "flex", justifyContent: "space-between" }}>
+          <div style={{ display: "flex", justifycontent: "space-between" }}>
             <div
               style={{
                 width: "48%",
                 height: "260px",
                 border: "1px solid #f9fafb",
-                borderRadius: "16px",
+                border_radius: "16px",
                 padding: "1rem",
               }}
             >
@@ -169,7 +169,7 @@ export const Statistics = () => {
                 width: "48%",
                 height: "260px",
                 border: "1px solid #f9fafb",
-                borderRadius: "16px",
+                border_radius: "16px",
                 padding: "1rem",
               }}
             >
