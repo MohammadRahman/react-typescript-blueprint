@@ -21,10 +21,11 @@ type FormRowVerticalProps = {
   label?: string;
   error?: any;
   children: ReactNode | any;
+  style?: React.CSSProperties;
 };
-function FormRowVertical({ label, error, children }: FormRowVerticalProps) {
+function FormRowVertical({ label, error, children, style }: FormRowVerticalProps) {
   return (
-    <StyledFormRow>
+    <StyledFormRow style={style}>
       {label && <Label htmlFor={children.props.id}>{label}</Label>}
       {children}
       {error && <Error>{error}</Error>}

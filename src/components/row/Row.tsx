@@ -4,7 +4,7 @@ type StyledRowProps = {
   type?: "horizontal" | "vertical";
   gap?: "xs" | "sm" | "md" | "lg" | "xl" | "xxl"; // Predefined gap sizes
   alignItems?: "flex-start" | "center" | "flex-end" | "stretch" | "baseline"; // Flexbox alignment options
-  justifyContent?:
+  justifycontent?:
     | "flex-start"
     | "center"
     | "flex-end"
@@ -51,55 +51,12 @@ export const Row = styled.div<StyledRowProps>`
     `}
 
   ${props =>
-    props.justifyContent &&
+    props.justifycontent &&
     css`
-      justify-content: ${props.justifyContent};
+      justify-content: ${props.justifycontent};
     `}
 `;
 
 Row.defaultProps = {
   type: "horizontal",
 };
-
-// import styled, { css } from "styled-components";
-
-// type StyledRowProps = {
-//   type?: string;
-//   gap?: "xs" | "sm" | "md" | "lg" | "xl" | "xxl";
-//   juc?: string;
-// };
-// type GapSizes = "xs" | "sm" | "md" | "lg" | "xl" | "xxl";
-// const GAP_VALUES: Record<GapSizes, string> = {
-//   xs: "4px",
-//   sm: "0.8rem",
-//   md: "1.2rem",
-//   lg: "1.6rem",
-//   xl: "2.4rem",
-//   xxl: "3.2rem",
-// };
-
-// export const Row = styled.div<StyledRowProps>`
-//   display: flex;
-//   /*  */
-//   ${props =>
-//     props.type === "horizontal" &&
-//     css`
-//       justify-content: space-between;
-//       align-items: center;
-//     `}
-
-//   ${props =>
-//     props.type === "vertical" &&
-//     css`
-//       flex-direction: column;
-//     `} /* ${props =>
-//     props.gap &&
-//     css`
-//       justify-content: flex-end;
-//       gap: GAP_VALUES[ ${props.gap}];
-//     `} */
-// `;
-
-// Row.defaultProps = {
-//   type: "vertical",
-// };

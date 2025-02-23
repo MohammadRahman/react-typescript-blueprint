@@ -1,5 +1,5 @@
+import { useQueryColumns } from "@components/table/columns/QueryColumns";
 import ResizableTable from "@components/table/ResponsiveTable";
-import { useQueryColumns } from "@components/table/columns/queryColumns";
 
 type QueryTableProps = {
   onEdit: (data: any) => void;

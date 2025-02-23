@@ -10,7 +10,6 @@ interface DayStatsContainerProps {
   }[];
 }
 export const DayStatsContainer = ({ day, stats }: DayStatsContainerProps) => {
-  console.log("Stats from DayContainer", stats);
   return (
     <div>
       <p>{day}</p>

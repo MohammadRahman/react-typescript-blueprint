@@ -24,10 +24,10 @@ export const ReportRowUpdate = ({ data }: ReportRowUpdateProps) => {
             backgroundColor: "#04AA61",
             width: "32px",
             height: "32px",
-            borderRadius: "50%",
+            border_radius: "50%",
             color: "white",
             alignItems: "center",
-            justifyContent: "center",
+            justifycontent: "center",
             display: "flex",
           }}
         >
@@ -37,9 +37,9 @@ export const ReportRowUpdate = ({ data }: ReportRowUpdateProps) => {
           style={{
             width: "32px",
             height: "32px",
-            borderRadius: "50%",
+            border_radius: "50%",
             alignItems: "center",
-            justifyContent: "center",
+            justifycontent: "center",
             display: "flex",
             border: "2px solid #F9F9FB",
           }}

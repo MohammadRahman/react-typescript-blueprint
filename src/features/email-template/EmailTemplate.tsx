@@ -8,7 +8,7 @@ import { NewTemplateForm } from "./NewTemplateForm";
 import { useEmailTemplate } from "./useEmailTemplate";
 import { useEffect } from "react";
 import TemplateTable from "./TemplateTable";
-import { useQueryData } from "@features/queries/useQueryData";
+import { DEFAULT_FILTER_VALUES } from "@constants/source";
 
 const StyledEmailTemplate = styled.div`
   display: flex;
@@ -17,22 +17,11 @@ const StyledEmailTemplate = styled.div`
   background-color: var(--color-grey-20);
 `;
 
-const formattedValues = {
-  page: -1,
-  pagesize: -1,
-};
-
 export const EmailTemplate = () => {
-  const { templateLists, isLoading } = useEmailTemplate();
-
-  const { queryLists } = useQueryData();
+  const { templateLists, errorState, isLoading } = useEmailTemplate();
 
   useEffect(() => {
-    templateLists(formattedValues);
-  }, []);
-
-  useEffect(() => {
-    queryLists(formattedValues);
+    templateLists(DEFAULT_FILTER_VALUES);
   }, []);
 
   return (
@@ -44,19 +33,19 @@ export const EmailTemplate = () => {
             Generate Report
           </Button>
           <Modal>
-            <Modal.Open opens="createNewTemplate">
+            <Modal.Open opens="create-new-template">
               <Button variation="createNew" size="medium">
                 <HiOutlinePlus />
                 Create New Template
               </Button>
             </Modal.Open>
-            <Modal.Window name="createNewTemplate" type="aside">
+            <Modal.Window name="create-new-template" type="aside">
               <NewTemplateForm />
             </Modal.Window>
           </Modal>
         </ButtonGroup>
       </Row>
-      <TemplateTable isLoading={isLoading} />
+      <TemplateTable isLoading={isLoading || errorState.isLoading} />
     </StyledEmailTemplate>
   );
 };

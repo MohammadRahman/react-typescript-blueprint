@@ -2,6 +2,7 @@ import styled, { css } from "styled-components";
 
 type OptionalProp = {
   isCheckbox?: "true";
+  bgc?: "true";
 };
 
 const Input = styled.input<OptionalProp>`
@@ -20,9 +21,16 @@ const Input = styled.input<OptionalProp>`
         outline: none;
       }
     `}
-  border: 1px solid var(--color-grey-300);
-  border-radius: 8px;
+  border: 1px solid var(--color-grey-10);
+  border-radius: 6px;
   padding: 1rem 1.5rem;
+  ${props =>
+    props.bgc === "true" &&
+    css`
+      background-color: var(--color-grey-20);
+    `}
+
+  height: 4.5rem;
 `;
 
 export default Input;

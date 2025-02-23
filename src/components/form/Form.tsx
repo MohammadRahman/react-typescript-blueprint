@@ -12,17 +12,18 @@ const Form = styled.form<FormProps>`
       padding: 2.4rem 2rem;
       /* Box */
       background-color: var(--color-grey-0);
-      border: 1px solid var(--color-grey-100);
+      /* border: 1px solid var(--color-grey-100); */
       border-radius: var(--border-radius-md);
     `}
 
   ${props =>
     props.type === "modal" &&
     css`
-      width: 60rem;
+      width: 50rem;
+      padding: 2.4rem 2rem;
     `}
     
-  overflow: hidden;
+  /* overflow: hidden; */
   font-size: 1.4rem;
 `;
 

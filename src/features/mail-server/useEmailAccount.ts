@@ -1,5 +1,7 @@
 import { emailAccountApi } from "@apis/email-account";
+import { showToast } from "@components/toast/Toast";
 import { useEmailData } from "@context/EmailAccountContext";
+import { useErrorHandler } from "@hooks/useErrorHandler";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { AxiosError, isCancel } from "axios";
 import React, { useEffect } from "react";
@@ -7,6 +9,7 @@ import toast from "react-hot-toast";
 
 export function useEmailAccount() {
   const { setEmailData } = useEmailData();
+  const { errorState, showErrorWithDelay } = useErrorHandler();
   const queryClient = useQueryClient();
   const abortControllerRef = React.useRef<AbortController | null>(null);
   const timeoutIdRef = React.useRef<NodeJS.Timeout | null>(null);
@@ -21,8 +24,8 @@ export function useEmailAccount() {
         if (isCancel(error)) {
           console.log("Request canceled:", error.message);
         } else {
-          console.error("Error:", error.message);
-          toast.error(error.message);
+          showErrorWithDelay();
+          showToast({ message: error.message, statusCode: 400, type: "error" });
         }
         throw error;
       }
@@ -45,12 +48,11 @@ export function useEmailAccount() {
         toast.success("Nothing found");
       }
     },
-    onError: error => {
+    onError: () => {
       setEmailData(prevState => ({
         ...prevState!,
         isLoading: false,
       }));
-      toast.error(error.message);
     },
   });
 
@@ -93,5 +95,5 @@ export function useEmailAccount() {
     };
   }, []);
 
-  return { emailLists: fetchWithSignal, isLoading };
+  return { emailLists: fetchWithSignal, errorState, isLoading };
 }

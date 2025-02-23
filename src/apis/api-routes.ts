@@ -14,6 +14,7 @@ export const EMAIL_TEMPLATE_DELETE = "/EmailTemplate/:id?id";
 export const EMAIL_TEMPLATE_FILTER_LIST = "/EmailTemplate/FilterList";
 
 export const QUERY = "/Query";
+export const QUERY_RESULT = "/Query/Data";
 export const QUERY_EDIT = "/Query";
 export const QUERY_DELETE = "/Query/:id?id";
 export const QUERY_FILTER_LIST = "/Query/FilterList";

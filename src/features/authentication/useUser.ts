@@ -8,7 +8,5 @@ export function useUser(token: string | null) {
     enabled: !!token, // Enable the query only if the token exists
   });
 
-  console.log("from use user-hook", user);
-
   return { isLoading, user, isAuthenticated: !!user }; // Use !!user to check if user exists
 }

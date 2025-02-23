@@ -21,7 +21,7 @@ export const useQueryColumns = ({ onEdit }: TableColProps) => {
     {
       accessorKey: "name",
       header: "Sources",
-      size: 50,
+      size: 150,
     },
     {
       accessorKey: "body",
@@ -48,9 +48,10 @@ export const useQueryColumns = ({ onEdit }: TableColProps) => {
         <ActionButtons
           onEdit={() => onEdit(row.original)}
           isDetails={true}
+          showData={true}
           isLoading={false}
           data={row.original}
-          deleteAccount={() => deleteQuery(row.original.originalId)}
+          deleteAccount={() => deleteQuery(row.original.id)}
         />
       ),
       size: 200,

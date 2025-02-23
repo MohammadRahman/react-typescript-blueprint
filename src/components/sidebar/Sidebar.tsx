@@ -24,7 +24,7 @@ export const Sidebar = ({ collapse, setCollapsed }: SidebarProps) => {
           height: "133px",
           display: "flex",
           alignItems: "center",
-          justifyContent: "center",
+          justifycontent: "center",
         }}
       >
         <button
@@ -33,7 +33,7 @@ export const Sidebar = ({ collapse, setCollapsed }: SidebarProps) => {
             border: "none",
             width: "100%",
             height: "85px",
-            borderRadius: "8px",
+            border_radius: "8px",
             display: "flex",
             flexDirection: "column",
             padding: "16px 24px 16px 24px",
@@ -46,10 +46,10 @@ export const Sidebar = ({ collapse, setCollapsed }: SidebarProps) => {
             style={{
               width: "25px",
               height: "25px",
-              borderRadius: "500%",
+              border_radius: "500%",
               display: "flex",
               alignItems: "center",
-              justifyContent: "center",
+              justifycontent: "center",
               backgroundColor: "#00FE87",
             }}
           >

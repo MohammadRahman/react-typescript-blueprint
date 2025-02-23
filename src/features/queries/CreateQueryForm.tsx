@@ -10,13 +10,15 @@ import Button from "@components/button/Button";
 import { useForm } from "react-hook-form";
 import { useCreateQuery } from "./useCreateQuery";
 import { v4 as uuidv4 } from "uuid";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useUpdateQuery } from "./useUpdateQuery";
 import { QueryPayload } from "@apis/query";
 import { useSourceData } from "@context/SourceContext";
 import { useSourceLists } from "@features/sources/useSourceLists";
-import { DEFAULT_SOURCE_FILTER } from "@constants/source";
+import { DEFAULT_FILTER_VALUES } from "@constants/source";
 import { FormInputWithCheckBox } from "@components/container/FormInputWithCeckbox";
+import { Grid } from "@components/grid/Grid";
+import SqlEditor from "@components/editor/SqlEditor";
 
 export type CreateQueryFormProps = {
   formData?: {
@@ -25,7 +27,7 @@ export type CreateQueryFormProps = {
     name?: string;
     body?: string;
     sourceId?: string;
-    email?: string;
+    emailField?: string;
     clientIdField?: string;
   };
   onCloseModal?: () => void;
@@ -35,10 +37,8 @@ const CreateQueryForm = ({ formData = {}, onCloseModal }: CreateQueryFormProps) 
   const isUpdateSession = Boolean(id);
   const { updateQueryData, isUpdating } = useUpdateQuery();
   const [query, setQuery] = useState(isUpdateSession ? formData.body : "");
-  const { sourceLists } = useSourceLists();
+  const { sourceLists, isLoading } = useSourceLists();
   const { sourceData } = useSourceData();
-
-  console.log("sourceData", sourceData?.list);
 
   const [dataSource, setDataSource] = useState(!!formData.sourceId);
   const [clientIdField, setclientIdField] = useState(!!formData.clientIdField);
@@ -48,10 +48,12 @@ const CreateQueryForm = ({ formData = {}, onCloseModal }: CreateQueryFormProps) 
 
   const { createQuery } = useCreateQuery();
 
-  const sources = sourceData?.list.map(source => ({
-    label: source.name,
-    value: source.id,
-  }));
+  const sources =
+    sourceData &&
+    (sourceData?.list || []).map(source => ({
+      label: source.name,
+      value: source.id,
+    }));
 
   const {
     control,
@@ -59,9 +61,12 @@ const CreateQueryForm = ({ formData = {}, onCloseModal }: CreateQueryFormProps) 
     register,
     formState: { errors },
     handleSubmit,
+    watch,
+    setValue,
   } = useForm({
     defaultValues: isUpdateSession ? formData : {},
   });
+  const watchValue = watch();
 
   function clearFields() {
     reset();
@@ -80,7 +85,7 @@ const CreateQueryForm = ({ formData = {}, onCloseModal }: CreateQueryFormProps) 
       name: values?.name || "",
       sourceId: values?.sourceId || "",
       clientIdField: values?.clientIdField || "",
-      email: values?.email || "",
+      emailField: values?.emailField || "",
       body: values?.body || "",
     };
     if (isUpdateSession) {
@@ -96,7 +101,7 @@ const CreateQueryForm = ({ formData = {}, onCloseModal }: CreateQueryFormProps) 
           id: queryId,
           sourceId: values?.sourceId,
           clientIdField: values?.clientIdField,
-          email: values?.email,
+          emailField: values?.emailField,
           name: values?.name,
           body: query,
         },
@@ -109,20 +114,18 @@ const CreateQueryForm = ({ formData = {}, onCloseModal }: CreateQueryFormProps) 
     }
   }
 
-  useEffect(() => {
-    sourceLists(DEFAULT_SOURCE_FILTER);
-  }, []);
+  const [hasFetched, setHasFetched] = useState(false);
+
+  const fetchSources = () => {
+    if (!hasFetched) {
+      sourceLists(DEFAULT_FILTER_VALUES);
+      setHasFetched(true);
+    }
+  };
 
   return (
-    <Form onSubmit={handleSubmit(submitHandler)} style={{ minWidth: "100%" }}>
-      <div
-        style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(3, 1fr)",
-          gap: "1rem",
-          marginBottom: "1rem",
-        }}
-      >
+    <Form onSubmit={handleSubmit(submitHandler)} style={{ padding: "0" }}>
+      <Grid columns={3} gap="xxxl" style={{ marginBottom: "1rem" }}>
         <FormInputWithCheckBox>
           <Checkbox checked={true} id="name" />
           <FormRowVertical error={errors.name?.message}>
@@ -137,8 +140,8 @@ const CreateQueryForm = ({ formData = {}, onCloseModal }: CreateQueryFormProps) 
         </FormInputWithCheckBox>
         <FormInputWithCheckBox>
           <Checkbox checked={true} id="email" />
-          <FormRowVertical error={errors.email?.message}>
-            <Input {...register("email")} placeholder="Email" isCheckbox="true" />
+          <FormRowVertical error={errors.emailField?.message}>
+            <Input {...register("emailField")} placeholder="Email" isCheckbox="true" />
           </FormRowVertical>
         </FormInputWithCheckBox>
         <FormInputWithCheckBox style={{ width: "100%" }}>
@@ -149,6 +152,8 @@ const CreateQueryForm = ({ formData = {}, onCloseModal }: CreateQueryFormProps) 
               isCheckbox="true"
               control={control}
               options={sources || []}
+              isLoading={isLoading}
+              onDropdownOpen={fetchSources}
             />
           </FormRowVertical>
         </FormInputWithCheckBox>
@@ -160,7 +165,6 @@ const CreateQueryForm = ({ formData = {}, onCloseModal }: CreateQueryFormProps) 
               onChange={() => {
                 setSqlQuery(prev => !prev);
                 setShowEditor(!showEditor);
-                // setShowEditor(false)
               }}
             >
               <span>SQL query</span>
@@ -171,17 +175,29 @@ const CreateQueryForm = ({ formData = {}, onCloseModal }: CreateQueryFormProps) 
                   <div style={{ position: "absolute", right: "1rem" }}>
                     <HiOutlineEye
                       type="button"
-                      onClick={() => setShowEditor(true)} // Show editor on click
+                      onClick={() => setShowEditor(true)}
                       style={{ cursor: "pointer" }}
                     />
                   </div>
                 )}
                 {showEditor && (
-                  <SQLQueryEditor
-                    setShowEditor={setShowEditor}
-                    query={query || ""}
-                    setQuery={setQuery}
-                  />
+                  <div>
+                    <SqlEditor
+                      register={register}
+                      setValue={setValue}
+                      watch={watch}
+                      setShowEditor={setShowEditor}
+                      setQuery={setQuery}
+                      sourceId={watchValue.sourceId || ""}
+                      width="800px"
+                      height="500px"
+                    />
+                  </div>
+                  // <SQLQueryEditor
+                  //   setShowEditor={setShowEditor}
+                  //   query={query || ""}
+                  //   setQuery={setQuery}
+                  // />
                 )}
               </>
             )}
@@ -193,7 +209,7 @@ const CreateQueryForm = ({ formData = {}, onCloseModal }: CreateQueryFormProps) 
           </Button>
           <Button>Save</Button>
         </StyledButton>
-      </div>
+      </Grid>
     </Form>
   );
 };

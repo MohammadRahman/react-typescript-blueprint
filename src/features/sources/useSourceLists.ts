@@ -15,6 +15,7 @@ export function useSourceLists() {
     mutationFn: async (data: any, options?: { signal?: AbortSignal }) => {
       try {
         const response = await sourceApi.getSourceLists(data, options?.signal);
+        console.log("data received in source hook", data);
         return response.data;
       } catch (error: AxiosError | any) {
         if (isCancel(error)) {

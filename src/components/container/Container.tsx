@@ -3,9 +3,9 @@ import styled, { css } from "styled-components";
 type Size = "xs" | "sm" | "md" | "lg" | "xl";
 
 type IPadding = {
-  padding: Size;
+  padding?: Size;
   bgc?: string;
-  borderRadius?: Size;
+  border_radius?: Size;
   border?: Exclude<Size, "xs" | "xl">;
 };
 const paddingMap: Record<Size, string> = {
@@ -15,7 +15,7 @@ const paddingMap: Record<Size, string> = {
   lg: "3rem",
   xl: "4rem",
 };
-const borderRadiusMap: Record<Size, string> = {
+const border_radiusMap: Record<Size, string> = {
   xs: "4px",
   sm: "8px",
   md: "1rem",
@@ -35,10 +35,10 @@ export const Container = styled.div<IPadding>`
     css`
       padding: ${paddingMap[padding]};
     `}
-  ${({ borderRadius }) =>
-    borderRadius &&
+  ${({ border_radius }) =>
+    border_radius &&
     css`
-      border-radius: ${borderRadiusMap[borderRadius]};
+      border-radius: ${border_radiusMap[border_radius]};
     `}
   ${({ border }) =>
     border &&
