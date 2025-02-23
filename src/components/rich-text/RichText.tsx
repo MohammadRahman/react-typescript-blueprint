@@ -1,7 +1,5 @@
-import { useMemo, useRef } from "react";
 import { Controller } from "react-hook-form";
-import toast from "react-hot-toast";
-import ReactQuill, { Quill } from "react-quill";
+import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import styled from "styled-components";
 
@@ -14,12 +12,7 @@ const customModules = {
     ["clean"],
   ],
 };
-
 const StyledQuilEditor = styled(ReactQuill)`
-  /* .ql-container {
-    display: flex;
-    flex-direction: column-reverse;
-  } */
   .ql-editor {
     border-top: 1px solid;
     height: 230px;

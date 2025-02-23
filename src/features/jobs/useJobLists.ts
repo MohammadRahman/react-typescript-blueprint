@@ -1,19 +1,20 @@
 import { jobService } from "@apis/job";
+import { showToast } from "@components/toast/Toast";
 import { useJobData } from "@context/JobContext";
+import { useErrorHandler } from "@hooks/useErrorHandler";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { AxiosError, isCancel } from "axios";
 import React, { useEffect } from "react";
-import toast from "react-hot-toast";
 
 export function useJobsList() {
   const { setJobData } = useJobData();
-
+  const { errorState, showErrorWithDelay } = useErrorHandler();
   const queryClient = useQueryClient();
   const abortControllerRef = React.useRef<AbortController | null>(null);
   const timeoutIdRef = React.useRef<NodeJS.Timeout | null>(null);
 
   const { mutate: templateLists, isPending: isLoading } = useMutation({
-    mutationKey: ["QueryData"],
+    mutationKey: ["Jobs"],
     mutationFn: async (data: any, options?: { signal?: AbortSignal }) => {
       try {
         const response = await jobService.getJobLists(data, options?.signal);
@@ -22,10 +23,10 @@ export function useJobsList() {
         if (isCancel(error)) {
           console.log("Request canceled:", error.message);
         } else {
-          console.error("Error:", error.message);
-          toast.error(error.message);
+          showErrorWithDelay();
+          showToast({ message: error.message, statusCode: 400, type: "error" });
         }
-        throw error; // Ensure errors bubble up
+        throw error;
       }
     },
     onMutate: () => {
@@ -41,53 +42,48 @@ export function useJobsList() {
         isLoading: false,
         currentPage: data.currentPage || 1,
       });
-      queryClient.invalidateQueries({ queryKey: ["QueryData"] });
+      queryClient.invalidateQueries({ queryKey: ["Job"] });
       if (data && data.list.length === 0) {
-        toast.success("Nothing found");
+        showToast({ message: "Nothing found", type: "warning" });
+        // toast.success("Nothing found");
       }
     },
-    onError: error => {
+    onError: () => {
       setJobData(prevState => ({
         ...prevState!,
         isLoading: false,
       }));
-      toast.error(error.message);
     },
   });
 
   const fetchWithSignal = (data: any) => {
-    // Abort any existing request
     if (abortControllerRef.current) {
       abortControllerRef.current.abort();
     }
     abortControllerRef.current = new AbortController();
     const signal = abortControllerRef.current.signal;
 
-    // Clear any existing timeout
     if (timeoutIdRef.current) {
       clearTimeout(timeoutIdRef.current);
     }
 
-    // Set a timeout to cancel the request after 30 seconds
     timeoutIdRef.current = setTimeout(() => {
       if (abortControllerRef.current) {
         abortControllerRef.current.abort();
-        // toast.error('Request timed out after 30 seconds');
         setJobData(prevState => ({
           ...prevState!,
           isLoading: false,
         }));
       }
-    }, 30000); // 30 seconds
+    }, 30000);
 
     try {
       return templateLists({ ...data, signal });
     } catch (error) {
-      throw error; // Ensure errors bubble up
+      throw error;
     }
   };
 
-  // Cleanup on unmount
   useEffect(() => {
     return () => {
       if (abortControllerRef.current) {
@@ -99,5 +95,5 @@ export function useJobsList() {
     };
   }, []);
 
-  return { jobLists: fetchWithSignal, isLoading };
+  return { jobLists: fetchWithSignal, errorState, isLoading };
 }

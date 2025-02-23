@@ -54,7 +54,7 @@ export const StyledTextContainer = styled.div`
   padding: 1rem 1.5rem;
 `;
 export const StyledButton = styled.div`
-  /* style={{gridColumn: "1 / -1",display: "flex", justifyContent: "flex-end", gap: "1rem" }} */
+  /* style={{gridColumn: "1 / -1",display: "flex", justifycontent: "flex-end", gap: "1rem" }} */
   grid-column: 1/-1;
   display: flex;
   justify-content: flex-end;

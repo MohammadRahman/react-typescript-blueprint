@@ -2,7 +2,7 @@ import styled, { css } from "styled-components";
 
 type TagProps = {
   type: string;
-  tagType?: string;
+  tag_type?: string;
 };
 
 const Tag = styled.span<TagProps>`
@@ -16,8 +16,8 @@ const Tag = styled.span<TagProps>`
   background-color: var(--color-${props => props.type}-100);
 
   ${props =>
-    props.tagType &&
-    props.tagType != "round" &&
+    props.tag_type &&
+    props.tag_type != "round" &&
     css`
       width: fit-content;
       height: 30px;

@@ -16,6 +16,7 @@ const Overlay = styled.div`
   backdrop-filter: blur(4px);
   z-index: 1000;
   transition: all 0.5s;
+  overflow-y: scroll; // if content exceeds the viewport
 `;
 const StyledButton = styled.button`
   width: 2rem;
@@ -33,15 +34,20 @@ type StyledModalWindowProps = {
 };
 const StyledModalWindow = styled.div<StyledModalWindowProps>`
   display: flex;
-  justify-content: center;
-  position: relative;
+  /* justify-content: center; */
+  flex-direction: column;
+  justify-content: flex-start;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  align-items: center;
+  /* position: relative; */
   position: absolute;
   background-color: var(--color-white);
   border: 1px solid var(--color-grey-100);
   ${props =>
     props.type == "aside" &&
     css`
-      width: 45vw;
+      width: 50rem;
       min-height: 100vh;
       right: 0;
       top: 0;
@@ -124,7 +130,7 @@ function Window({ children, name, type }: ModalWindowProps) {
         <StyledButton onClick={close}>
           <HiXMark />
         </StyledButton>
-        <div style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
+        <div style={{ display: "flex", justifycontent: "center", alignItems: "center" }}>
           {cloneElement(children as any, { onCloseModal: close })}
         </div>
       </StyledModalWindow>

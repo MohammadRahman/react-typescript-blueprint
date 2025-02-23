@@ -89,7 +89,7 @@ export function Pagination({ count, tableI, pageSize }: PaginationProps) {
           style={{
             padding: "0.7rem",
             border: "1px solid var(--color-grey-100)",
-            borderRadius: "4px",
+            border_radius: "4px",
           }}
           value={tableI.getState().pagination.pageSize}
           onChange={e => {

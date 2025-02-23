@@ -110,7 +110,7 @@ export const Card = ({ data, type }: CardProps) => {
             position: "absolute",
             right: "10px",
             display: "flex",
-            justifyContent: "center",
+            justifycontent: "center",
             alignItems: "center",
           }}
         >

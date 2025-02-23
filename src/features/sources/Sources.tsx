@@ -2,14 +2,14 @@ import { useEffect, useRef, useState } from "react";
 import SourceTable from "./SourceTable";
 import { useSourceLists } from "./useSourceLists";
 import TestConnection from "./TestConnection";
-import { DEFAULT_SOURCE_FILTER } from "@constants/source";
+import { DEFAULT_FILTER_VALUES } from "@constants/source";
 import { StyledContainer } from "./source.styles";
 import CreateSourceForm, { CreateSourceFormProps } from "./CreateSourceForm";
 import { useConnectionStr } from "@context/ConnectionStringContext";
-import { HiArrowLongLeft } from "react-icons/hi2";
-
 import { Row } from "@components/row";
-import { IconContainer } from "@components/container/IconContainer";
+import FormHeader from "@components/header/FormHeader";
+import { useSourceData } from "@context/SourceContext";
+import Spinner from "@components/spinner/Spinner";
 
 export const Sources = () => {
   const [editingSourceAccount, seteditingSourceAccount] = useState<
@@ -39,19 +39,15 @@ export const Sources = () => {
 
   // Fetching the list on mount
   useEffect(() => {
-    sourceLists(DEFAULT_SOURCE_FILTER);
+    sourceLists(DEFAULT_FILTER_VALUES);
   }, []);
 
+  const { sourceData } = useSourceData();
+  console.log("source Data", sourceData?.list);
   return (
     <Row type="vertical" gap="xl">
       <StyledContainer ref={formSectionRef}>
-        <Row gap="md" justifyContent="flex-start">
-          <IconContainer type="round">
-            <HiArrowLongLeft />
-          </IconContainer>
-          <span>New Database Connection</span>
-        </Row>
-
+        <FormHeader heading="New Database Connection" />
         {editingSourceAccount && (
           <CreateSourceForm formData={editingSourceAccount} onCloseModal={handleCloseForm} />
         )}

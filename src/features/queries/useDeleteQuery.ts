@@ -1,6 +1,7 @@
 import { queryApi } from "@apis/query";
 import { usequeryData } from "@context/QueryContext";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import toast from "react-hot-toast";
 
 export function useDeleteQuery() {
   const queryClient = useQueryClient();
@@ -16,6 +17,7 @@ export function useDeleteQuery() {
         const updatedList = queryData?.list.filter(acc => acc.id != id);
         setQueryData({ ...queryData, list: updatedList });
       }
+      toast("delete successful!");
       queryClient.invalidateQueries({ queryKey: ["QueryData"] });
     },
   });

@@ -5,6 +5,7 @@ type QueryListData = {
   totalCount: number;
   isLoading: boolean;
   currentPage: number;
+  queryResult?: { names: []; dataList: [] };
 };
 
 const QueryDataContext = createContext<{
@@ -27,6 +28,10 @@ export const QueryProvider = ({ children }: queryDataProps) => {
     totalCount: 0,
     isLoading: false,
     currentPage: 0,
+    queryResult: {
+      names: [],
+      dataList: [],
+    },
   });
   return (
     <QueryDataContext.Provider value={{ queryData, setQueryData }}>

@@ -69,17 +69,46 @@ const variations = {
     color: white;
   `,
   outlinePrimary: css`
-    width: auto;
-    padding: 8px 14px;
+    min-width: 58px;
+    height: 30px;
+    padding: 6px 10px;
     color: #04aa61;
     border-color: #04aa61;
     border: 1px solid #04aa61;
     background: transparent;
+    border-radius: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     &:hover,
     &:active {
       background-color: #04aa61;
       color: white;
     }
+  `,
+  outlinePreview: css`
+    width: 120px;
+    height: 41px;
+    padding: 6px 10px;
+    color: #04aa61;
+    border-color: #04aa61;
+    border: 1px solid #04aa61;
+    background: transparent;
+    border-radius: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    &:hover,
+    &:active {
+      background-color: #04aa61;
+      color: white;
+    }
+  `,
+  primarySmall: css`
+    width: 120px;
+    height: 41px;
+    color: var(--color-brand-50);
+    background-color: var(--color-primary);
   `,
   outlinePrimaryEdit: css`
     min-width: 100px;
@@ -158,13 +187,13 @@ type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
   type?: string;
   onClick?: () => void;
   isLoading?: boolean;
+  isActive?: boolean;
   children: ReactNode;
 };
 const StyledButton = styled.button<ButtonProps>`
   border: none;
   border-radius: var(--border-radius-sm);
   box-shadow: var(--shadow-sm);
-
   ${props => sizes[props.size || "medium"]}
   ${props => variations[props.variation || "primary"]}
 `;

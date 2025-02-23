@@ -6,129 +6,118 @@ import FormRowVertical from "@components/form/FormRowVertical";
 import Input from "@components/form/Input";
 import { Row } from "@components/row";
 import { SingleSelect } from "@components/select";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
-import styled, { css } from "styled-components";
-import { useJobsList } from "./useJobLists";
 import { useTemplateData } from "@context/TemplateContext";
 import { useEmailTemplate } from "@features/email-template/useEmailTemplate";
 import { useEmailAccount } from "@features/mail-server/useEmailAccount";
 import { useEmailData } from "@context/EmailAccountContext";
 import { useCreateEmailJob } from "./useCreateJob";
-
-const selectOptions = [
-  {
-    label: "data source 1",
-    value: "1",
-  },
-  {
-    label: "data source 1",
-    value: "2",
-  },
-  {
-    label: "data source 1",
-    value: "3",
-  },
-];
-
-const formattedValues = {
-  page: -1,
-  pagesize: -1,
-};
+import { DEFAULT_FILTER_VALUES } from "@constants/source";
+import { StyledCehckboxRow } from "./job.styles";
+import { formatSelectOptions } from "@utils/helper";
+import { Container } from "@components/container/Container";
+import FormHeader from "@components/header/FormHeader";
+import { useUpdateJob } from "./useUpdateJob";
 interface FormValues {
-  jobName: string;
+  jobId?: string;
+  name: string;
   reportAttachment: string;
-  emailTemplate: string;
-  mailServer: string;
+  emailTemplateId: string;
+  emailAccountId: string;
   eMailType: string;
 }
-interface TemplateProps {
-  id?: number;
-  jobName?: string;
+interface JobProps {
+  jobId?: string;
+  name?: string;
   reportAttachment?: string;
-  emailTemplate?: string;
-  emailAccount?: string;
+  emailTemplateId?: string;
+  emailAccountId?: string;
   eMailType?: string;
 }
 type NewJobFormProps = {
-  templateToEdit?: TemplateProps;
+  jobToEdit?: JobProps;
   onCloseModal?: () => void;
 };
-type StyledCehckboxRowProps = {
-  type?: "row" | "column";
-};
-const StyledCehckboxRow = styled.div<StyledCehckboxRowProps>`
-  display: flex;
-  flex-direction: ${props => (props.type == "row" ? "row" : "column")};
-  border: 1px solid var(--color-grey-300);
-  border-radius: 4px;
-  padding: 1rem;
-  gap: 0.5rem;
-  ${props =>
-    props.type &&
-    css`
-      justify-content: space-between;
-      align-items: center;
-    `}
-`;
 
-export const CreateJobFrom = ({ templateToEdit = {}, onCloseModal }: NewJobFormProps) => {
-  const { id, ...updateValues } = templateToEdit;
-  const isUpdateSession = Boolean(templateToEdit);
-
-  const { job } = useCreateEmailJob();
+export const CreateJobFrom = ({ jobToEdit = {}, onCloseModal }: NewJobFormProps) => {
+  const { jobId, ...updateValues } = jobToEdit;
+  console.log("updateValues", jobToEdit);
+  const isUpdateSession = Boolean(jobToEdit);
+  const { updateJob } = useUpdateJob();
+  const { startJob } = useCreateEmailJob();
 
   const [isReportAttachment, setIsReportAttachment] = useState(false);
-  const [isEmailTemplate, setIsEmailTemplate] = useState(false);
-  const [isEmailAccount, setIsEmailAccount] = useState(false);
-  // const [mailServer, setMailServer] = useState(false);
 
   const { templateLists } = useEmailTemplate();
   const { emailLists } = useEmailAccount();
 
+  const [isTemplatesFetched, setHasTemplateFetched] = useState(false);
+  const [isEmailAccountFetched, setHasEmailAccountFetched] = useState(false);
+
   const { template } = useTemplateData();
   const { emailData } = useEmailData();
 
-  const formatedOptions = template?.list.map(({ name, id }) => ({
-    label: name,
-    value: id,
-  }));
-
-  const formatedEmailAccount = emailData?.list.map(({ email, id }) => ({
-    label: email,
-    value: id,
-  }));
+  const formatedOptions = formatSelectOptions(template?.list || [], "name");
+  const formatedEmailAccount = formatSelectOptions(emailData?.list || [], "email");
 
   const {
     register,
     handleSubmit,
     formState: { errors },
     control,
+    watch,
   } = useForm<FormValues>({ defaultValues: isUpdateSession ? updateValues : {} });
 
-  function handleCreateTemplateSubmit(values: TemplateProps) {
-    job({
-      emailTemplateId: values.emailTemplate,
-      emailAccountId: values.emailAccount,
-      name: values.jobName,
-    });
+  const watchValue = watch();
+
+  function handleCreateTemplateSubmit(values: JobProps) {
+    if (isUpdateSession) {
+      updateJob({
+        jobId: jobToEdit.jobId,
+        emailTemplateId: jobToEdit.emailTemplateId,
+        emailAccountId: jobToEdit.emailAccountId,
+        name: jobToEdit.name,
+      });
+    }
+    startJob(
+      {
+        emailTemplateId: values.emailTemplateId,
+        emailAccountId: values.emailAccountId,
+        name: values.name,
+      },
+      {
+        onSuccess: () => {
+          onCloseModal?.();
+        },
+      }
+    );
   }
 
-  useEffect(() => {
-    templateLists(formattedValues);
-  }, []);
+  const fetchTemplates = () => {
+    if (!isTemplatesFetched) {
+      templateLists(DEFAULT_FILTER_VALUES);
+      setHasTemplateFetched(true);
+    }
+  };
 
-  useEffect(() => {
-    emailLists(formattedValues);
-  }, []);
-
+  const fetchEmailAccounts = () => {
+    if (!isEmailAccountFetched) {
+      emailLists(DEFAULT_FILTER_VALUES);
+      setHasEmailAccountFetched(true);
+    }
+  };
   return (
-    <div style={{ paddingTop: "1rem", paddingLeft: "6rem" }}>
+    <Container padding="md">
       <Form onSubmit={handleSubmit(handleCreateTemplateSubmit)} type="modal">
-        <span style={{ paddingBottom: "1rem" }}>&larr; Create New Job</span>
-        <div style={{ width: "90%" }}>
-          <FormRowVertical label="Job Name" error={errors.jobName?.message}>
-            <Input placeholder="Type here" {...register("jobName")} />
+        <FormHeader heading="Create New Job" style={{ paddingBottom: "1rem" }} />
+        <Row type="vertical" gap="md">
+          <FormRowVertical label="Job Name" error={errors.name?.message}>
+            <Input
+              bgc="true"
+              placeholder="Type here"
+              {...register("name", { required: "Name can not be empty." })}
+            />
           </FormRowVertical>
           <FormRowVertical label="" error={errors.reportAttachment?.message}>
             <StyledCehckboxRow>
@@ -140,71 +129,62 @@ export const CreateJobFrom = ({ templateToEdit = {}, onCloseModal }: NewJobFormP
               >
                 Report Attachment (Optional)
               </Checkbox>
-              <SingleSelect name="dataSource" control={control} options={formatedOptions || []} />
+              <SingleSelect
+                name="dataSource"
+                control={control}
+                options={formatedOptions || []}
+                onDropdownOpen={fetchTemplates}
+              />
             </StyledCehckboxRow>
           </FormRowVertical>
-          <FormRowVertical label="" error={errors.emailTemplate?.message}>
+          <FormRowVertical label="" error={errors.emailTemplateId?.message}>
             <StyledCehckboxRow>
               <Checkbox
-                id="emailTemplate"
-                checked={isEmailTemplate}
+                id="emailTemplateId"
+                checked={!!watchValue.emailTemplateId}
                 disabled={false}
-                onChange={() => setIsEmailTemplate(prev => !prev)}
               >
                 Email Template
               </Checkbox>
               <SingleSelect
-                name="emailTemplate"
+                name="emailTemplateId"
                 control={control}
                 options={formatedOptions || []}
-              />
-            </StyledCehckboxRow>
-            <StyledCehckboxRow>
-              <Checkbox
-                id="emailAccount"
-                checked={isEmailAccount}
-                disabled={false}
-                onChange={() => setIsEmailAccount(prev => !prev)}
-              >
-                Email Account
-              </Checkbox>
-              <SingleSelect
-                name="emailAccount"
-                control={control}
-                options={formatedEmailAccount || []}
+                onDropdownOpen={fetchTemplates}
               />
             </StyledCehckboxRow>
           </FormRowVertical>
-          {/* <FormRowVertical label="" error={errors.mailServer?.message}>
-            <StyledCehckboxRow type="row">
-              <Checkbox
-                id="mailServer"
-                checked={mailServer}
-                disabled={false}
-                onChange={() => setMailServer(prev => !prev)}
-              >
-                Mail Server
+          <FormRowVertical label="" error={errors.emailAccountId?.message}>
+            <StyledCehckboxRow>
+              <Checkbox id="emailAccountId" checked={!!watchValue.emailAccountId} disabled={false}>
+                Email Account
               </Checkbox>
-              <Button variation="primary">Create</Button>
+              <SingleSelect
+                name="emailAccountId"
+                control={control}
+                options={formatedEmailAccount || []}
+                onDropdownOpen={fetchEmailAccounts}
+              />
             </StyledCehckboxRow>
-          </FormRowVertical> */}
-          {/* <FormRowVertical label="eMail Type" error={errors.eMailType?.message}>
-            <SingleSelect name="" control={control} options={selectOptions} />
-          </FormRowVertical> */}
-          <div style={{ paddingTop: "8rem", paddingBottom: "2rem" }}>
+          </FormRowVertical>
+          <Container>
             <Row type="horizontal">
-              <Button variation="outlinePrimary" onClick={onCloseModal} style={{ width: "200px" }}>
+              <Button
+                variation="outlineDanger"
+                onClick={onCloseModal}
+                style={{ width: "200px", height: "4.5rem" }}
+              >
                 Cancel
               </Button>
               <ButtonGroup>
                 <Button variation="primary" style={{ width: "200px" }}>
-                  Start Job
+                  Create Job
                 </Button>
               </ButtonGroup>
             </Row>
-          </div>
-        </div>
+          </Container>
+        </Row>
       </Form>
-    </div>
+    </Container>
   );
 };

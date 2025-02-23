@@ -8,7 +8,7 @@ export function useCreateEmailJob() {
   const queryClient = useQueryClient();
   const { setJobData } = useJobData();
 
-  const { mutate: job, isPending: isCreating } = useMutation({
+  const { mutate: startJob, isPending: isCreating } = useMutation({
     mutationKey: ["Job"],
     mutationFn: async (data: any) => {
       console.log("data received in hook", data);
@@ -55,5 +55,5 @@ export function useCreateEmailJob() {
       toast.error(error.message);
     },
   });
-  return { job, isCreating };
+  return { startJob, isCreating };
 }

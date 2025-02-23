@@ -3,12 +3,7 @@ import Form from "@components/form/Form";
 import FormRowVertical from "@components/form/FormRowVertical";
 import Input from "@components/form/Input";
 import { SingleSelect } from "@components/select";
-import {
-  ContainerTwoElements,
-  FormContainer,
-  SytledFormButton,
-  TypeParametersContainer,
-} from "./source.styles";
+import { FormContainer } from "./source.styles";
 import { useForm } from "react-hook-form";
 import { useCreateSource } from "./useCreateSource";
 import { v4 as uuidv4 } from "uuid";
@@ -308,7 +303,7 @@ const CreateSourceForm = ({ formData = { database: {} }, onCloseModal }: CreateS
 
         {showOtherParameters && (
           <Container padding="md" style={{ paddingTop: "2rem" }}>
-            <Row style={{ justifyContent: "flex-end", gap: "1rem" }}>
+            <Row style={{ justifycontent: "flex-end", gap: "1rem" }}>
               {!isUpdateSession && (
                 <Button type="button" variation="danger" onClick={clearFields}>
                   Cancel

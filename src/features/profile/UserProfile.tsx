@@ -108,7 +108,7 @@ export const UserProfile = () => {
                 height: "251px",
                 backgroundPosition: "center",
                 backgroundSize: "cover",
-                borderRadius: "16px",
+                border_radius: "16px",
               }}
             />
             <StyledIcon>
@@ -146,7 +146,7 @@ export const UserProfile = () => {
             data={userData}
             render={(el: any) => <ProfileRow key={el.id} rowData={el} />}
           />
-          <ButtonGroup style={{ justifyContent: "flex-end" }}>
+          <ButtonGroup style={{ justifycontent: "flex-end" }}>
             <Button variation="outlinePrimary">Cancel</Button>
             <Button variation="primary">Save Changes</Button>
           </ButtonGroup>

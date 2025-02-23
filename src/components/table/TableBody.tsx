@@ -3,8 +3,6 @@ import styled from "styled-components";
 import { StyledRow } from "./table.styles";
 import TableEmptyState from "./EmptyTableState";
 import SecondaryTable from "@features/jobs/SecondaryTable";
-import { useJobDetails } from "@features/jobs/useJobDetails";
-import { useEffect } from "react";
 import { Container } from "@components/container/Container";
 
 export const StyledBody = styled.tbody`
@@ -23,13 +21,6 @@ const TableBody = <TData,>({
   columns,
   selectedRowId,
 }: TableBodyProps<TData>) => {
-  const { jobDetails, jobDetailsData } = useJobDetails();
-
-  useEffect(() => {
-    if (selectedRowId) {
-      jobDetails(selectedRowId);
-    }
-  }, [selectedRowId]);
   return (
     <StyledBody>
       {filteredData.length === 0 && (
@@ -60,8 +51,8 @@ const TableBody = <TData,>({
             {selectedRowId && selectedRowId === row.original.jobId && (
               <tr>
                 <td colSpan={columns.length}>
-                  <Container padding="md" bgc="white" borderRadius="lg" border="sm">
-                    <SecondaryTable data={jobDetailsData} />
+                  <Container padding="md" bgc="white" border_radius="lg" border="sm">
+                    <SecondaryTable jobId={selectedRowId} />
                   </Container>
                 </td>
               </tr>

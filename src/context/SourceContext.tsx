@@ -15,7 +15,13 @@ const SourceDataContext = createContext<{
   setSourceData: () => {},
 });
 
-export const useSourceData = () => useContext(SourceDataContext);
+export const useSourceData = () => {
+  const context = useContext(SourceDataContext);
+  if (!context) {
+    throw new Error("useSourceData must be used within a SourceProvider");
+  }
+  return context;
+};
 
 type SourceDataProps = {
   children: ReactNode;

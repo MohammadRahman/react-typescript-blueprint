@@ -5,13 +5,10 @@ import QueryTable from "./QueryTable";
 import { useQueryData } from "./useQueryData";
 import { usequeryData } from "@context/QueryContext";
 import CreateQueryForm from "./CreateQueryForm";
-import { useSourceLists } from "@features/sources/useSourceLists";
-import { useSourceData } from "@context/SourceContext";
+import FormHeader from "@components/header/FormHeader";
+import { DEFAULT_FILTER_VALUES } from "@constants/source";
+import SqlEditor from "@components/editor/SqlEditor";
 
-const formattedValues = {
-  page: -1,
-  pazesize: -1,
-};
 export type updateQueryDataProps = {
   formData?: {
     id?: string;
@@ -23,14 +20,11 @@ export type updateQueryDataProps = {
   onCloseModal?: () => void;
 };
 export const Queries = () => {
-  const { sourceLists } = useSourceLists();
-  const { queryLists } = useQueryData();
+  const { queryLists, errorState } = useQueryData();
   const { queryData } = usequeryData();
   const [editingEmailAccount, setEditingEmailAccount] = useState<
     updateQueryDataProps["formData"] | null
   >(null);
-
-  const { sourceData } = useSourceData();
 
   const formSectionRef = useRef<HTMLDivElement>(null);
 
@@ -49,28 +43,29 @@ export const Queries = () => {
   }, [editingEmailAccount]);
 
   useEffect(() => {
-    queryLists(formattedValues);
-  }, []);
-  useEffect(() => {
-    sourceLists(formattedValues);
+    queryLists(DEFAULT_FILTER_VALUES);
   }, []);
 
   return (
     <StyledQueries>
       <StyledContainer ref={formSectionRef}>
-        <span>&larr; New Query</span>
+        <FormHeader heading=" New Query" />
         <StyledContainer ref={formSectionRef}>
           {editingEmailAccount && (
             <CreateQueryForm formData={editingEmailAccount} onCloseModal={handleCloseForm} />
           )}
           {!editingEmailAccount && <CreateQueryForm />}
         </StyledContainer>
+        {/* <SqlEditor /> */}
         <StyledTextContainer>
           <QueryDataPreview />
         </StyledTextContainer>
       </StyledContainer>
       <StyledContainer>
-        <QueryTable status={queryData?.isLoading} onEdit={handleEditClick} />
+        <QueryTable
+          status={queryData?.isLoading || errorState.isLoading}
+          onEdit={handleEditClick}
+        />
       </StyledContainer>
     </StyledQueries>
   );
