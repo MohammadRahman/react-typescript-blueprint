@@ -1,35 +1,24 @@
-import { CreateSourceAccountPayload, sourceApi } from "@apis/source/source";
+import { sourceApi } from "@apis/source/source";
+import { showToast } from "@components/toast";
 import { useSourceData } from "@context/SourceContext";
+import { ErrorResponse } from "@interface/common";
+import { CreateSource, Source } from "@interface/source";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { AxiosError } from "axios";
-import toast from "react-hot-toast";
 
 export function useCreateSource() {
   const queryClient = useQueryClient();
   const { setSourceData } = useSourceData();
 
-  const { mutate: createSource, isPending: isCreating } = useMutation({
+  const { mutate: createSource, isPending: isCreating } = useMutation<
+    Source,
+    AxiosError<ErrorResponse>,
+    CreateSource
+  >({
     mutationKey: ["Source"],
-    mutationFn: async (data: CreateSourceAccountPayload) => {
-      try {
-        const response = await sourceApi.createSourceAccount(data);
-        return response.data;
-      } catch (error: AxiosError | any) {
-        const errorDetails = {
-          title: "Error",
-          message: "An unknown error occurred",
-          statusCode: error.response?.status || 500,
-        };
-
-        if (error.response && error.response.data && error.response.data.errors) {
-          const errorMessages = Object.values(error.response.data.errors).flat();
-          errorDetails.message = errorMessages.join(", ");
-        } else if (error.message) {
-          errorDetails.message = error.message;
-        }
-        toast.error(`${errorDetails.title} 🚨,\n${errorDetails.message}`);
-        throw error;
-      }
+    mutationFn: async (data: CreateSource) => {
+      const response = await sourceApi.createSourceAccount(data);
+      return response.data;
     },
     onSuccess: data => {
       setSourceData(prev => {
@@ -48,10 +37,25 @@ export function useCreateSource() {
         };
       });
       queryClient.invalidateQueries({ queryKey: ["Source"] });
-      toast.success("source created.");
+      showToast({ message: "Source created.", statusCode: 201, type: "success" });
     },
-    onError: error => {
-      toast.error(error.message);
+    onError: (error: AxiosError<ErrorResponse>) => {
+      const errorDetails = {
+        title: "Error",
+        message: "An unknown error occurred",
+        statusCode: error.response?.status || 500,
+      };
+      if (error.response?.data?.errors) {
+        const errorMessages = Object.values(error.response.data.errors).flat();
+        errorDetails.message = errorMessages.join(", ");
+      } else if (error.message) {
+        errorDetails.message = error.message;
+      }
+      showToast({
+        message: errorDetails.message,
+        statusCode: errorDetails.statusCode,
+        type: "error",
+      });
     },
   });
   return { createSource, isCreating };

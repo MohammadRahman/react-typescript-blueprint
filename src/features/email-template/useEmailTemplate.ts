@@ -2,10 +2,14 @@ import { templateApi } from "@apis/email-template";
 import { showToast } from "@components/toast/Toast";
 import { useTemplateData } from "@context/TemplateContext";
 import { useErrorHandler } from "@hooks/useErrorHandler";
+import { ErrorResponse, PaginationPayload, PaginationResponse } from "@interface/common";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { AxiosError, isCancel } from "axios";
-import React, { useEffect } from "react";
+import { AxiosError } from "axios";
+import React, { useCallback, useEffect } from "react";
 
+/**
+ * Custom hook for managing email templates.
+ */
 export function useEmailTemplate() {
   const { setTemplateData } = useTemplateData();
   const { errorState, showErrorWithDelay } = useErrorHandler();
@@ -13,21 +17,27 @@ export function useEmailTemplate() {
   const abortControllerRef = React.useRef<AbortController | null>(null);
   const timeoutIdRef = React.useRef<NodeJS.Timeout | null>(null);
 
-  const { mutate: templateLists, isPending: isLoading } = useMutation({
+  // Utility to clean up AbortController and timeout
+  const cleanup = useCallback(() => {
+    if (abortControllerRef.current) {
+      abortControllerRef.current.abort();
+      abortControllerRef.current = null;
+    }
+    if (timeoutIdRef.current) {
+      clearTimeout(timeoutIdRef.current);
+      timeoutIdRef.current = null;
+    }
+  }, []);
+
+  const { mutate: templateLists, isPending: isLoading } = useMutation<
+    PaginationResponse,
+    AxiosError<ErrorResponse>,
+    PaginationPayload
+  >({
     mutationKey: ["Templates"],
-    mutationFn: async (data: any, options?: { signal?: AbortSignal }) => {
-      try {
-        const response = await templateApi.getTemplateLists(data, options?.signal);
-        return response.data;
-      } catch (error: AxiosError | any) {
-        if (isCancel(error)) {
-          console.log("Request canceled:", error.message);
-        } else {
-          showErrorWithDelay();
-          showToast({ message: error.message, statusCode: 400, type: "error" });
-        }
-        throw error;
-      }
+    mutationFn: async (data: PaginationPayload, options?: { signal?: AbortSignal }) => {
+      const response = await templateApi.getTemplateLists(data, options?.signal);
+      return response.data;
     },
     onMutate: () => {
       setTemplateData(prevState => ({
@@ -38,62 +48,58 @@ export function useEmailTemplate() {
     onSuccess: data => {
       setTemplateData({
         list: data.list,
-        totalCount: data.totalCount,
+        totalCount: data.pageCount,
         isLoading: false,
         currentPage: data.currentPage || 1,
       });
-      queryClient.invalidateQueries({ queryKey: ["Query"] });
+      queryClient.invalidateQueries({ queryKey: ["Templates"] });
       if (data && data.list.length === 0) {
         showToast({ message: "Nothing found", type: "warning" });
-        // toast.success("Nothing found");
       }
     },
-    onError: () => {
+    onError: error => {
       setTemplateData(prevState => ({
         ...prevState!,
         isLoading: false,
       }));
+      showErrorWithDelay(error.message);
     },
   });
 
-  const fetchWithSignal = (data: any) => {
-    if (abortControllerRef.current) {
-      abortControllerRef.current.abort();
-    }
-    abortControllerRef.current = new AbortController();
-    const signal = abortControllerRef.current.signal;
+  // Fetch with signal and timeout
+  const fetchWithSignal = useCallback(
+    (data: PaginationPayload) => {
+      cleanup();
 
-    if (timeoutIdRef.current) {
-      clearTimeout(timeoutIdRef.current);
-    }
+      abortControllerRef.current = new AbortController();
+      const signal = abortControllerRef.current.signal;
 
-    timeoutIdRef.current = setTimeout(() => {
-      if (abortControllerRef.current) {
-        abortControllerRef.current.abort();
-        setTemplateData(prevState => ({
-          ...prevState!,
-          isLoading: false,
-        }));
+      timeoutIdRef.current = setTimeout(() => {
+        if (abortControllerRef.current) {
+          abortControllerRef.current.abort();
+          setTemplateData(prevState => ({
+            ...prevState!,
+            isLoading: false,
+          }));
+          showToast({ message: "Request timed out", type: "error" });
+        }
+      }, 30000);
+
+      try {
+        return templateLists({ ...data, signal });
+      } catch (error) {
+        throw error;
       }
-    }, 30000);
+    },
+    [cleanup, templateLists]
+  );
 
-    try {
-      return templateLists({ ...data, signal });
-    } catch (error) {
-      throw error;
-    }
-  };
-
+  // Cleanup on unmount
   useEffect(() => {
     return () => {
-      if (abortControllerRef.current) {
-        abortControllerRef.current.abort();
-      }
-      if (timeoutIdRef.current) {
-        clearTimeout(timeoutIdRef.current);
-      }
+      cleanup();
     };
-  }, []);
+  }, [cleanup]);
 
   return { templateLists: fetchWithSignal, errorState, isLoading };
 }

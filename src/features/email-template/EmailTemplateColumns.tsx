@@ -32,8 +32,27 @@ export function useEmailTemplateColumns() {
       cell: ({ row }) => {
         const formatedText = transformLongString(row.original.body);
         return (
-          <div style={{ display: "flex", alignItems: "flex-start", padding: "1rem" }}>
-            <span>{formatedText}</span>
+          <div
+            style={{
+              display: "flex",
+              alignItems: "flex-start",
+              padding: "1rem",
+              wordWrap: "break-word",
+              overflowWrap: "break-word",
+              whiteSpace: "normal",
+              textAlign: "left",
+              hyphens: "auto",
+            }}
+          >
+            <p
+              style={{
+                margin: 0,
+                padding: 0,
+                width: "100%",
+              }}
+            >
+              {formatedText}
+            </p>
           </div>
         );
       },

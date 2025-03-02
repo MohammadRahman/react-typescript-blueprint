@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export const EditorHeader = styled.div`
+export const StyledHeader = styled.div`
   width: 100%;
   height: 40px;
   position: relative;
@@ -49,11 +49,13 @@ type StyledQueryProps = {
 export const StyledQuery = styled.div.withConfig({
   shouldForwardProp: prop => prop !== "isQueryRun",
 })<StyledQueryProps>`
-  width: ${props => (props.isQueryRun ? "60%" : "100%")};
-  height: 100%;
+  width: 100%;
+  height: ${props => (props.isQueryRun ? "50%" : "100%")};
+  padding: 2rem;
 `;
 export const StyledQueryResult = styled.div<StyledQueryProps>`
-  width: 40%;
-  height: 100%;
-  border-left: 1px solid var(--color-grey-20);
+  width: 100%;
+  /* height: ${props => (props.isQueryRun ? "70%" : "0")}; */
+  border: 1px solid red;
+  /* border-left: 1px solid var(--color-grey-20); */
 `;

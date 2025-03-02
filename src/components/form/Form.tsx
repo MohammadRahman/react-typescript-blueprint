@@ -22,6 +22,12 @@ const Form = styled.form<FormProps>`
       width: 50rem;
       padding: 2.4rem 2rem;
     `}
+  ${props =>
+    props.type === "aside_mini" &&
+    css`
+      width: 40rem;
+      padding: 2.4rem 2rem;
+    `}
     
   /* overflow: hidden; */
   font-size: 1.4rem;

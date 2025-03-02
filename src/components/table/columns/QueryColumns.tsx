@@ -5,6 +5,7 @@ import { ColumnDef } from "@tanstack/react-table";
 
 type TableColProps = {
   onEdit: (values: any) => void;
+  // setShowDataView?: (v: boolean) => void;
 };
 
 export const useQueryColumns = ({ onEdit }: TableColProps) => {
@@ -50,6 +51,7 @@ export const useQueryColumns = ({ onEdit }: TableColProps) => {
           isDetails={true}
           showData={true}
           isLoading={false}
+          // setShowDataView={setShowDataView}
           data={row.original}
           deleteAccount={() => deleteQuery(row.original.id)}
         />

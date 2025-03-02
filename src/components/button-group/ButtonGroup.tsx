@@ -1,10 +1,21 @@
-import styled from "styled-components";
+import { Size, SizingMap } from "@interface/common";
+import styled, { css } from "styled-components";
 
-const ButtonGroup = styled.div`
+interface ButtonGroupProps {
+  gap?: Size;
+  content?: "flex-start" | "flex-end" | "center" | "space-between" | "space-around";
+  width?: string;
+}
+
+const ButtonGroup = styled.div<ButtonGroupProps>`
   display: flex;
-  gap: 1.2rem;
-  justify-content: flex-end;
-  background-color: var(--color-white);
+  ${({ gap }) =>
+    gap &&
+    css`
+      gap: ${SizingMap[gap]};
+    `}
+  justify-content: ${props => props.content || "flex-end"}; // Default is flex-end
+  width: ${props => props.width || "100%"};
 `;
 
 export default ButtonGroup;

@@ -1,3 +1,5 @@
+import { CollectionResponse } from "@interface/common";
+import { Query } from "@interface/query";
 import React, { createContext, ReactNode, useContext, useState } from "react";
 
 type QueryListData = {
@@ -9,8 +11,8 @@ type QueryListData = {
 };
 
 const QueryDataContext = createContext<{
-  queryData: QueryListData | null;
-  setQueryData: React.Dispatch<React.SetStateAction<QueryListData | null>>;
+  queryData: CollectionResponse<Query> | null;
+  setQueryData: React.Dispatch<React.SetStateAction<CollectionResponse<Query> | null>>;
 }>({
   queryData: null,
   setQueryData: () => {},
@@ -23,7 +25,7 @@ type queryDataProps = {
 };
 
 export const QueryProvider = ({ children }: queryDataProps) => {
-  const [queryData, setQueryData] = useState<QueryListData | null>({
+  const [queryData, setQueryData] = useState<CollectionResponse<Query> | null>({
     list: [],
     totalCount: 0,
     isLoading: false,

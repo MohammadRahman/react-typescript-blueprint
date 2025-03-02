@@ -54,6 +54,9 @@ const ActionButtons = ({
     sourceId: data.sourceId,
     queryScript: data.body,
   };
+  function handleClick() {
+    getQueryResult(queryResultPayload);
+  }
   return (
     <GroupButton>
       <Modal>
@@ -71,7 +74,7 @@ const ActionButtons = ({
             variation="outlinePreview"
             type="button"
             style={{ padding: "5px", height: "30px", width: "60px" }}
-            onClick={() => getQueryResult(queryResultPayload)}
+            onClick={handleClick}
           >
             Show Data
           </Button>
@@ -115,3 +118,7 @@ const ActionButtons = ({
 };
 
 export default ActionButtons;
+
+// () => {
+// getQueryResult(queryResultPayload), setShowDataView(true);
+// }

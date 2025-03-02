@@ -10,5 +10,5 @@ export const DATA_SOURCE_TYPES = [
 ];
 export const DEFAULT_FILTER_VALUES = {
   page: -1,
-  pazesize: -1,
+  pagesize: -1,
 };

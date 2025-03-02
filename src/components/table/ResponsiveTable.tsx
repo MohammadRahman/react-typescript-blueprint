@@ -21,6 +21,7 @@ import TableOperations from "./TableOperations";
 import TableHeader from "./TableHeader";
 import TableBody from "./TableBody";
 import Heading from "@components/heading/Heading";
+import { Loader } from "@components/spinner";
 
 export const SearchIcon = styled(HiOutlineMagnifyingGlass)`
   position: absolute;
@@ -85,7 +86,8 @@ const ResizableTable = <TData extends object>({
     manualPagination: true,
   });
 
-  if (isLoading) return <Spinner />;
+  if (isLoading) return <Loader loading={isLoading} />;
+  // if (isLoading) return <Spinner />;
 
   return (
     <div>

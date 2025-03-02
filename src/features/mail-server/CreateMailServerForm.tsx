@@ -1,11 +1,3 @@
-import {
-  CreateEmailAccountPayload,
-  EmailType,
-  ImapPort,
-  SecurityProtocol,
-  SmtpPort,
-} from "@apis/email-account";
-import { v4 as uuidv4 } from "uuid";
 import { useEffect, useState } from "react";
 import { useCreateEmailAccount } from "./useCreateEmailAccount";
 import Form from "@components/form/Form";
@@ -19,10 +11,17 @@ import Spinner from "@components/spinner/Spinner";
 import { HiMiniChevronDown, HiMiniChevronUp } from "react-icons/hi2";
 import { mailTypes, ports, securityProtocols } from "@configs/mailServer";
 import FormHeader from "@components/header/FormHeader";
-import { GroupButton, StyledContainer } from "./mailServer.styles";
+import { GroupButton } from "./mailServer.styles";
 import { Grid } from "@components/grid/Grid";
 import { Container } from "@components/container/Container";
 import { Row } from "@components/row";
+import {
+  CreateEmailAccountPayload,
+  EmailType,
+  ImapPort,
+  SecurityProtocol,
+  SmtpPort,
+} from "@interface/email";
 
 export type CreateMailServerFormProps = {
   formData?: {
@@ -45,9 +44,7 @@ const CreateMailServerForm = ({ formData = {}, onCloseModal }: CreateMailServerF
   const [showAdvanceOptions, setShowAdvanceOptions] = useState(false);
   const { updateEmailAccount, isUpdating } = useUpdateEmailAccount();
 
-  const { id, ...otherProps } = formData;
-
-  const accountId = uuidv4();
+  const { id } = formData;
 
   const isUpdateSession = Boolean(id);
 
@@ -84,7 +81,6 @@ const CreateMailServerForm = ({ formData = {}, onCloseModal }: CreateMailServerF
       createEmailAccount(
         {
           ...formValues,
-          id: accountId,
           type: Number(formValues.type),
           smtpPort: Number(formValues.smtpPort),
           securityProtocol: Number(formValues.securityProtocol),

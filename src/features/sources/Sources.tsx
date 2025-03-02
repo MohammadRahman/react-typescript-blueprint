@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import SourceTable from "./SourceTable";
-import { useSourceLists } from "./useSourceLists";
+import { useSource } from "./useSourceLists";
 import TestConnection from "./TestConnection";
 import { DEFAULT_FILTER_VALUES } from "@constants/source";
 import { StyledContainer } from "./source.styles";
@@ -8,8 +8,6 @@ import CreateSourceForm, { CreateSourceFormProps } from "./CreateSourceForm";
 import { useConnectionStr } from "@context/ConnectionStringContext";
 import { Row } from "@components/row";
 import FormHeader from "@components/header/FormHeader";
-import { useSourceData } from "@context/SourceContext";
-import Spinner from "@components/spinner/Spinner";
 
 export const Sources = () => {
   const [editingSourceAccount, seteditingSourceAccount] = useState<
@@ -21,7 +19,7 @@ export const Sources = () => {
   const tableSectionRef = useRef<HTMLDivElement>(null);
   const formSectionRef = useRef<HTMLDivElement>(null);
 
-  const { sourceLists, isLoading } = useSourceLists();
+  const { sourceLists, isLoading, errorState } = useSource();
 
   const handleEditClick = (accountData: CreateSourceFormProps["formData"]) => {
     seteditingSourceAccount(accountData);
@@ -42,8 +40,7 @@ export const Sources = () => {
     sourceLists(DEFAULT_FILTER_VALUES);
   }, []);
 
-  const { sourceData } = useSourceData();
-  console.log("source Data", sourceData?.list);
+  // const { sourceData } = useSourceData();
   return (
     <Row type="vertical" gap="xl">
       <StyledContainer ref={formSectionRef}>
@@ -56,7 +53,7 @@ export const Sources = () => {
       </StyledContainer>
 
       <StyledContainer ref={tableSectionRef}>
-        <SourceTable isLoading={isLoading} onEdit={handleEditClick} />
+        <SourceTable isLoading={isLoading || errorState.isLoading} onEdit={handleEditClick} />
       </StyledContainer>
     </Row>
   );

@@ -4,7 +4,6 @@ import FormRowVertical from "@components/form/FormRowVertical";
 import Input from "@components/form/Input";
 import Checkbox from "@components/form/CheckBox";
 import { SingleSelect } from "@components/select";
-import SQLQueryEditor from "@components/editor/MonacoSqlEditor";
 import { HiOutlineEye } from "react-icons/hi2";
 import Button from "@components/button/Button";
 import { useForm } from "react-hook-form";
@@ -12,13 +11,13 @@ import { useCreateQuery } from "./useCreateQuery";
 import { v4 as uuidv4 } from "uuid";
 import { useState } from "react";
 import { useUpdateQuery } from "./useUpdateQuery";
-import { QueryPayload } from "@apis/query";
 import { useSourceData } from "@context/SourceContext";
-import { useSourceLists } from "@features/sources/useSourceLists";
 import { DEFAULT_FILTER_VALUES } from "@constants/source";
 import { FormInputWithCheckBox } from "@components/container/FormInputWithCeckbox";
 import { Grid } from "@components/grid/Grid";
 import SqlEditor from "@components/editor/SqlEditor";
+import { CreateQuery } from "@interface/query";
+import { useSource } from "@features/sources/useSourceLists";
 
 export type CreateQueryFormProps = {
   formData?: {
@@ -37,9 +36,8 @@ const CreateQueryForm = ({ formData = {}, onCloseModal }: CreateQueryFormProps) 
   const isUpdateSession = Boolean(id);
   const { updateQueryData, isUpdating } = useUpdateQuery();
   const [query, setQuery] = useState(isUpdateSession ? formData.body : "");
-  const { sourceLists, isLoading } = useSourceLists();
+  const { sourceLists, isLoading } = useSource();
   const { sourceData } = useSourceData();
-
   const [dataSource, setDataSource] = useState(!!formData.sourceId);
   const [clientIdField, setclientIdField] = useState(!!formData.clientIdField);
   const [databaseConnection, setDatabaseConnection] = useState(false);
@@ -79,7 +77,7 @@ const CreateQueryForm = ({ formData = {}, onCloseModal }: CreateQueryFormProps) 
 
   function submitHandler(values: CreateQueryFormProps["formData"]) {
     const queryId = uuidv4();
-    const formatedUpdatePayload: QueryPayload = {
+    const formatedUpdatePayload: CreateQuery = {
       version: 0,
       id: formData.id || "",
       name: values?.name || "",
@@ -127,29 +125,43 @@ const CreateQueryForm = ({ formData = {}, onCloseModal }: CreateQueryFormProps) 
     <Form onSubmit={handleSubmit(submitHandler)} style={{ padding: "0" }}>
       <Grid columns={3} gap="xxxl" style={{ marginBottom: "1rem" }}>
         <FormInputWithCheckBox>
-          <Checkbox checked={true} id="name" />
+          {watchValue.name && <Checkbox checked={true} id="name" />}
           <FormRowVertical error={errors.name?.message}>
-            <Input {...register("name")} placeholder="Name" isCheckbox="true" />
+            <Input
+              {...register("name", { required: "Name is required" })}
+              placeholder="Name *"
+              isCheckbox="true"
+            />
           </FormRowVertical>
         </FormInputWithCheckBox>
         <FormInputWithCheckBox>
-          <Checkbox checked={true} id="clientIdField" />
+          {watchValue.clientIdField && <Checkbox checked={true} id="clientIdField" />}
           <FormRowVertical error={errors.clientIdField?.message}>
-            <Input {...register("clientIdField")} placeholder="Client Id" isCheckbox="true" />
+            <Input
+              {...register("clientIdField", { required: "Client id is required" })}
+              placeholder="Client Id *"
+              isCheckbox="true"
+            />
           </FormRowVertical>
         </FormInputWithCheckBox>
         <FormInputWithCheckBox>
-          <Checkbox checked={true} id="email" />
+          {watchValue.emailField && <Checkbox checked={true} id="email" />}
           <FormRowVertical error={errors.emailField?.message}>
-            <Input {...register("emailField")} placeholder="Email" isCheckbox="true" />
+            <Input
+              {...register("emailField", { required: "Email is required" })}
+              placeholder="Email *"
+              isCheckbox="true"
+            />
           </FormRowVertical>
         </FormInputWithCheckBox>
         <FormInputWithCheckBox style={{ width: "100%" }}>
-          <Checkbox checked={true} id="dataSource" />
+          {watchValue.sourceId && <Checkbox checked={true} id="dataSource" />}
           <FormRowVertical error={errors.sourceId?.message}>
             <SingleSelect
               name="sourceId"
               isCheckbox="true"
+              rules={{ required: "Source is required" }}
+              placeholder={"Select Source *"}
               control={control}
               options={sources || []}
               isLoading={isLoading}
@@ -187,17 +199,13 @@ const CreateQueryForm = ({ formData = {}, onCloseModal }: CreateQueryFormProps) 
                       setValue={setValue}
                       watch={watch}
                       setShowEditor={setShowEditor}
-                      setQuery={setQuery}
+                      queryVal={query}
+                      setQueryVal={setQuery}
                       sourceId={watchValue.sourceId || ""}
                       width="800px"
                       height="500px"
                     />
                   </div>
-                  // <SQLQueryEditor
-                  //   setShowEditor={setShowEditor}
-                  //   query={query || ""}
-                  //   setQuery={setQuery}
-                  // />
                 )}
               </>
             )}

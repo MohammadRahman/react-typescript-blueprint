@@ -1,9 +1,10 @@
-import { REPORTS } from "@apis/api-routes";
-import { httpCommon } from "@apis/http-common";
+import { BASE_URL, REPORTS } from "@apis/api-routes";
+import httpCommon from "@apis/http-common";
 import { mockreports } from "@mocks/data";
 
+const report = httpCommon(BASE_URL);
+
 function createReport() {
-  const report = httpCommon("http://localhost:3001/reports");
   return report.get(`${REPORTS}`);
 }
 

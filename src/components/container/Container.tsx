@@ -7,6 +7,7 @@ type IPadding = {
   bgc?: string;
   border_radius?: Size;
   border?: Exclude<Size, "xs" | "xl">;
+  overflow?: "hidden" | "";
 };
 const paddingMap: Record<Size, string> = {
   xs: "0.5rem",
@@ -22,10 +23,11 @@ const border_radiusMap: Record<Size, string> = {
   lg: "1.5rem",
   xl: "2rem",
 };
-const borderMap: Record<Exclude<Size, "xs" | "xl">, string> = {
+const borderMap: Record<Exclude<Size, "xs">, string> = {
   sm: "1px solid var(--color-grey-border)",
   md: "2px solid var(--color-grey-border)",
   lg: "3px solid var(--color-grey-border)",
+  xl: "1rem solid var(--color-grey-border)",
 };
 
 export const Container = styled.div<IPadding>`
@@ -46,4 +48,9 @@ export const Container = styled.div<IPadding>`
       border: ${borderMap[border]};
     `}
   background-color: ${({ bgc }) => `var(--color-${bgc})` || "inherit"};
+  overflow: ${({ overflow }) =>
+    overflow &&
+    css`
+      overflow: hidden;
+    `};
 `;

@@ -53,6 +53,14 @@ const StyledModalWindow = styled.div<StyledModalWindowProps>`
       top: 0;
     `}
   ${props =>
+    props.type == "aside_mini" &&
+    css`
+      width: 40rem;
+      min-height: 100vh;
+      right: 0;
+      top: 0;
+    `}
+  ${props =>
     props.type === "delete" &&
     css`
       width: 40vw;
@@ -98,7 +106,7 @@ type OpenProps = {
 type ModalWindowProps = {
   children: ReactNode;
   name: string;
-  type?: "delete" | "regular" | "aside" | "htmlPreview";
+  type?: "delete" | "regular" | "aside" | "htmlPreview" | "aside_mini";
 };
 const ModalContext = createContext<ModalContextProps | undefined>(undefined);
 
@@ -130,7 +138,7 @@ function Window({ children, name, type }: ModalWindowProps) {
         <StyledButton onClick={close}>
           <HiXMark />
         </StyledButton>
-        <div style={{ display: "flex", justifycontent: "center", alignItems: "center" }}>
+        <div style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
           {cloneElement(children as any, { onCloseModal: close })}
         </div>
       </StyledModalWindow>

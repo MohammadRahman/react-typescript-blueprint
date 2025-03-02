@@ -2,6 +2,8 @@ import { jobService } from "@apis/job";
 import { showToast } from "@components/toast/Toast";
 import { useJobData } from "@context/JobContext";
 import { useErrorHandler } from "@hooks/useErrorHandler";
+import { ErrorResponse, PaginationResponse } from "@interface/common";
+import { Job, StartJob } from "@interface/job";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { AxiosError, isCancel } from "axios";
 import React, { useEffect } from "react";
@@ -13,9 +15,13 @@ export function useJobsList() {
   const abortControllerRef = React.useRef<AbortController | null>(null);
   const timeoutIdRef = React.useRef<NodeJS.Timeout | null>(null);
 
-  const { mutate: templateLists, isPending: isLoading } = useMutation({
-    mutationKey: ["Jobs"],
-    mutationFn: async (data: any, options?: { signal?: AbortSignal }) => {
+  const { mutate: templateLists, isPending: isLoading } = useMutation<
+    PaginationResponse,
+    AxiosError<ErrorResponse>,
+    StartJob
+  >({
+    mutationKey: ["Job"],
+    mutationFn: async (data: StartJob, options?: { signal?: AbortSignal }) => {
       try {
         const response = await jobService.getJobLists(data, options?.signal);
         return response.data;

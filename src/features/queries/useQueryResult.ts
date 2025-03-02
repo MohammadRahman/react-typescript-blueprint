@@ -14,6 +14,7 @@ export function useQueryResult() {
     mutationKey: ["Query-Result"],
     mutationFn: async (data: QueryResultPayload) => {
       const response = await queryApi.queryResult(data);
+      console.log("query result in console", response);
       setQueryData(prev => {
         if (!prev) {
           // If `prev` is null, initialize the state with the new `queryResult`
