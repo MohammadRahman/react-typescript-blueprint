@@ -39,9 +39,8 @@ class MentionOption extends MenuOption {
 type Props = {
   values: string[];
 };
-export const AutocompleteMentionPlugin = ({ values }: Props) => {
-  console.log("values in mentions", values);
 
+export const AutocompleteMentionPlugin = ({ values }: Props) => {
   const [editor] = useLexicalComposerContext();
   const [query, setQuery] = useState<string | null>(null);
 

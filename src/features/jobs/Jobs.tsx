@@ -11,8 +11,8 @@ import JobTable from "./JobTable";
 import { useJobData } from "@context/JobContext";
 import { SHARED_CONSTANTS } from "@constants/common";
 import { DEFAULT_FILTER_VALUES } from "@constants/source";
-import { Styledjobs } from "./job.styles";
 import { Grid } from "@components/grid/Grid";
+import { Column } from "@components/column";
 
 export const Jobs = () => {
   const { jobData } = useJobData();
@@ -39,9 +39,9 @@ export const Jobs = () => {
   }, []);
 
   return (
-    <Styledjobs>
+    <Column gap="lg">
       <Row type="horizontal" style={{ justifyContent: "flex-end" }}>
-        <ButtonGroup>
+        <ButtonGroup gap="sm">
           <Button variation="outline" size="medium">
             <HiOutlineDocumentText />
             Generate Report
@@ -53,7 +53,7 @@ export const Jobs = () => {
                 Create New Job
               </Button>
             </Modal.Open>
-            <Modal.Window name="create-new-job" type="aside">
+            <Modal.Window name="create-new-job" type="aside_mini">
               <CreateJobFrom />
             </Modal.Window>
           </Modal>
@@ -71,6 +71,6 @@ export const Jobs = () => {
         })}
       </Grid>
       <JobTable isLoading={isLoading || errorState.isLoading} />
-    </Styledjobs>
+    </Column>
   );
 };

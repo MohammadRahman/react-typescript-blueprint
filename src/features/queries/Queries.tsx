@@ -7,7 +7,6 @@ import { usequeryData } from "@context/QueryContext";
 import CreateQueryForm from "./CreateQueryForm";
 import FormHeader from "@components/header/FormHeader";
 import { DEFAULT_FILTER_VALUES } from "@constants/source";
-import SqlEditor from "@components/editor/SqlEditor";
 
 export type updateQueryDataProps = {
   formData?: {
@@ -56,7 +55,6 @@ export const Queries = () => {
           )}
           {!editingEmailAccount && <CreateQueryForm />}
         </StyledContainer>
-        {/* <SqlEditor /> */}
         <StyledTextContainer>
           <QueryDataPreview />
         </StyledTextContainer>

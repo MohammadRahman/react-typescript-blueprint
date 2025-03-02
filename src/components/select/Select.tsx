@@ -15,6 +15,8 @@ type SelectProps = {
   isCheckbox?: string;
   isLoading?: boolean;
   onDropdownOpen?: any;
+  placeholder?: string;
+  // error?: any;
 };
 
 const customStyles = (isCheckbox: SelectProps["isCheckbox"]) => ({
@@ -55,6 +57,8 @@ export const SingleSelect = ({
   rules,
   isCheckbox,
   onDropdownOpen,
+  placeholder,
+  // error,
 }: SelectProps) => {
   return (
     <>
@@ -65,6 +69,7 @@ export const SingleSelect = ({
         render={({ field: { onChange, value }, fieldState: { error } }) => (
           <>
             <Select
+              placeholder={placeholder}
               isClearable
               theme={theme => ({
                 ...theme,
@@ -91,10 +96,19 @@ export const SingleSelect = ({
                 IndicatorSeparator: () => null,
               }}
             />
-            {/* {error && <p style={{ color: "red", marginTop: "0.25rem" }}>{error.message}</p>}  */}
+            {/* Display error message if present */}
+            {/* {error && <p style={{ color: "red", marginTop: "0.25rem" }}>{error.message}</p>} */}
           </>
         )}
       />
     </>
   );
 };
+
+{
+  /* {(error || fieldError?.message) && (
+              <p style={{ color: "red", marginTop: "0.25rem", fontSize: "0.875rem" }}>
+                {error || fieldError?.message}
+              </p>
+            )} */
+}

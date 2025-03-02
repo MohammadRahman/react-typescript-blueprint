@@ -38,6 +38,7 @@ export function toCapitalCase(str: string): string {
 }
 
 export function formatDate(dateString: string) {
+  if (dateString === undefined || dateString === null) return "-";
   const date = parseISO(dateString);
 
   const formattedDate = format(date, "d MMM yyyy");
@@ -53,7 +54,7 @@ export function transformLongString(str: string) {
 
 export function formatSelectOptions<T extends Record<string, any>>(data: T[], labelKey: keyof T) {
   return data.map(item => ({
-    label: item[labelKey],
-    value: item.id,
+    label: item[labelKey] as string,
+    value: item.id as string | number,
   }));
 }

@@ -1,3 +1,5 @@
+export const BASE_URL = import.meta.env.VITE_EMAIL_ACCOUNT;
+
 export const REPORTS = "/reports";
 export const USERS = "/users";
 export const LOGIN = "/auth/login";
@@ -19,6 +21,6 @@ export const QUERY_EDIT = "/Query";
 export const QUERY_DELETE = "/Query/:id?id";
 export const QUERY_FILTER_LIST = "/Query/FilterList";
 
-export const JOB = "/Job";
+export const JOB_START = "/Job/start";
 export const JOB_DETAILS = "/Job";
 export const JOB_FILTER_LIST = "/Job/FilterList";

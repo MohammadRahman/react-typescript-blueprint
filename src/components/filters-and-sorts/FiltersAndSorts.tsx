@@ -5,6 +5,7 @@ import Input from "@components/form/Input";
 import { SingleSelect } from "@components/select";
 import SpinnerMini from "@components/spinner/SpinnerMini";
 import { useEmailAccount } from "@features/mail-server/useEmailAccount";
+import { FILTER_OPTIONS, ORDER_OPTIONS, SearchParamsProps } from "@interface/common/common";
 import { useForm } from "react-hook-form";
 import styled from "styled-components";
 
@@ -15,15 +16,6 @@ const StyledFiltersAndSorts = styled.div`
   padding: 1rem;
   border: 1px solid var(--color-grey-100);
 `;
-// const StyledContainer = styled.div`
-//   width: 100%;
-//   padding: 1rem;
-//   display: flex;
-//   flex-direction: column;
-//   gap: 2rem;
-//   background-color: white;
-//   border-radius: 8px;
-// `;
 const StyledRow = styled.div`
   display: flex;
   gap: 1rem;
@@ -31,68 +23,10 @@ const StyledRow = styled.div`
 `;
 const StyleFilterButton = styled.div`
   margin-top: 2.9rem;
-  /* padding: ; */
 `;
 
-type FilterOptions = {
-  label: string;
-  sign: 0;
-  value: string;
-};
-
-const FILTER_OPTIONS = [
-  { label: "email", sign: 0, value: "email" },
-  { label: "type", sign: 0, value: "type" },
-  { label: "displayName", sign: 0, value: "displayName" },
-  { label: "imapEmail", sign: 0, value: "imapEmail" },
-  { label: "smtpAddress", sign: 0, value: "smtpAddress" },
-];
-
-type OrderOptions = {
-  label: string;
-  value: string;
-  isDescending: boolean;
-};
-
-const ORDER_OPTIONS = [
-  {
-    label: "Email",
-    value: "email",
-    isDescending: true,
-  },
-  {
-    label: "Type",
-    value: "type",
-    isDescending: true,
-  },
-  {
-    label: "Name",
-    value: "name",
-    isDescending: true,
-  },
-  {
-    label: "IMAP email",
-    value: "imapEmail",
-    isDescending: true,
-  },
-];
-
-export type SearchParamsProps = {
-  currentPage?: number;
-  filters?: FilterOptions[] | string;
-  filterValue?: string;
-  orders?: OrderOptions[] | string;
-  pageSize?: number;
-  logicalOperator?: number;
-};
 const FiltersAndSorts = () => {
   const { emailLists, isLoading } = useEmailAccount();
-
-  // const [searchParams, setSearchParams] = useSearchParams();
-
-  // const currentPage = !searchParams.get("page")
-  //                     ? 0
-  //                     : Number(searchParams.get("page"));
 
   const {
     register,
@@ -123,10 +57,6 @@ const FiltersAndSorts = () => {
   });
 
   function filterAndSortFormHandler(values: SearchParamsProps) {
-    // searchParams.set("pageSize", String(values.pageSize || 10));
-    // searchParams.set("currentPage", String(currentPage));
-    // setSearchParams(searchParams);
-
     const filterPropertyName = FILTER_OPTIONS.find(val => val.value === (values.filters as string));
     const ordersPropertyName = ORDER_OPTIONS.find(opt => opt.value === (values.orders as string));
 

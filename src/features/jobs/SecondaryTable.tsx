@@ -6,6 +6,7 @@ import { useJobDetails } from "./useJobDetails";
 import { useEffect } from "react";
 import Spinner from "@components/spinner/Spinner";
 import Tag from "@components/tag/Tag";
+import SpinnerMini from "@components/spinner/SpinnerMini";
 
 type SecondaryTable = {
   jobId: string;
@@ -21,6 +22,8 @@ type JobDetailsProps = {
 };
 const SecondaryTable = ({ jobId }: SecondaryTable) => {
   const { jobDetails, jobDetailsData, loading } = useJobDetails();
+
+  console.log("job details data", { jobDetails, jobDetailsData });
   function deleteJob(jobId: string) {}
   const columns: ColumnDef<JobDetailsProps>[] = [
     {
@@ -48,23 +51,31 @@ const SecondaryTable = ({ jobId }: SecondaryTable) => {
       header: "Status",
       cell: ({ row }) => {
         const statusToTag: Record<number, string> = {
-          1: "red-Fail",
-          2: "green-Success",
+          1: "blue-Created",
+          2: "grey-Processing",
+          3: "green-Finished",
+          4: "red-Failed",
         };
+
+        const status = row.original?.emailSendingStatus;
+        const [color, label] = statusToTag[status]?.split("-") ?? ["", ""];
+
         return (
           <div
             style={{
               display: "flex",
               justifyContent: "center",
               alignItems: "center",
+              gap: "8px",
               width: "100%",
             }}
           >
-            <Tag
-              tag_type="normal"
-              type={statusToTag[row.original.emailSendingStatus].split("-")[0]}
-            >
-              {statusToTag[row.original.emailSendingStatus].split("-")[1]}
+            {status === 2 && ( // Show spinner only for Processing status
+              <SpinnerMini />
+            )}
+            <Tag tag_type="normal" type={color}>
+              {/* {statusToTag[row.original?.emailSendingStatus]?.split("-")[1]} */}
+              {label}
             </Tag>
           </div>
         );
@@ -100,10 +111,10 @@ const SecondaryTable = ({ jobId }: SecondaryTable) => {
     },
   ];
   const tableData = (jobDetailsData || []).map((item: JobDetailsProps) => ({
-    id: item.id.split("-")[0] || "",
-    jobId: item.jobId.split("-")[0] || "",
+    id: item.id?.split("-")[0] || "",
+    jobId: item.jobId?.split("-")[0] || "",
     sendTo: item.sendTo || "",
-    emailSendingDate: formatDate(item.emailSendingDate) || "",
+    emailSendingDate: formatDate(item?.emailSendingDate) || "",
     emailSendingStatus: item.emailSendingStatus || 0,
     emailSubject: item.emailSubject || "",
     emailBody: item.emailBody || "",

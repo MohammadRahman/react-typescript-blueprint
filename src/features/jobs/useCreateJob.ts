@@ -4,14 +4,13 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { AxiosError } from "axios";
 import toast from "react-hot-toast";
 
-export function useCreateEmailJob() {
+export function useCreateJob() {
   const queryClient = useQueryClient();
   const { setJobData } = useJobData();
 
-  const { mutate: startJob, isPending: isCreating } = useMutation({
+  const { mutate: startJob, isPending: isStarting } = useMutation({
     mutationKey: ["Job"],
     mutationFn: async (data: any) => {
-      console.log("data received in hook", data);
       try {
         const response = await jobService.startJob(data);
         return response.data;
@@ -55,5 +54,5 @@ export function useCreateEmailJob() {
       toast.error(error.message);
     },
   });
-  return { startJob, isCreating };
+  return { startJob, isStarting };
 }

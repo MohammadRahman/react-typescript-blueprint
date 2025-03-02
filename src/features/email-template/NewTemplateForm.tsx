@@ -7,7 +7,6 @@ import { SingleSelect } from "@components/select";
 import { useForm } from "react-hook-form";
 import { useCreateEmailTemplate } from "./useCreateEmailTemplate";
 import { useUpdateTemplate } from "./useUpdateTemplate";
-import { v4 as uuidv4 } from "uuid";
 import { usequeryData } from "@context/QueryContext";
 import { Modal } from "@components/modal";
 import RenderHTML from "./RenderHTML";
@@ -20,6 +19,7 @@ import { Grid } from "@components/grid/Grid";
 import AutocompleteInput from "@components/form/AutoCompleteInput";
 import { RichText } from "@components/rich-text/LexicalRichText";
 import { useFindQueryFields } from "@features/queries/useFindQueryId";
+import ButtonGroup from "@components/button-group/ButtonGroup";
 
 interface FormValues {
   id?: string;
@@ -27,8 +27,8 @@ interface FormValues {
   subject: string;
   template: string;
   body: string;
-  queryId?: string;
-  to?: string;
+  queryId: string;
+  to: string;
 }
 interface TemplateProps {
   id?: string;
@@ -58,7 +58,7 @@ export const NewTemplateForm = ({ templateToEdit = {}, onCloseModal }: NewTempla
 
   const { id, ...updateValues } = templateToEdit;
   const isUpdateSession = Boolean(id);
-  const [value, setValue] = useState(isUpdateSession ? templateToEdit.subject : "");
+  // const [value, setValue] = useState(isUpdateSession ? templateToEdit.subject : "");
   const { createTemplate } = useCreateEmailTemplate();
   const {
     register,
@@ -77,20 +77,24 @@ export const NewTemplateForm = ({ templateToEdit = {}, onCloseModal }: NewTempla
   };
 
   const [body, queryId] = watch(["body", "queryId"]);
-
   function handleCreateTemplateSubmit(values: any) {
-    const templateId = uuidv4();
     const formatedValues = {
-      version: 0,
-      id: templateId,
-      name: values.name,
-      queryId: values.queryId,
-      to: values.to,
-      subject: value,
-      // subject: values.subject,
+      name: values.name || "",
+      queryId: values.queryId || "",
+      to: values.to || "",
+      subject: values.subject || "",
       body: values.body,
     };
     if (isUpdateSession) {
+      console.log("values during update", {
+        id: templateToEdit.id,
+        version: 0,
+        name: values.name,
+        queryId: values.queryId,
+        to: values.to,
+        subject: values.subject,
+        body: values.body,
+      });
       updateTemplate(
         {
           id: templateToEdit.id,
@@ -98,9 +102,7 @@ export const NewTemplateForm = ({ templateToEdit = {}, onCloseModal }: NewTempla
           name: values.name,
           queryId: values.queryId,
           to: values.to,
-          // auto complete values
-          subject: value,
-          // subject: values.subject,
+          subject: values.subject,
           body: values.body,
         },
         {
@@ -136,68 +138,87 @@ export const NewTemplateForm = ({ templateToEdit = {}, onCloseModal }: NewTempla
     <Container padding="md">
       <Form onSubmit={handleSubmit(handleCreateTemplateSubmit)} type="modal">
         <FormHeader heading="Create New Email Template" />
-        <Container padding="md">
-          <Grid columns={2} gap="md">
-            <FormRowVertical label="Name" error={errors.name?.message}>
-              <Input bgc="true" placeholder="Type here" {...register("name")} />
-            </FormRowVertical>
+        <Container
+          padding="sm"
+          style={{ display: "flex", flexDirection: "column", height: "100%" }}
+        >
+          <div style={{ flexGrow: 1 }}>
+            <Grid columns={2} gap="md">
+              <FormRowVertical label="Name" error={errors.name?.message}>
+                <Input
+                  bgc="true"
+                  placeholder="Type here"
+                  {...register("name", { required: "Name is required" })}
+                />
+              </FormRowVertical>
 
-            <FormRowVertical label="Query" error={errors.queryId?.message}>
-              <SingleSelect
-                name="queryId"
-                control={control}
-                options={transformedOptions || []}
-                isLoading={isLoading}
-                onDropdownOpen={fetchSources}
-              />
-            </FormRowVertical>
+              <FormRowVertical label="Query" error={errors.queryId?.message}>
+                <SingleSelect
+                  name="queryId"
+                  control={control}
+                  options={transformedOptions || []}
+                  isLoading={isLoading}
+                  onDropdownOpen={fetchSources}
+                  rules={{ required: "Query is quired" }}
+                />
+              </FormRowVertical>
 
-            <FormRowVertical label="To" error={errors.to?.message}>
-              <Input bgc="true" placeholder="Type here" {...register("to")} />
-            </FormRowVertical>
+              <FormRowVertical label="To" error={errors.to?.message}>
+                <Input
+                  bgc="true"
+                  placeholder="Type here"
+                  {...register("to", { required: "Email to is required" })}
+                />
+              </FormRowVertical>
 
-            <FormRowVertical label="Subject" error={errors.subject?.message}>
-              <AutocompleteInput
-                value={value || ""}
-                onChange={setValue}
-                placeholder="Type @ to trigger dropdown"
-                bgc="true"
-                fieldValues={memoizedFieldValues}
-              />
-            </FormRowVertical>
+              <FormRowVertical label="Subject" error={errors.subject?.message}>
+                <AutocompleteInput
+                  // value={value || ""}
+                  control={control}
+                  name="subject"
+                  rules={{ required: "Subject is required." }}
+                  // onChange={setValue}
+                  placeholder="Type @ to trigger dropdown"
+                  bgc="true"
+                  fieldValues={memoizedFieldValues}
+                  // error={errors.subject?.message}
+                />
+              </FormRowVertical>
 
-            <FormRowVertical
-              label="Body"
-              error={errors.body?.message}
-              style={{ gridColumn: "span 2" }}
-            >
-              <RichText name="body" control={control} fieldValues={memoizedFieldValues} />
-            </FormRowVertical>
-          </Grid>
+              <FormRowVertical
+                label="Body"
+                error={errors.body?.message}
+                style={{ gridColumn: "span 2" }}
+              >
+                <RichText
+                  rules={{ required: "Message is required" }}
+                  name="body"
+                  control={control}
+                  fieldValues={memoizedFieldValues}
+                />
+              </FormRowVertical>
+            </Grid>
+          </div>
+          <ButtonGroup gap="md" content="space-between">
+            <Button variation="outlinePreview" onClick={onCloseModal}>
+              Cancel
+            </Button>
 
-          <Row justifycontent="space-between" style={{ paddingTop: "1rem" }}>
-            <div>
-              <Button variation="outlinePreview" onClick={onCloseModal}>
-                Cancel
-              </Button>
-            </div>
-
-            <Row gap="sm">
-              <Modal>
-                <Modal.Open opens="htmlPreview">
-                  <Button variation="outlinePreview" type="button">
-                    Preview
-                  </Button>
-                </Modal.Open>
-                <Modal.Window name="htmlPreview" type="htmlPreview">
-                  <RenderHTML content={body} />
-                </Modal.Window>
-              </Modal>
-              <Button variation="primarySmall">Save Template</Button>
-            </Row>
-          </Row>
+            <Modal>
+              <Modal.Open opens="htmlPreview">
+                <Button variation="outlinePreview" type="button">
+                  Preview
+                </Button>
+              </Modal.Open>
+              <Modal.Window name="htmlPreview" type="htmlPreview">
+                <RenderHTML content={body} />
+              </Modal.Window>
+            </Modal>
+            <Button variation="primarySmall">Save Template</Button>
+          </ButtonGroup>
         </Container>
       </Form>
     </Container>
   );
 };
+// Row justifycontent="space-between" style={{ paddingTop: "1rem" }}

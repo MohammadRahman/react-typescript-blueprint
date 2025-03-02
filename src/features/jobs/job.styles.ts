@@ -18,11 +18,6 @@ export const StyledCehckboxRow = styled.div<StyledCehckboxRowProps>`
     `}
 `;
 
-export const Styledjobs = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 2rem;
-`;
 export const StyledStatsCard = styled.div`
   width: 100%;
   display: grid;

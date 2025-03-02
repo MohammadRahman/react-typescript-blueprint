@@ -1,27 +1,29 @@
 import { templateApi } from "@apis/email-template";
+import { showToast } from "@components/toast/Toast";
 import { useTemplateData } from "@context/TemplateContext";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import toast from "react-hot-toast";
+import { TemplatePayload } from "@interface/email";
+import { useIsFetching, useMutation, useQueryClient } from "@tanstack/react-query";
 
 export const useDeleteTemplate = () => {
   const queryClient = useQueryClient();
 
   const { template, setTemplateData } = useTemplateData();
+  const isInvalidating = useIsFetching({ queryKey: ["Templates"] }) > 0;
 
-  const { mutate: deleteTemplate, isPending: isLoading } = useMutation({
-    mutationFn: async (id: string) => {
-      console.log("id received", id);
+  const { mutate: deleteTemplate, isPending: isDeleting } = useMutation({
+    mutationFn: async (id: TemplatePayload["id"]) => {
       const response = await templateApi.deleteTemplate(id);
-      return response.data;
+      return response;
     },
-    onSuccess: (_, id: string) => {
+    onSuccess: (_, id: TemplatePayload["id"]) => {
       if (template) {
         const updatedList = template?.list.filter(acc => acc.id != id);
         setTemplateData({ ...template, list: updatedList });
       }
-      toast.success("entry delete successful");
-      queryClient.invalidateQueries({ queryKey: ["EmailAccount"] });
+      showToast({ message: "Entry delete successful.", statusCode: 200, type: "warning" });
+      queryClient.invalidateQueries({ queryKey: ["Templates"] });
     },
   });
+  const isLoading = isDeleting || isInvalidating;
   return { deleteTemplate, isLoading };
 };

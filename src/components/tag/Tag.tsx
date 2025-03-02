@@ -8,6 +8,7 @@ type TagProps = {
 const Tag = styled.span<TagProps>`
   all: unset;
   width: fit-content;
+  min-width: 50px;
   font-size: 12px;
   font-weight: 700;
   padding: 0rem 1rem;

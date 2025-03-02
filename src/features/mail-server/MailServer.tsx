@@ -1,25 +1,14 @@
-import styled from "styled-components";
 import CreateMailServerForm, { CreateMailServerFormProps } from "./CreateMailServerForm";
 import { useEmailData } from "@context/EmailAccountContext";
 import { useEffect, useRef, useState } from "react";
 import EmailAccountTable from "./EmailAccountTable";
 import { useEmailAccount } from "./useEmailAccount";
 import { DEFAULT_FILTER_VALUES } from "@constants/source";
-import { Row } from "@components/row";
-
-const StyledContainer = styled.div`
-  width: 100%;
-  padding: 1rem;
-  display: flex;
-  flex-direction: column;
-  gap: 2rem;
-  background-color: white;
-  border-radius: 8px;
-`;
+import { Column } from "@components/column";
+import { Container } from "@components/container";
 
 export const MailServer = () => {
   const { emailData } = useEmailData();
-
   const { emailLists } = useEmailAccount();
 
   const [editingEmailAccount, setEditingEmailAccount] = useState<
@@ -29,7 +18,7 @@ export const MailServer = () => {
   const formSectionRef = useRef<HTMLDivElement>(null);
 
   const handleEditClick = (accountData: CreateMailServerFormProps["formData"]) => {
-    setEditingEmailAccount(accountData); // Set the data to edit
+    setEditingEmailAccount(accountData);
   };
 
   const handleCloseForm = () => {
@@ -50,16 +39,23 @@ export const MailServer = () => {
   }, []);
 
   return (
-    <Row type="vertical" gap="lg">
-      <StyledContainer ref={formSectionRef}>
+    <Column gap="lg">
+      <Container ref={formSectionRef} border="sm" border_radius="md" overflow="hidden">
         {editingEmailAccount && (
           <CreateMailServerForm formData={editingEmailAccount} onCloseModal={handleCloseForm} />
         )}
         {!editingEmailAccount && <CreateMailServerForm />}
-      </StyledContainer>
-      <StyledContainer ref={tableSectionRef}>
+      </Container>
+      <Container
+        ref={tableSectionRef}
+        bgc="white"
+        padding="md"
+        border="sm"
+        border_radius="md"
+        overflow="hidden"
+      >
         <EmailAccountTable status={emailData?.isLoading} onEdit={handleEditClick} />
-      </StyledContainer>
-    </Row>
+      </Container>
+    </Column>
   );
 };
