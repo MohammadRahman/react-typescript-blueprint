@@ -17,8 +17,8 @@ import { useEffect } from "react";
 
 const StyledEditor = styled.div`
   border: 1px solid var(--color-grey-20);
-  height: 230px;
-  max-height: 400px;
+  min-height: 230px;
+  height: 380px;
   overflow: auto;
   background-color: var(--color-grey-100);
   padding: 10px;
