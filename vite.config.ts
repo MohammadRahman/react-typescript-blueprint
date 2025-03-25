@@ -12,8 +12,16 @@ const env = loadEnv(process.env.NODE_ENV || "development", process.cwd());
 const cMapsDir = path.join(path.dirname(require.resolve("pdfjs-dist/package.json")), "cmaps");
 
 export default defineConfig({
+  optimizeDeps: {
+    include: ["@mui/material", "@mui/icons-material", "@emotion/react", "@emotion/styled"],
+  },
   plugins: [
-    react(),
+    react({
+      jsxImportSource: "@emotion/react", // Add this for MUI
+      babel: {
+        plugins: ["@emotion/babel-plugin"],
+      },
+    }),
     viteStaticCopy({
       targets: [
         {

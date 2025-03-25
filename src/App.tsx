@@ -1,10 +1,13 @@
+import { Typography, Button } from "@mui/material";
+
 function App() {
   return (
-    <input
-      type="text"
-      placeholder="this should push it to the next line and format the codes but it doesnot"
-      onChange={e => console.log(e)}
-    />
+    <div>
+      <Typography variant="h4">MUI Example</Typography>
+      <Button variant="contained" color="primary">
+        Click Me
+      </Button>
+    </div>
   );
 }
 

@@ -14,7 +14,8 @@ module.exports = {
     'airbnb/hooks',
     'plugin:react/recommended',
     'plugin:@typescript-eslint/recommended',
-    'plugin:prettier/recommended'
+    'plugin:prettier/recommended',
+    'plugin:mui/recommended' // this required for material ui
   ],
   parser: '@typescript-eslint/parser',
   parserOptions: {
@@ -26,9 +27,12 @@ module.exports = {
     ecmaVersion: 12,
     sourceType: 'module'
   },
-  plugins: ['react', 'react-hooks', '@typescript-eslint'],
+  plugins: ['react', 'react-hooks', '@typescript-eslint','mui'],
   rules: {
     // Your custom rules here
+    'mui/no-unsafe-aria-props': 'error',
+    'mui/no-hardcoded-labels': 'warn',
+    
     'linebreak-style': 0,
     '@typescript-eslint/no-unused-vars': ['warn', { argsIgnorePattern: '^_' }],
     'no-unused-vars': 'off', // Disable the base rule because it's conflicting with @typescript-eslint/no-unused-vars
